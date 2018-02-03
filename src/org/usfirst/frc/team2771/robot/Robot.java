@@ -25,6 +25,12 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+	
+	}
+
+	
+	@Override
+	public void teleopPeriodic() {
 		
 		lift.move(gamepad.getLiftAxis());
 		SmartDashboard.putNumber("Lift Speed", gamepad.getLiftAxis());
@@ -44,12 +50,7 @@ public class Robot extends IterativeRobot {
 		
 		if (gamepad.closeClaw()) {
 			cubeClaw.close();
-		}
-	}
-
-	
-	@Override
-	public void teleopPeriodic() {
+		}	
 	}
 
 
