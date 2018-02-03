@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Robot extends IterativeRobot {
+	KeyMap gamepad;
 	CubeClaw cubeClaw;
 	Lift lift;
 	
@@ -24,6 +25,25 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		
+		lift.move(gamepad.getLiftAxis());
+		SmartDashboard.putNumber("Lift Speed", gamepad.getLiftAxis());
+		
+		if (Math.abs(gamepad.getClawIntakeAxis())>.05) {
+			cubeClaw.testIntakeCube(gamepad.getClawIntakeAxis());
+			SmartDashboard.putNumber("Intake Speed", gamepad.getClawIntakeAxis());
+		} else if (Math.abs(gamepad.getClawEjectAxis())>.05) {
+			cubeClaw.testEjectCube(gamepad.getClawEjectAxis());
+			SmartDashboard.putNumber("Eject Speed", gamepad.getClawEjectAxis());
+		} else
+			cubeClaw.stopIntake();
+		
+		if (gamepad.openClaw()) {
+			cubeClaw.open();
+		}
+		
+		if (gamepad.closeClaw()) {
+			cubeClaw.close();
+		}
 	}
 
 	

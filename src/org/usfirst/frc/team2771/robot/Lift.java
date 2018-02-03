@@ -10,11 +10,12 @@ public class Lift {
 	public Lift() {
 		lift1 = new TalonSRX(Wiring.LIFT_1);
 		lift2 = new TalonSRX(Wiring.LIFT_2);
+		lift2.setInverted(true);
 	}
 	
-	public void move() {
-		lift1.set(ControlMode.PercentOutput, .5); //TODO this needs to be changed to take logitech input
-		lift2.set(ControlMode.PercentOutput, .5);
+	public void move(double speed) {
+		lift1.set(ControlMode.PercentOutput, speed);
+		lift2.set(ControlMode.PercentOutput, speed);
 		
 	}
 	public void goToSwitchHeight() {
