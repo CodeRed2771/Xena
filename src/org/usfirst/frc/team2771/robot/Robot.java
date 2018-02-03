@@ -15,6 +15,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		cubeClaw = new CubeClaw();
 		lift = new Lift();
+		gamepad = new KeyMap();
 	}
 
 	@Override
