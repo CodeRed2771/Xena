@@ -97,7 +97,7 @@ public class KeyMap {
     }
     
     public boolean closeClaw() {
-    	return getHID(gamepad1).button(this.clawOpenButton);
+    	return getHID(gamepad1).button(this.clawCloseButton);
     }
     
     //NEW STUFF - 2017
