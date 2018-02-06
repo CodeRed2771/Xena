@@ -15,6 +15,7 @@ public class KeyMap {
 
     // CONTROLLER 0
     private final HID.Axis liftAxis = LogitechF310.STICK_LEFT_Y;
+    private final HID.Axis armAxis = LogitechF310.STICK_RIGHT_Y;
     private final HID.Axis clawIntakeAxis = LogitechF310.TRIGGER_LEFT_AXIS;
     private final HID.Axis clawEjectAxis = LogitechF310.TRIGGER_RIGHT_AXIS;
     private final HID.Button clawOpenButton = LogitechF310.Y;
@@ -83,7 +84,9 @@ public class KeyMap {
     public double getLiftAxis() {
     	return getHID(gamepad1).axis(liftAxis);
     }
-    
+    public double getArmAxis() {
+    	return getHID(gamepad1).axis(armAxis);
+    }
     public double getClawIntakeAxis() {
     	return getHID(gamepad1).axis(this.clawIntakeAxis);
     }

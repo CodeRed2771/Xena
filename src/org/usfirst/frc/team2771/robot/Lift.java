@@ -4,29 +4,27 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Lift {
-	TalonSRX lift1;
-	TalonSRX lift2;
+	TalonSRX liftMotor;
+	TalonSRX liftFollower;
 	
 	public Lift() {
-		lift1 = new TalonSRX(Wiring.LIFT_1);
-		lift2 = new TalonSRX(Wiring.LIFT_2);
-		lift2.setInverted(true);
+		liftMotor = new TalonSRX(Wiring.LIFT_MASTER);
+		liftFollower = new TalonSRX(Wiring.LIFT_FOLLLOWER);
+		liftFollower.follow(liftMotor);
+		liftFollower.setInverted(true);
 	}
 	
 	public void move(double speed) {
-		lift1.set(ControlMode.PercentOutput, speed);
-		lift2.set(ControlMode.PercentOutput, speed);
+		liftMotor.set(ControlMode.PercentOutput, speed);
 		
 	}
 	public void goToSwitchHeight() {
 		//The switch is the little one.
-		lift1.set(ControlMode.PercentOutput, .7, 12); //TODO change the number to the correct height.
-		lift2.set(ControlMode.PercentOutput, .7, 12);
+		liftMotor.set(ControlMode.PercentOutput, .7, 12); //TODO change the number to the correct height.
 	}
 	public void goToScaleHeight() {
 		//The scale is the big one.
 		//The scale has three different positions, up, down, and level. It could be useful for autonomous.
-		lift1.set(ControlMode.PercentOutput, .7, 64); //TODO change the number to the correct height. 
-		lift2.set(ControlMode.PercentOutput, .7, 64);
+		liftMotor.set(ControlMode.PercentOutput, .7, 64); //TODO change the number to the correct height. 
 	}
 }

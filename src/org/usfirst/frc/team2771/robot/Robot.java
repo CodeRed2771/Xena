@@ -44,16 +44,15 @@ public class Robot extends IterativeRobot {
 		} else
 			cubeClaw.stopIntake();
 		
+		cubeClaw.armMove(gamepad.getArmAxis());
+		
 		if (gamepad.openClaw()) {
-			SmartDashboard.putString("Claw", "open");
 			cubeClaw.open();
 		} else if (gamepad.closeClaw()) {
-			SmartDashboard.putString("Claw", "closed");
 			cubeClaw.close();
 		} else 
 		{
-			SmartDashboard.putString("Claw", "off");
-				cubeClaw.off();
+			cubeClaw.off();
 		}
 		
 	}
