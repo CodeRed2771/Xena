@@ -8,14 +8,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	KeyMap gamepad;
-	CubeClaw cubeClaw;
-	Lift lift;
 	
 	@Override
 	public void robotInit() {
-		cubeClaw = new CubeClaw();
-		lift = new Lift();
 		gamepad = new KeyMap();
+		CubeClaw.getInstance();
+		Lift.getInstance();
 	}
 
 	@Override
@@ -32,27 +30,27 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		lift.move(gamepad.getLiftAxis());
+		Lift.move(gamepad.getLiftAxis());
 		SmartDashboard.putNumber("Lift Speed", gamepad.getLiftAxis());
 		
 		if (Math.abs(gamepad.getClawIntakeAxis())>.05) {
-			cubeClaw.testIntakeCube(gamepad.getClawIntakeAxis());
+			CubeClaw.testIntakeCube(gamepad.getClawIntakeAxis());
 			SmartDashboard.putNumber("Intake Speed", gamepad.getClawIntakeAxis());
 		} else if (Math.abs(gamepad.getClawEjectAxis())>.05) {
-			cubeClaw.testEjectCube(gamepad.getClawEjectAxis());
+			CubeClaw.testEjectCube(gamepad.getClawEjectAxis());
 			SmartDashboard.putNumber("Eject Speed", gamepad.getClawEjectAxis());
 		} else
-			cubeClaw.stopIntake();
+			CubeClaw.stopIntake();
 		
-		cubeClaw.armMove(gamepad.getArmAxis());
+		CubeClaw.armMove(gamepad.getArmAxis());
 		
 		if (gamepad.openClaw()) {
-			cubeClaw.open();
+			CubeClaw.open();
 		} else if (gamepad.closeClaw()) {
-			cubeClaw.close();
+			CubeClaw.close();
 		} else 
 		{
-			cubeClaw.off();
+			CubeClaw.off();
 		}
 		
 	}

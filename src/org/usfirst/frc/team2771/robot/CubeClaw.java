@@ -9,12 +9,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class CubeClaw {
-	TalonSRX leftRollers;
-	TalonSRX rightRollers;
-	TalonSRX armMotor;
-	Compressor c; 
-	DoubleSolenoid clawOpenCloseSolenoid;
+	private static CubeClaw instance;
+	private static TalonSRX leftRollers;
+	private static TalonSRX rightRollers;
+	private static TalonSRX armMotor;
+	private static DoubleSolenoid clawOpenCloseSolenoid;
+//	private static Compressor c; 
 	
+	public static CubeClaw getInstance() {
+		if (instance == null)
+			instance = new CubeClaw();
+		return instance;
+	}
+
 	public CubeClaw() {
 		leftRollers = new TalonSRX(Wiring.CUBE_CLAW_LEFT_MOTOR);
 		leftRollers.setInverted(true);
@@ -23,18 +30,17 @@ public class CubeClaw {
 		armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		armMotor.setSelectedSensorPosition(0, 0, 0);
 
-//		try {
-			c = new Compressor(0);
-			c.setClosedLoopControl(true);
-			clawOpenCloseSolenoid = new DoubleSolenoid(0,1);
+		clawOpenCloseSolenoid = new DoubleSolenoid(0,1);
 
+//			c = new Compressor(0);
+//			c.setClosedLoopControl(true);
 	}
 	
-	public void off() {
+	public static void off() {
 		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
 	
-	public void open() {
+	public static void open() {
 //		try {
 			clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kForward);
 //		} catch (Exception ex) {
@@ -43,19 +49,19 @@ public class CubeClaw {
 		
 	}
 	
-	public void extend() {
+	public static void extend() {
 		
 	}
 	
-	public void retract() {
+	public static void retract() {
 		
 	}
 	
-	public void armMove(double speed) {
+	public static void armMove(double speed) {
 		armMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
-	public void close() {
+	public static void close() {
 //		try {
 			clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kReverse);
 //		} catch (Exception ex) {
@@ -63,25 +69,25 @@ public class CubeClaw {
 //		} 
 	}
 	
-	public void intakeCube() {
+	public static void intakeCube() {
 		leftRollers.set(ControlMode.PercentOutput, .5);
 		rightRollers.set(ControlMode.PercentOutput, .5);
 	}
-	public void ejectCube() {
+	public static void ejectCube() {
 		leftRollers.set(ControlMode.PercentOutput, -.5);
 		rightRollers.set(ControlMode.PercentOutput, -.5);
 	}
-	public void stopIntake() {
+	public static void stopIntake() {
 		leftRollers.set(ControlMode.PercentOutput, 0);
 		rightRollers.set(ControlMode.PercentOutput, 0);
 	}
 	
-	public void testIntakeCube(double speed) {
+	public static void testIntakeCube(double speed) {
 		leftRollers.set(ControlMode.PercentOutput, speed);
 		rightRollers.set(ControlMode.PercentOutput, speed);
 	}
 	
-	public void testEjectCube(double speed) {
+	public static void testEjectCube(double speed) {
 		leftRollers.set(ControlMode.PercentOutput, -speed);
 		rightRollers.set(ControlMode.PercentOutput, -speed);
 	}
