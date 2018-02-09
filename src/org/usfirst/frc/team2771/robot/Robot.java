@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2771.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,11 +15,14 @@ public class Robot extends IterativeRobot {
 		gamepad = new KeyMap();
 		CubeClaw.getInstance();
 		Lift.getInstance();
+		
+    	SmartDashboard.putNumber("Robot Position", 1);
 	}
 
 	@Override
 	public void autonomousInit() {
-		
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    	int robotPosition = (int) SmartDashboard.getNumber("Robot Position",1);
 	}
 
 	@Override
