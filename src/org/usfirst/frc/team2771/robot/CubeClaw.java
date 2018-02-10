@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2771.robot;
 
+import org.usfirst.frc.team2771.libs.CurrentBreaker;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -17,6 +19,7 @@ public class CubeClaw {
 	private static TalonSRX arm;
 	private static DoubleSolenoid clawOpenCloseSolenoid;
 //	private static Compressor c; 
+	private static CurrentBreaker currentBreaker;
 	
 	public static CubeClaw getInstance() {
 		if (instance == null)
@@ -28,6 +31,7 @@ public class CubeClaw {
 		leftRollers = new TalonSRX(Wiring.CUBE_CLAW_LEFT_MOTOR);
 		leftRollers.setInverted(true);
 		rightRollers = new TalonSRX(Wiring.CUBE_CLAW_RIGHT_MOTOR);
+		currentBreaker = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT, Calibration.CLAW_MAX_CURRENT, 2000, 2000); //These are not real numbers.
 		arm = new TalonSRX(Wiring.ARM_MOTOR);
 		arm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		arm.setSelectedSensorPosition(0, 0, 0);
@@ -77,6 +81,10 @@ public class CubeClaw {
 	public static void tick() {
 		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Velocity", 0), 0);
 		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Acceleration", 0), 0);
+		if (currentBreaker.tripped()) {
+			rightRollers.set(ControlMode.PercentOutput,0);
+			leftRollers.set(ControlMode.PercentOutput, 0);
+		}
 	}
 	
 	public static void armVerticalPosition() {
@@ -111,10 +119,12 @@ public class CubeClaw {
 	public static void intakeCube() {
 		leftRollers.set(ControlMode.PercentOutput, .7);
 		rightRollers.set(ControlMode.PercentOutput, .7);
+		currentBreaker.reset();
 	}
 	public static void ejectCube() {
 		leftRollers.set(ControlMode.PercentOutput, -1.0);
 		rightRollers.set(ControlMode.PercentOutput, -1.0);
+		currentBreaker.reset();
 	}
 	public static void stopIntake() {
 		leftRollers.set(ControlMode.PercentOutput, 0);
