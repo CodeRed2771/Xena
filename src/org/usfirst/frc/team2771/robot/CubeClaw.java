@@ -30,8 +30,11 @@ public class CubeClaw {
 	public CubeClaw() {
 		leftRollers = new TalonSRX(Wiring.CUBE_CLAW_LEFT_MOTOR);
 		leftRollers.setInverted(true);
+		
 		rightRollers = new TalonSRX(Wiring.CUBE_CLAW_RIGHT_MOTOR);
+		
 		currentBreaker = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT, Calibration.CLAW_MAX_CURRENT, 2000, 2000); //These are not real numbers.
+		
 		arm = new TalonSRX(Wiring.ARM_MOTOR);
 		arm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		arm.setSelectedSensorPosition(0, 0, 0);
