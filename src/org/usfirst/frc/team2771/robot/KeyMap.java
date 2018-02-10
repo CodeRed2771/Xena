@@ -14,6 +14,9 @@ public class KeyMap {
     private boolean singleControllerMode = false;
 
     // CONTROLLER 0
+    private final HID.Axis swerveXAxis = LogitechF310.STICK_LEFT_X;
+    private final HID.Axis swerveYAxis = LogitechF310.STICK_LEFT_Y;
+    private final HID.Axis swerveRotAxis = LogitechF310.STICK_RIGHT_X;
     private final HID.Axis liftAxis = LogitechF310.STICK_LEFT_Y;
     private final HID.Axis armAxis = LogitechF310.STICK_RIGHT_Y;
     private final HID.Axis clawIntakeAxis = LogitechF310.TRIGGER_LEFT_AXIS;
@@ -80,7 +83,19 @@ public class KeyMap {
             return gp1;
         }
     }
-    
+
+    public double getSwerveXAxis() {
+        return getHID(gamepad1).axis(swerveXAxis);
+    }
+
+    public double getSwerveYAxis() {
+        return getHID(gamepad1).axis(swerveYAxis);
+    }
+
+    public double getSwerveRotAxis() {
+        return getHID(gamepad1).axis(swerveRotAxis);
+    }
+
     public double getLiftAxis() {
     	return getHID(gamepad1).axis(liftAxis);
     }
