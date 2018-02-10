@@ -15,6 +15,7 @@ public class Robot extends TimedRobot {
 		gamepad = new KeyMap();
 		CubeClaw.getInstance();
 		Lift.getInstance();
+		CubeClaw.tick();
 		
     	SmartDashboard.putNumber("Robot Position", 1);
 	}

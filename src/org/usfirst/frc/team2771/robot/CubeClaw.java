@@ -2,17 +2,19 @@ package org.usfirst.frc.team2771.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CubeClaw {
 	private static CubeClaw instance;
 	private static TalonSRX leftRollers;
 	private static TalonSRX rightRollers;
-	private static TalonSRX armMotor;
+	private static TalonSRX arm;
 	private static DoubleSolenoid clawOpenCloseSolenoid;
 //	private static Compressor c; 
 	
@@ -26,9 +28,32 @@ public class CubeClaw {
 		leftRollers = new TalonSRX(Wiring.CUBE_CLAW_LEFT_MOTOR);
 		leftRollers.setInverted(true);
 		rightRollers = new TalonSRX(Wiring.CUBE_CLAW_RIGHT_MOTOR);
-		armMotor = new TalonSRX(Wiring.ARM_MOTOR);
-		armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
-		armMotor.setSelectedSensorPosition(0, 0, 0);
+		arm = new TalonSRX(Wiring.ARM_MOTOR);
+		arm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+		arm.setSelectedSensorPosition(0, 0, 0);
+		
+		arm.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
+		arm.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
+		
+		arm.configNominalOutputForward(0, 0);
+		arm.configNominalOutputReverse(0, 0);
+		arm.configPeakOutputForward(1, 0);
+		arm.configPeakOutputReverse(-1, 0);
+		
+		arm.selectProfileSlot(0, 0);
+		arm.config_kF(0, 0.2, 0);
+		arm.config_kP(0, 0.2, 0);
+		arm.config_kI(0, 0, 0);
+		arm.config_kD(0, 0, 0);
+		
+		SmartDashboard.putNumber("MM Velocity", 15000);
+		SmartDashboard.putNumber("MM Acceleration", 6000);
+		
+		arm.configMotionCruiseVelocity(15000, 0);
+		arm.configMotionAcceleration(6000, 0);
+		
+		arm.setSelectedSensorPosition(0, 0, 0);
+		
 
 	//	clawOpenCloseSolenoid = new DoubleSolenoid(0,1);
 
@@ -49,17 +74,30 @@ public class CubeClaw {
 		
 	}
 	
-	public static void extend() {
-		
+	public static void tick() {
+		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Velocity", 0), 0);
+		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Acceleration", 0), 0);
 	}
 	
-	public static void retract() {
-		
+	public static void armVerticalPosition() {
+		arm.set(ControlMode.MotionMagic, 1344);
+	}
+	
+	public static void armHorizontalPosition() {
+		arm.set(ControlMode.MotionMagic, 0);
+	}
+	
+	public static void armSwitchPosition() {
+		arm.set(ControlMode.MotionMagic, 672); //This number is not accurate. It is a guess.
+	}
+	
+	public static void armScalePosition() {
+		arm.set(ControlMode.MotionMagic, 1000); //This is also a guess.
 	}
 	
 	public static void armMove(double speed) {
 		System.out.println("calling for arm move " + speed);
-		armMotor.set(ControlMode.PercentOutput, speed);
+		arm.set(ControlMode.PercentOutput, speed);
 	}
 	
 	public static void close() {
