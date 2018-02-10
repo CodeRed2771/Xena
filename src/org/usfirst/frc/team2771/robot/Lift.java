@@ -18,7 +18,7 @@ public class Lift {
 		liftMotor = new TalonSRX(Wiring.LIFT_MASTER);
 		liftFollower = new TalonSRX(Wiring.LIFT_FOLLLOWER);
 		liftFollower.follow(liftMotor);
-		liftFollower.setInverted(true);
+		liftFollower.setInverted(false);
 	}
 	
 	public static  void move(double speed) {

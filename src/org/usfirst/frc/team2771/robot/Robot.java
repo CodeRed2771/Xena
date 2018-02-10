@@ -2,12 +2,12 @@
 package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 	KeyMap gamepad;
 	
 	@Override
@@ -38,13 +38,16 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Lift Speed", gamepad.getLiftAxis());
 		
 		if (Math.abs(gamepad.getClawIntakeAxis())>.05) {
-			CubeClaw.testIntakeCube(gamepad.getClawIntakeAxis());
-			SmartDashboard.putNumber("Intake Speed", gamepad.getClawIntakeAxis());
+			CubeClaw.intakeCube();
+//			CubeClaw.testIntakeCube(gamepad.getClawIntakeAxis());
+//			SmartDashboard.putNumber("Intake Speed", gamepad.getClawIntakeAxis());
 		} else if (Math.abs(gamepad.getClawEjectAxis())>.05) {
-			CubeClaw.testEjectCube(gamepad.getClawEjectAxis());
-			SmartDashboard.putNumber("Eject Speed", gamepad.getClawEjectAxis());
+			CubeClaw.ejectCube();
+//			CubeClaw.testEjectCube(gamepad.getClawEjectAxis());
+//			SmartDashboard.putNumber("Eject Speed", gamepad.getClawEjectAxis());
 		} else
 			CubeClaw.stopIntake();
+		
 		
 		CubeClaw.armMove(gamepad.getArmAxis());
 		

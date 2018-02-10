@@ -30,14 +30,14 @@ public class CubeClaw {
 		armMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		armMotor.setSelectedSensorPosition(0, 0, 0);
 
-		clawOpenCloseSolenoid = new DoubleSolenoid(0,1);
+	//	clawOpenCloseSolenoid = new DoubleSolenoid(0,1);
 
 //			c = new Compressor(0);
 //			c.setClosedLoopControl(true);
 	}
 	
 	public static void off() {
-		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kOff);
+		//clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
 	
 	public static void open() {
@@ -58,6 +58,7 @@ public class CubeClaw {
 	}
 	
 	public static void armMove(double speed) {
+		System.out.println("calling for arm move " + speed);
 		armMotor.set(ControlMode.PercentOutput, speed);
 	}
 	
@@ -70,12 +71,12 @@ public class CubeClaw {
 	}
 	
 	public static void intakeCube() {
-		leftRollers.set(ControlMode.PercentOutput, .5);
-		rightRollers.set(ControlMode.PercentOutput, .5);
+		leftRollers.set(ControlMode.PercentOutput, .7);
+		rightRollers.set(ControlMode.PercentOutput, .7);
 	}
 	public static void ejectCube() {
-		leftRollers.set(ControlMode.PercentOutput, -.5);
-		rightRollers.set(ControlMode.PercentOutput, -.5);
+		leftRollers.set(ControlMode.PercentOutput, -1.0);
+		rightRollers.set(ControlMode.PercentOutput, -1.0);
 	}
 	public static void stopIntake() {
 		leftRollers.set(ControlMode.PercentOutput, 0);
