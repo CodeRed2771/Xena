@@ -10,13 +10,11 @@ import java.util.Map;
 
 public class Calibration {
 
-public final static int XBOX_PORT = 0;
-	
 	/*
 	 * Drive Train
 	 */
 	
-//Physical Module - A
+	//Physical Module - A
 	public final static int DT_A_DRIVE_TALON_ID = 1;
 	public final static int DT_A_TURN_TALON_ID = 2;
 	private final static double DT_A_ABS_ZERO_INITIAL = .66179894;
@@ -60,7 +58,8 @@ public final static int XBOX_PORT = 0;
 	public static final double AUTO_DRIVE_I = 0.0;
 	public static final double AUTO_DRIVE_D = 0.0;
 	public static final int AUTO_DRIVE_IZONE = 50;
-
+	
+	public static final double CLAW_MAX_CURRENT = 2;
 
 	public static void loadSwerveCalibration() {
 		File calibrationFile = new File("/home/lvuser/swerve.calibration");

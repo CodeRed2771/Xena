@@ -51,4 +51,5 @@ public class Wiring {
 //	// Relays
 //	public static final int LIGHT_RING_RELAY = 0;
 
+	public static final int CLAW_PDP_PORT = 13;
 }

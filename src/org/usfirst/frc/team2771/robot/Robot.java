@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 
+		CubeClaw.tick();
+
     	SmartDashboard.putNumber("Robot Position", 1);
 	}
 
