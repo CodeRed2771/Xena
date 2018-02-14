@@ -90,19 +90,19 @@ public class CubeClaw {
 		}
 	}
 	
-	public static void armVerticalPosition() {
+	public static void setArmVerticalPosition() {
 		arm.set(ControlMode.MotionMagic, 1344);
 	}
 	
-	public static void armHorizontalPosition() {
+	public static void setArmHorizontalPosition() {
 		arm.set(ControlMode.MotionMagic, 0);
 	}
 	
-	public static void armSwitchPosition() {
+	public static void setArmSwitchPosition() {
 		arm.set(ControlMode.MotionMagic, 672); //This number is not accurate. It is a guess.
 	}
 	
-	public static void armScalePosition() {
+	public static void setArmScalePosition() {
 		arm.set(ControlMode.MotionMagic, 1000); //This is also a guess.
 	}
 	
