@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2771.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
 
 import edu.wpi.first.wpilibj.SerialPort;
 
@@ -24,7 +25,9 @@ public class RobotGyro {
 	}
 	
 	public RobotGyro() {
-		mGyro = new AHRS(SerialPort.Port.kUSB);
+		//mGyro = new AHRS(SerialPort.Port.kUSB);
+		mGyro = new AHRS(I2C.Port.kMXP);
+	
 	}
 	
 	public static AHRS getGyro() {
