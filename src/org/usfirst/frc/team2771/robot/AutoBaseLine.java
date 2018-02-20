@@ -1,3 +1,5 @@
+//Left or right stating position to baseline
+
 package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,7 +18,7 @@ public class AutoBaseLine extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(6000);
-				driveInches(40, 0, .1);
+				driveInches(160, 0, .1);
 				break;
 			case 1:
 				if (driveCompleted())
@@ -25,7 +27,7 @@ public class AutoBaseLine extends AutoBaseClass {
 			case 2:
 				stop();
 				break;
-			}
+			}	
 		}
 	}
 }
