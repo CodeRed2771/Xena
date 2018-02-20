@@ -27,7 +27,7 @@ public class DriveTrain implements PIDOutput {
 	}
 
 	// define robot dimensions. L=wheel base W=track width
-	private static final double l = 21, w = 21, r = Math.sqrt((l * l) + (w * w));
+	private static final double l = 22, w = 21, r = Math.sqrt((l * l) + (w * w));
 
 	private DriveTrain() {
 		moduleA = new Module(Calibration.DT_A_DRIVE_TALON_ID,

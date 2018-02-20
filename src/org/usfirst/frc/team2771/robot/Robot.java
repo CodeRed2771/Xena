@@ -86,32 +86,54 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		DriveTrain.fieldCentricDrive(gamepad.getSwerveYAxis(), -gamepad.getSwerveXAxis(), powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
+		
+		if(gamepad.activateIntake()){  // right bumper
+			CubeClaw.intakeCube();
+		}
+		
+		if (gamepad.dropCube()) { // left bumper
+			CubeClaw.ejectCube();
+		}
+		
+		if(gamepad.gotoLiftFloor()){
+			CubeClaw.setArmHorizontalPosition();
+		}
+		
+		if(gamepad.gotoLiftSwitch()){
+			CubeClaw.setArmSwitchPosition();
+		}
+		
+		if(gamepad.gotoLiftScale()){
+			CubeClaw.setArmScalePosition();
+		}
+			
 
 		Lift.move(gamepad.getLiftAxis());
-		SmartDashboard.putNumber("Lift Speed", gamepad.getLiftAxis());
-		
-		if (Math.abs(gamepad.getClawIntakeAxis())>.05) {
-			CubeClaw.intakeCube();
-//			CubeClaw.testIntakeCube(gamepad.getClawIntakeAxis());
-//			SmartDashboard.putNumber("Intake Speed", gamepad.getClawIntakeAxis());
-		} else if (Math.abs(gamepad.getClawEjectAxis())>.05) {
-			CubeClaw.ejectCube();
-//			CubeClaw.testEjectCube(gamepad.getClawEjectAxis());
-//			SmartDashboard.putNumber("Eject Speed", gamepad.getClawEjectAxis());
-		} else
-			CubeClaw.stopIntake();
-		
-		
 		CubeClaw.armMove(gamepad.getArmAxis());
-		
-		if (gamepad.openClaw()) {
-			CubeClaw.open();
-		} else if (gamepad.closeClaw()) {
-			CubeClaw.close();
-		} else 
-		{
-			CubeClaw.off();
-		}
+
+		//		SmartDashboard.putNumber("Lift Speed", gamepad.getLiftAxis());
+//		
+//		if (Math.abs(gamepad.getClawIntakeAxis())>.05) {
+//			CubeClaw.intakeCube();
+////			CubeClaw.testIntakeCube(gamepad.getClawIntakeAxis());
+////			SmartDashboard.putNumber("Intake Speed", gamepad.getClawIntakeAxis());
+//		} else if (Math.abs(gamepad.getClawEjectAxis())>.05) {
+//			CubeClaw.ejectCube();
+////			CubeClaw.testEjectCube(gamepad.getClawEjectAxis());
+////			SmartDashboard.putNumber("Eject Speed", gamepad.getClawEjectAxis());
+//		} else
+//			CubeClaw.stopIntake();
+//		
+//		
+//		
+//		if (gamepad.openClaw()) {
+//			CubeClaw.open();
+//		} else if (gamepad.closeClaw()) {
+//			CubeClaw.close();
+//		} else 
+//		{
+//			CubeClaw.off();
+//		}
 		
 	}
 

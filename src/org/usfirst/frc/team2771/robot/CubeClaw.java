@@ -85,8 +85,7 @@ public class CubeClaw {
 		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Velocity", 0), 0);
 		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Acceleration", 0), 0);
 		if (currentBreaker.tripped()) {
-			rightRollers.set(ControlMode.PercentOutput,0);
-			leftRollers.set(ControlMode.PercentOutput, 0);
+			holdCube();
 		}
 	}
 	
@@ -119,12 +118,20 @@ public class CubeClaw {
 //		} 
 	}
 	
+	public static void holdCube() {
+		leftRollers.set(ControlMode.PercentOutput, .05);
+		rightRollers.set(ControlMode.PercentOutput, .05);
+		currentBreaker.reset();
+	}
+	
 	public static void intakeCube() {
+		close();
 		leftRollers.set(ControlMode.PercentOutput, .7);
 		rightRollers.set(ControlMode.PercentOutput, .7);
 		currentBreaker.reset();
 	}
 	public static void ejectCube() {
+		open();
 		leftRollers.set(ControlMode.PercentOutput, -1.0);
 		rightRollers.set(ControlMode.PercentOutput, -1.0);
 		currentBreaker.reset();

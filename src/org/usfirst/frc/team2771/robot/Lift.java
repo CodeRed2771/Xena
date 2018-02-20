@@ -62,7 +62,7 @@ public class Lift {
 	}
 	public static  void goSwitch() {
 		//The switch is the little one.
-		liftMotor.set(ControlMode.PercentOutput, .7, 12); //TODO change the number to the correct height.
+		liftMotor.set(ControlMode.MotionMagic, .7, 12); //TODO change the number to the correct height.
 	}
 	public static  void goLowScale() {
 		//The scale is the big one.
