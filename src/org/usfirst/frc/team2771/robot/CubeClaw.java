@@ -62,31 +62,32 @@ public class CubeClaw {
 		arm.setSelectedSensorPosition(0, 0, 0);
 		
 
-	//	clawOpenCloseSolenoid = new DoubleSolenoid(0,1);
+		clawOpenCloseSolenoid = new DoubleSolenoid(0,1);
 
 //			c = new Compressor(0);
 //			c.setClosedLoopControl(true);
 	}
 	
-	public static void off() {
-		//clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kOff);
-	}
-	
-	public static void open() {
-//		try {
-			clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kForward);
-//		} catch (Exception ex) {
-//			System.out.println("Error commanding the solenoid: " + ex.toString());
-//		} 
-		
-	}
-	
+	/*
+	 * TICK ***********************************
+	 */
 	public static void tick() {
+		
 		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Velocity", 0), 0);
 		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Acceleration", 0), 0);
+		
 		if (currentBreaker.tripped()) {
 			holdCube();
 		}
+	}
+	public static void off() {
+		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kOff);
+	}
+	public static void open() {
+		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+	public static void close() {
+		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	public static void setArmVerticalPosition() {
@@ -110,14 +111,7 @@ public class CubeClaw {
 		arm.set(ControlMode.PercentOutput, speed);
 	}
 	
-	public static void close() {
-//		try {
-			clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kReverse);
-//		} catch (Exception ex) {
-//			System.out.println("Error commanding the solenoid: " + ex.toString());
-//		} 
-	}
-	
+
 	public static void holdCube() {
 		leftRollers.set(ControlMode.PercentOutput, .05);
 		rightRollers.set(ControlMode.PercentOutput, .05);
@@ -130,17 +124,24 @@ public class CubeClaw {
 		rightRollers.set(ControlMode.PercentOutput, .7);
 		currentBreaker.reset();
 	}
+	public static void dropCube() {
+		open();	
+		currentBreaker.reset();
+	}
 	public static void ejectCube() {
-		open();
+		currentBreaker.reset();
 		leftRollers.set(ControlMode.PercentOutput, -1.0);
 		rightRollers.set(ControlMode.PercentOutput, -1.0);
-		currentBreaker.reset();
 	}
 	public static void stopIntake() {
 		leftRollers.set(ControlMode.PercentOutput, 0);
 		rightRollers.set(ControlMode.PercentOutput, 0);
+		currentBreaker.reset();
 	}
 	
+	/*
+	 * TEST METHODS
+	 */
 	public static void testIntakeCube(double speed) {
 		leftRollers.set(ControlMode.PercentOutput, speed);
 		rightRollers.set(ControlMode.PercentOutput, speed);
