@@ -42,7 +42,7 @@ public class KeyMap {
 
     }
 
-    private HID getHID(int gamepad) { 
+    public HID getHID(int gamepad) { 
         if (!singleControllerMode) {
             switch (gamepad) {
                 case gamepad1:

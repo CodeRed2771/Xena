@@ -29,6 +29,10 @@ public class HID {
         }
         return joystick.getRawButton(button.button);
     }
+    
+    public boolean getRawButton(int button) {
+    	return joystick.getRawButton(button);
+    }
 
     public double axis(Axis axis) {
         if (axis == UNMAPPED_AXIS) {

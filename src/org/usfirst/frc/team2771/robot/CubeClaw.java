@@ -49,9 +49,12 @@ public class CubeClaw {
 		
 		arm.selectProfileSlot(0, 0);
 		arm.config_kF(0, 0.2, 0);
-		arm.config_kP(0, 0.2, 0);
+		arm.config_kP(0, 0.5, 0);
 		arm.config_kI(0, 0, 0);
 		arm.config_kD(0, 0, 0);
+		
+		SmartDashboard.putNumber("MM Arm F", .2);
+		SmartDashboard.putNumber("MM Arm P", .5);
 		
 		SmartDashboard.putNumber("MM Arm Velocity", 15000);
 		SmartDashboard.putNumber("MM Arm Acceleration", 6000);
@@ -61,7 +64,6 @@ public class CubeClaw {
 		
 		arm.setSelectedSensorPosition(0, 0, 0);
 		
-
 		clawOpenCloseSolenoid = new DoubleSolenoid(Wiring.CLAW_PCM_PORTA, Wiring.CLAW_PCM_PORTB);
 
 	}
@@ -73,9 +75,13 @@ public class CubeClaw {
 		
 		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
 		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
-		
+		arm.config_kF(0, (int)SmartDashboard.getNumber("MM Arm F", 0), 0);
+		arm.config_kP(0, (int)SmartDashboard.getNumber("MM Arm P", 0), 0);
+
 		if (currentBreaker.tripped()) {
+			System.out.println("breaker tripped " + currentBreaker.getCurrent());
 			holdCube();
+			setArmScalePosition(); // pop up the arm so we know we have it.
 		}
 	}
 	public static void off() {
@@ -93,15 +99,18 @@ public class CubeClaw {
 	}
 	
 	public static void setArmHorizontalPosition() {
+		System.out.println("set arm horizontal");
 		arm.set(ControlMode.MotionMagic, 0);
 	}
 	
 	public static void setArmSwitchPosition() {
-		arm.set(ControlMode.MotionMagic, 672); //This number is not accurate. It is a guess.
+		System.out.println("set arm switch");
+		arm.set(ControlMode.MotionMagic, 672); 
 	}
 	
 	public static void setArmScalePosition() {
-		arm.set(ControlMode.MotionMagic, 1000); //This is also a guess.
+		System.out.println("set arm scale");
+		arm.set(ControlMode.MotionMagic, 1000); 
 	}
 	
 	public static void armMove(double speed) {
@@ -109,7 +118,6 @@ public class CubeClaw {
 		arm.set(ControlMode.PercentOutput, speed);
 	}
 	
-
 	public static void holdCube() {
 		leftRollers.set(ControlMode.PercentOutput, .05);
 		rightRollers.set(ControlMode.PercentOutput, .05);
@@ -118,10 +126,11 @@ public class CubeClaw {
 	
 	public static void intakeCube() {
 		close();
-		leftRollers.set(ControlMode.PercentOutput, .7);
-		rightRollers.set(ControlMode.PercentOutput, .7);
+		leftRollers.set(ControlMode.PercentOutput, 1);
+		rightRollers.set(ControlMode.PercentOutput, 1);
 		currentBreaker.reset();
 	}
+	
 	public static void dropCube() {
 		open();	
 		ejectCube();
@@ -136,6 +145,10 @@ public class CubeClaw {
 		leftRollers.set(ControlMode.PercentOutput, 0);
 		rightRollers.set(ControlMode.PercentOutput, 0);
 		currentBreaker.reset();
+	}
+	
+	public static void resetEncoder() {
+		
 	}
 	
 	/*

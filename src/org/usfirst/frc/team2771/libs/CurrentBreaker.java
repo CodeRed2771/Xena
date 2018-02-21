@@ -19,8 +19,7 @@ public class CurrentBreaker {
 	long ignoreTime = -1;
 	long ignoreDuration;
 
-	public CurrentBreaker(SettableController sc, int portnum, double currentThreshold, int timeOut,
-			int ignoreDuration) {
+	public CurrentBreaker(SettableController sc, int portnum, double currentThreshold, int timeOut,	int ignoreDuration) {
 		pdp = new PowerDistributionPanel();
 		this.sc = sc == null ? new NullController() : sc;
 		this.portnum = portnum;

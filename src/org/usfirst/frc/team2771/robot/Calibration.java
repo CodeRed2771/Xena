@@ -24,7 +24,7 @@ public class Calibration {
 	// Physical Module - B
 	public final static int DT_B_DRIVE_TALON_ID = 3;
 	public final static int DT_B_TURN_TALON_ID = 4;
-	private final static double DT_B_ABS_ZERO_INITIAL = .0264;
+	private final static double DT_B_ABS_ZERO_INITIAL = .2295;
 	private static double DT_B_ABS_ZERO = DT_B_ABS_ZERO_INITIAL;
 	public static double GET_DT_B_ABS_ZERO() { return DT_B_ABS_ZERO; }
 	
@@ -59,7 +59,7 @@ public class Calibration {
 	public static final double AUTO_DRIVE_D = 0.0;
 	public static final int AUTO_DRIVE_IZONE = 50;
 	
-	public static final double CLAW_MAX_CURRENT = 2;
+	public static final double CLAW_MAX_CURRENT = 20;
 
 	public static void loadSwerveCalibration() {
 		File calibrationFile = new File("/home/lvuser/swerve.calibration");

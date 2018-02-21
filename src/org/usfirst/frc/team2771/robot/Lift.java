@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Lift {
 	private static Lift instance;
 	private static TalonSRX liftMotor;
-	private static TalonSRX liftFollower;
+//	private static TalonSRX liftFollower;
 	private static DoubleSolenoid shifterSolenoid;
 	
 	public static Lift getInstance() {
@@ -24,9 +24,9 @@ public class Lift {
 		shifterSolenoid = new DoubleSolenoid(Wiring.LIFT_SHIFTER_PCM_PORTA, Wiring.LIFT_SHIFTER_PCM_PORTB);
 		
 		liftMotor = new TalonSRX(Wiring.LIFT_MASTER);
-		liftFollower = new TalonSRX(Wiring.LIFT_FOLLLOWER);
-		liftFollower.follow(liftMotor);
-		liftFollower.setInverted(false);
+//		liftFollower = new TalonSRX(Wiring.LIFT_FOLLLOWER);
+//		liftFollower.follow(liftMotor);
+//		liftFollower.setInverted(false);
 		
 		/* first choose the sensor */
 		liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0, 0);

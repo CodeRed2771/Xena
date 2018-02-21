@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
 		Calibration.loadSwerveCalibration();
 
 		RobotGyro.reset();  // this is also done in auto init in case it wasn't settled here yet
-
+		
      	autoChooser = new SendableChooser<String>();
       	autoChooser.addDefault(autoBaseLine, autoBaseLine);
       	autoChooser.addObject(calibrateSwerveModules, calibrateSwerveModules);
@@ -69,10 +69,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		CubeClaw.setArmSwitchPosition();
+		
+		
 		DriveTrain.fieldCentricDrive(gamepad.getSwerveYAxis(), -gamepad.getSwerveXAxis(), powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
 		
-		if(gamepad.activateIntake()){  // 2 - right bumper
+		if (gamepad.activateIntake()){  // 2 - right bumper
 			CubeClaw.intakeCube();  // this will transition to a "hold" when the current breaker is tripped
 		}
 		
@@ -80,18 +81,29 @@ public class Robot extends TimedRobot {
 			CubeClaw.dropCube();
 		}
 		
-		if(gamepad.gotoLiftFloor()){  // 2 - A
+		if (gamepad.gotoLiftFloor()){  // 2 - A
 			Lift.goStartPosition();
+			CubeClaw.setArmHorizontalPosition();
 		}
 		
-		if(gamepad.gotoLiftSwitch()){  // 2 - B
+		if (gamepad.gotoLiftSwitch()){  // 2 - B
+			CubeClaw.setArmScalePosition();
 			Lift.goSwitch();
 		}
 		
-		if(gamepad.gotoLiftScale()){  // 2 - Y
+		if (gamepad.gotoLiftScale()){  // 2 - Y
+			CubeClaw.setArmScalePosition();
 			Lift.goHighScale();
 		}
-
+		
+		if (gamepad.getHID(0).getRawButton(1)) { // 1- A
+			CubeClaw.setArmHorizontalPosition();
+		}
+		
+		if (gamepad.getHID(0).getRawButton(2)) { // 1 - B
+			CubeClaw.setArmScalePosition();
+		}
+		
 		//CubeClaw.armMove(gamepad.getArmAxis());  // 2 - right stick
 
 		//Lift.move(gamepad.getLiftAxis());  // 2 - left stick
@@ -105,6 +117,7 @@ public class Robot extends TimedRobot {
 		}
 
 		SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
+		SmartDashboard.putNumber("Gyro Heading", RobotGyro.getAngle());
 		
 		Lift.tick();
 		CubeClaw.tick();
@@ -177,6 +190,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Lift.stop();
+		CubeClaw.setArmSwitchPosition();
+
 	}
 
 	@Override

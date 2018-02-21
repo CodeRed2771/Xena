@@ -25,8 +25,8 @@ public class RobotGyro {
 	}
 	
 	public RobotGyro() {
-		//mGyro = new AHRS(SerialPort.Port.kUSB);
-		mGyro = new AHRS(I2C.Port.kMXP);
+		mGyro = new AHRS(SerialPort.Port.kUSB);
+		//mGyro = new AHRS(I2C.Port.kMXP);
 	
 	}
 	
