@@ -32,7 +32,8 @@ public class KeyMap {
     private final HID.Button gotoLiftScale = LogitechF310.Y;
     private final HID.Button activateIntake = LogitechF310.BUMPER_RIGHT;
     private final HID.Button dropCube = LogitechF310.BUMPER_LEFT;
-    
+    private final HID.Button lowGearButton = LogitechF310.BACK;
+    private final HID.Button highGearButton = LogitechF310.START;
     
     //private final HID.Button clawCloseButton = LogitechF310.X;
     
@@ -100,4 +101,11 @@ public class KeyMap {
     	return getHID(gamepad2).button(dropCube);
     }
     
+    public boolean goLowGear() {
+    	return getHID(gamepad2).button(lowGearButton);
+    }
+    
+    public boolean goHighGear() {
+    	return getHID(gamepad2).button(highGearButton);
+    }
 }

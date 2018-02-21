@@ -18,7 +18,7 @@ public class CubeClaw {
 	private static TalonSRX rightRollers;
 	private static TalonSRX arm;
 	private static DoubleSolenoid clawOpenCloseSolenoid;
-//	private static Compressor c; 
+
 	private static CurrentBreaker currentBreaker;
 	
 	public static CubeClaw getInstance() {
@@ -53,8 +53,8 @@ public class CubeClaw {
 		arm.config_kI(0, 0, 0);
 		arm.config_kD(0, 0, 0);
 		
-		SmartDashboard.putNumber("MM Velocity", 15000);
-		SmartDashboard.putNumber("MM Acceleration", 6000);
+		SmartDashboard.putNumber("MM Arm Velocity", 15000);
+		SmartDashboard.putNumber("MM Arm Acceleration", 6000);
 		
 		arm.configMotionCruiseVelocity(15000, 0);
 		arm.configMotionAcceleration(6000, 0);
@@ -62,10 +62,8 @@ public class CubeClaw {
 		arm.setSelectedSensorPosition(0, 0, 0);
 		
 
-		clawOpenCloseSolenoid = new DoubleSolenoid(0,1);
+		clawOpenCloseSolenoid = new DoubleSolenoid(Wiring.CLAW_PCM_PORTA, Wiring.CLAW_PCM_PORTB);
 
-//			c = new Compressor(0);
-//			c.setClosedLoopControl(true);
 	}
 	
 	/*
@@ -73,8 +71,8 @@ public class CubeClaw {
 	 */
 	public static void tick() {
 		
-		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Velocity", 0), 0);
-		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Acceleration", 0), 0);
+		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
+		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
 		
 		if (currentBreaker.tripped()) {
 			holdCube();
@@ -126,6 +124,7 @@ public class CubeClaw {
 	}
 	public static void dropCube() {
 		open();	
+		ejectCube();
 		currentBreaker.reset();
 	}
 	public static void ejectCube() {

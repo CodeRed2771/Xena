@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2771.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 
 	KeyMap gamepad;
+	Compressor compressor; 
 	SendableChooser<String> autoChooser;
 	final String autoDriveDoubleDiamond = "Auto Drive Double Diamond";
 	final String autoRotateTest = "Auto Rotate Test";
@@ -52,9 +54,12 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 
-		CubeClaw.tick();
 
     	SmartDashboard.putNumber("Robot Position", 1);
+    	
+		compressor = new Compressor(0);
+		compressor.setClosedLoopControl(true);
+
 	}
 
 	/*
@@ -64,6 +69,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		CubeClaw.setArmSwitchPosition();
 		DriveTrain.fieldCentricDrive(gamepad.getSwerveYAxis(), -gamepad.getSwerveXAxis(), powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
 		
 		if(gamepad.activateIntake()){  // 2 - right bumper
@@ -75,32 +81,33 @@ public class Robot extends TimedRobot {
 		}
 		
 		if(gamepad.gotoLiftFloor()){  // 2 - A
-			CubeClaw.setArmHorizontalPosition();
+			Lift.goStartPosition();
 		}
 		
 		if(gamepad.gotoLiftSwitch()){  // 2 - B
-			CubeClaw.setArmSwitchPosition();
+			Lift.goSwitch();
 		}
 		
 		if(gamepad.gotoLiftScale()){  // 2 - Y
-			CubeClaw.setArmScalePosition();
+			Lift.goHighScale();
 		}
-			
-		Lift.move(gamepad.getLiftAxis());  // 2 - left stick
-		CubeClaw.armMove(gamepad.getArmAxis());  // 2 - right stick
+
+		//CubeClaw.armMove(gamepad.getArmAxis());  // 2 - right stick
+
+		//Lift.move(gamepad.getLiftAxis());  // 2 - left stick
+		
+		if (gamepad.goLowGear()) {  // 2 - Back
+			Lift.setLowGear();
+		}
+		
+		if (gamepad.goHighGear()) { // 2 - start
+			Lift.setHighGear();
+		}
 
 		SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
-//		
-//		if (Math.abs(gamepad.getClawIntakeAxis())>.05) {
-//			CubeClaw.intakeCube();
-////			CubeClaw.testIntakeCube(gamepad.getClawIntakeAxis());
-////			SmartDashboard.putNumber("Intake Speed", gamepad.getClawIntakeAxis());
-//		} else if (Math.abs(gamepad.getClawEjectAxis())>.05) {
-//			CubeClaw.ejectCube();
-////			CubeClaw.testEjectCube(gamepad.getClawEjectAxis());
-////			SmartDashboard.putNumber("Eject Speed", gamepad.getClawEjectAxis());
-//		} else
-//			CubeClaw.stopIntake();
+		
+		Lift.tick();
+		CubeClaw.tick();
 		
 	}
 	
@@ -169,6 +176,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		Lift.stop();
 	}
 
 	@Override
