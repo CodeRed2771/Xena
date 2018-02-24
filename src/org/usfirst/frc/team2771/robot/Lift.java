@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Lift {
 	private static Lift instance;
 	private static TalonSRX liftMotor;
-//	private static TalonSRX liftFollower;
+	private static TalonSRX liftFollower;
 	private static DoubleSolenoid shifterSolenoid;
 	
 	public static Lift getInstance() {
@@ -24,9 +24,9 @@ public class Lift {
 		shifterSolenoid = new DoubleSolenoid(Wiring.LIFT_SHIFTER_PCM_PORTA, Wiring.LIFT_SHIFTER_PCM_PORTB);
 		
 		liftMotor = new TalonSRX(Wiring.LIFT_MASTER);
-//		liftFollower = new TalonSRX(Wiring.LIFT_FOLLLOWER);
-//		liftFollower.follow(liftMotor);
-//		liftFollower.setInverted(false);
+		liftFollower = new TalonSRX(Wiring.LIFT_FOLLLOWER);
+		liftFollower.follow(liftMotor);
+		liftFollower.setInverted(false);
 		
 		/* first choose the sensor */
 		liftMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0, 0);
@@ -76,7 +76,6 @@ public class Lift {
 		liftMotor.config_kP(0, SmartDashboard.getNumber("Lift P", 1.0), 0);
 		liftMotor.config_kI(0, SmartDashboard.getNumber("Lift I", 0), 0);
 		liftMotor.config_kD(0, SmartDashboard.getNumber("Lift D", 0), 0);
-		SmartDashboard.putNumber("Lift Target", liftMotor.getClosedLoopTarget(0));
 		SmartDashboard.putNumber("Lift Motor Encoder", liftMotor.getSensorCollection().getPulseWidthPosition());
 	}
 	public static  void move(double speed) {
@@ -84,7 +83,7 @@ public class Lift {
 	}
 	public static  void goSwitch() {
 		//The switch is the little one.
-		liftMotor.set(ControlMode.MotionMagic, -10000); //TODO change the number to the correct height.
+		liftMotor.set(ControlMode.MotionMagic, -200); //TODO change the number to the correct height.
 		System.out.println("Going to switch");
 	}
 	public static  void goLowScale() {
@@ -93,10 +92,10 @@ public class Lift {
 		liftMotor.set(ControlMode.MotionMagic, -40000); //TODO change the number to the correct height. 
 	}
 	public static void goHighScale() {
-		liftMotor.set(ControlMode.MotionMagic, -40000);
+		liftMotor.set(ControlMode.MotionMagic, -575);
 	}
 	public static void goStartPosition(){
-		liftMotor.set(ControlMode.MotionMagic, 0);
+		liftMotor.set(ControlMode.MotionMagic, 5);
 	}
 	public static void setLowGear() {
 		shifterSolenoid.set(DoubleSolenoid.Value.kForward);

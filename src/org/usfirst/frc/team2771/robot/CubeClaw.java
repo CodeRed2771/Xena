@@ -44,8 +44,8 @@ public class CubeClaw {
 		
 		arm.configNominalOutputForward(0, 0);
 		arm.configNominalOutputReverse(0, 0);
-		arm.configPeakOutputForward(1, 0);
-		arm.configPeakOutputReverse(-1, 0);
+		arm.configPeakOutputForward(.5, 0);  // changed to half power temporarily
+		arm.configPeakOutputReverse(-.5, 0);
 		
 		arm.selectProfileSlot(0, 0);
 		arm.config_kF(0, 0.2, 0);
@@ -56,11 +56,11 @@ public class CubeClaw {
 		SmartDashboard.putNumber("MM Arm F", .2);
 		SmartDashboard.putNumber("MM Arm P", .5);
 		
-		SmartDashboard.putNumber("MM Arm Velocity", 15000);
-		SmartDashboard.putNumber("MM Arm Acceleration", 6000);
+		SmartDashboard.putNumber("MM Arm Velocity", 30000);
+		SmartDashboard.putNumber("MM Arm Acceleration", 12000);
 		
-		arm.configMotionCruiseVelocity(15000, 0);
-		arm.configMotionAcceleration(6000, 0);
+		arm.configMotionCruiseVelocity(30000, 0);
+		arm.configMotionAcceleration(12000, 0);
 		
 		arm.setSelectedSensorPosition(0, 0, 0);
 		
@@ -75,8 +75,9 @@ public class CubeClaw {
 		
 		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
 		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
-		arm.config_kF(0, (int)SmartDashboard.getNumber("MM Arm F", 0), 0);
-		arm.config_kP(0, (int)SmartDashboard.getNumber("MM Arm P", 0), 0);
+		//arm.config_kF(0, (int)SmartDashboard.getNumber("MM Arm F", 0), 0);
+		//arm.config_kP(0, (int)SmartDashboard.getNumber("MM Arm P", 0), 0);
+		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
 
 		if (currentBreaker.tripped()) {
 			System.out.println("breaker tripped " + currentBreaker.getCurrent());
@@ -95,22 +96,23 @@ public class CubeClaw {
 	}
 	
 	public static void setArmVerticalPosition() {
-		arm.set(ControlMode.MotionMagic, 1344);
+		arm.set(ControlMode.MotionMagic, 0);
 	}
 	
 	public static void setArmHorizontalPosition() {
 		System.out.println("set arm horizontal");
-		arm.set(ControlMode.MotionMagic, 0);
+		arm.set(ControlMode.MotionMagic, 350); //0 for competition robot?
 	}
 	
 	public static void setArmSwitchPosition() {
 		System.out.println("set arm switch");
-		arm.set(ControlMode.MotionMagic, 672); 
+		//arm.set(ControlMode.MotionMagic, 672); //competition robot?
+		arm.set(ControlMode.MotionMagic, 1350);
 	}
 	
 	public static void setArmScalePosition() {
 		System.out.println("set arm scale");
-		arm.set(ControlMode.MotionMagic, 1000); 
+		arm.set(ControlMode.MotionMagic, 1500); //1000 Competition robot? 
 	}
 	
 	public static void armMove(double speed) {
@@ -119,8 +121,9 @@ public class CubeClaw {
 	}
 	
 	public static void holdCube() {
-		leftRollers.set(ControlMode.PercentOutput, .05);
-		rightRollers.set(ControlMode.PercentOutput, .05);
+		leftRollers.set(ControlMode.PercentOutput, .02);
+		rightRollers.set(ControlMode.PercentOutput, .02);
+		close();
 		currentBreaker.reset();
 	}
 	
@@ -149,6 +152,10 @@ public class CubeClaw {
 	
 	public static void resetEncoder() {
 		
+	}
+	
+	public static double getArmAbsolutePosition() {
+		return (arm.getSensorCollection().getPulseWidthPosition() & 0xFFF)/4095d;
 	}
 	
 	/*

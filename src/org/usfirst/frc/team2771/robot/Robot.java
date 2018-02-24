@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
 		}
 		
 		if (gamepad.gotoLiftSwitch()){  // 2 - B
-			CubeClaw.setArmScalePosition();
+			CubeClaw.setArmSwitchPosition();
 			Lift.goSwitch();
 		}
 		
@@ -97,14 +97,16 @@ public class Robot extends TimedRobot {
 		}
 		
 		if (gamepad.getHID(0).getRawButton(1)) { // 1- A
-			CubeClaw.setArmHorizontalPosition();
+			//CubeClaw.setArmHorizontalPosition();
+			CubeClaw.close();
 		}
 		
 		if (gamepad.getHID(0).getRawButton(2)) { // 1 - B
-			CubeClaw.setArmScalePosition();
+			//CubeClaw.setArmScalePosition();
+			CubeClaw.open();
 		}
 		
-		//CubeClaw.armMove(gamepad.getArmAxis());  // 2 - right stick
+		CubeClaw.armMove(gamepad.getArmAxis());  // 2 - right stick
 
 		//Lift.move(gamepad.getLiftAxis());  // 2 - left stick
 		

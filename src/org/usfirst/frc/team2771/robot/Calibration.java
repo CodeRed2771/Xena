@@ -25,7 +25,7 @@ public class Calibration {
 	// Physical Module - B
 	public final static int DT_B_DRIVE_TALON_ID = 3;
 	public final static int DT_B_TURN_TALON_ID = 4;
-	private final static double DT_B_ABS_ZERO_INITIAL =.146; //Practice Robot Calibration
+	private final static double DT_B_ABS_ZERO_INITIAL =.135; //Practice Robot Calibration
 	//private final static double DT_B_ABS_ZERO_INITIAL = .2295;
 	private static double DT_B_ABS_ZERO = DT_B_ABS_ZERO_INITIAL;
 	public static double GET_DT_B_ABS_ZERO() { return DT_B_ABS_ZERO; }
@@ -41,7 +41,7 @@ public class Calibration {
 	// Physical Module - D
 	public final static int DT_D_DRIVE_TALON_ID = 2;
 	public final static int DT_D_TURN_TALON_ID = 1;
-	private final static double DT_D_ABS_ZERO_INITIAL = .346; //Practice Robot Calibration
+	private final static double DT_D_ABS_ZERO_INITIAL = .286; //Practice Robot Calibration
 	//private final static double DT_D_ABS_ZERO_INITIAL = 0.763369963369;
 	private static double DT_D_ABS_ZERO = DT_D_ABS_ZERO_INITIAL;
 	public static double GET_DT_D_ABS_ZERO() { return DT_D_ABS_ZERO; }
