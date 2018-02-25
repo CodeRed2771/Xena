@@ -150,14 +150,52 @@ public class CubeClaw {
 		currentBreaker.reset();
 	}
 	
-	public static void resetEncoder() {
-		
-	}
-	
 	public static double getArmAbsolutePosition() {
 		return (arm.getSensorCollection().getPulseWidthPosition() & 0xFFF)/4095d;
 	}
 	
+	// this tells the encoder that it's at a particular position
+	private static void setArmEncPos(int d) {
+		arm.getSensorCollection().setQuadraturePosition(d, 500);
+	}
+	
+
+	/* 
+	 * Resets the arm encoder value relative to what we've 
+	 * determined to be the "zero" position. (the calibration values).
+	 * This is so the rest of the program can just treat the turn encoder
+	 * as if zero is the horizontal position.  We don't have to always calculate
+	 * based off the calibrated zero position.
+	 * e.g.  if the calibrated zero position is .25 and our current absolute position is .40
+	 * then we reset the encoder value to be .15 * 4095, so we know were .15 away from the zero
+	 * position.  The 4095 converts the position back to ticks.
+	 * 
+	 * Bottom line is that this is what applies the turn calibration values.
+	 */
+	public static void resetArmEncoder() {
+		if (getInstance() == null) return;
+
+			double offSet = 0;
+		
+			arm.set(ControlMode.PercentOutput, 0); // turn off the motor while we're setting encoder
+			
+			// first find the current absolute position of the arm encoder
+			offSet = getArmAbsolutePosition();
+			
+			// now use the difference between the current position and the calibration zero position
+			// to tell the encoder what the current relative position is (relative to the zero pos)
+			setArmEncPos((int) (calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO) * 4095d));
+
+	}
+
+	private static double calculatePositionDifference(double currentPosition, double calibrationZeroPosition) {
+		if (currentPosition - calibrationZeroPosition > 0) {
+			return currentPosition - calibrationZeroPosition;
+		} else {
+			return (1 - calibrationZeroPosition) + currentPosition;
+		}
+	}
+
 	/*
 	 * TEST METHODS
 	 */

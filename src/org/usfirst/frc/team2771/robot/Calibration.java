@@ -64,6 +64,8 @@ public class Calibration {
 	public static final int AUTO_DRIVE_IZONE = 50;
 	
 	public static final double CLAW_MAX_CURRENT = 20;
+	
+	public static final double ARM_ABS_ZERO = 0;  // Absolute encoder value in horizontal position
 
 	public static void loadSwerveCalibration() {
 		File calibrationFile = new File("/home/lvuser/swerve.calibration");
