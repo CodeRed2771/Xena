@@ -214,6 +214,7 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		DriveTrain.resetTurnEncoders();   // happens only once because a flag prevents multiple calls
 		DriveTrain.disablePID();
+		CubeClaw.tick();
 	}
 
 	private double powerOf2PreserveSign(double v) {
