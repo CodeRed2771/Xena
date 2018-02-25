@@ -99,13 +99,13 @@ public class Robot extends TimedRobot {
 		}
 		
 		if (gamepad.getHID(0).getRawButton(1)) { // 1- A
-			//CubeClaw.setArmHorizontalPosition();
-			CubeClaw.close();
+			CubeClaw.setArmHorizontalPosition();
+			//CubeClaw.close();
 		}
 		
 		if (gamepad.getHID(0).getRawButton(2)) { // 1 - B
-			//CubeClaw.setArmScalePosition();
-			CubeClaw.open();
+			CubeClaw.setArmScalePosition();
+			//CubeClaw.open();
 		}
 		
 		CubeClaw.armMove(gamepad.getArmAxis());  // 2 - right stick
