@@ -173,18 +173,18 @@ public class CubeClaw {
 	 * Bottom line is that this is what applies the turn calibration values.
 	 */
 	public static void resetArmEncoder() {
-//		if (getInstance() == null) return;
-//
-//			double offSet = 0;
-//		
-//			arm.set(ControlMode.PercentOutput, 0); // turn off the motor while we're setting encoder
-//			
-//			// first find the current absolute position of the arm encoder
-//			offSet = getArmAbsolutePosition();
-//			
-//			// now use the difference between the current position and the calibration zero position
-//			// to tell the encoder what the current relative position is (relative to the zero pos)
-//			setArmEncPos((int) (calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO) * 4095d));
+		if (getInstance() == null) return;
+
+			double offSet = 0;
+		
+			arm.set(ControlMode.PercentOutput, 0); // turn off the motor while we're setting encoder
+			
+			// first find the current absolute position of the arm encoder
+			offSet = getArmAbsolutePosition();
+			
+			// now use the difference between the current position and the calibration zero position
+			// to tell the encoder what the current relative position is (relative to the zero pos)
+			setArmEncPos((int) (calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO) * 4095d));
 
 	}
 

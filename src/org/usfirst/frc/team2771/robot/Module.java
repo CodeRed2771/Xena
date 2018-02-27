@@ -27,10 +27,10 @@ public class Module {
 		DRIVE_D = dD;
 		DRIVE_IZONE = dIZone;
 
-		drive.config_kP(0,  DRIVE_P, 500);
-		drive.config_kI(0,  DRIVE_I, 500);
-		drive.config_kD(0,  DRIVE_D, 500);
-		drive.config_IntegralZone(0, DRIVE_IZONE, 500);
+		drive.config_kP(0,  DRIVE_P, 0);
+		drive.config_kI(0,  DRIVE_I, 0);
+		drive.config_kD(0,  DRIVE_D, 0);
+		drive.config_IntegralZone(0, DRIVE_IZONE, 0);
 		drive.selectProfileSlot(0, 0);
 		
 		
@@ -42,10 +42,10 @@ public class Module {
 		TURN_D = tD;
 		TURN_IZONE = tIZone;
 
-		turn.config_kP(0,  TURN_P, 500);
-		turn.config_kI(0,  TURN_I, 500);
-		turn.config_kD(0,  TURN_D, 500);
-		turn.config_IntegralZone(0, TURN_IZONE, 500);
+		turn.config_kP(0,  TURN_P, 0);
+		turn.config_kI(0,  TURN_I, 0);
+		turn.config_kD(0,  TURN_D, 0);
+		turn.config_IntegralZone(0, TURN_IZONE, 0);
 		turn.selectProfileSlot(0, 0);
 	}
 	
@@ -83,7 +83,7 @@ public class Module {
 	}
 
 	public void resetTurnEnc() {
-		this.turn.getSensorCollection().setQuadraturePosition(0,500); 
+		this.turn.getSensorCollection().setQuadraturePosition(0,0); 
 	}
 
 	public int getDriveEnc() {
@@ -95,7 +95,7 @@ public class Module {
 	}
 	
 	public void setEncPos(int d) {
-		turn.getSensorCollection().setQuadraturePosition(d, 500);
+		turn.getSensorCollection().setQuadraturePosition(d, 0);
 	}
 	
 	/**

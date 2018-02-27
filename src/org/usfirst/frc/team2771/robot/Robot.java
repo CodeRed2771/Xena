@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		
-		//CubeClaw.resetArmEncoder();
+		CubeClaw.resetArmEncoder();
 
 	}
 
