@@ -35,34 +35,34 @@ public class CubeClaw {
 		
 		currentBreaker = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT, Calibration.CLAW_MAX_CURRENT, 2000, 2000); //These are not real numbers.
 		
-//		arm = new TalonSRX(Wiring.ARM_MOTOR);
-//		arm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
-//		arm.setSelectedSensorPosition(0, 0, 0);
-//		
-//		arm.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
-//		arm.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-//		
-//		arm.configNominalOutputForward(0, 0);
-//		arm.configNominalOutputReverse(0, 0);
-//		arm.configPeakOutputForward(.5, 0);  // changed to half power temporarily
-//		arm.configPeakOutputReverse(-.5, 0);
-//		
-//		arm.selectProfileSlot(0, 0);
-//		arm.config_kF(0, 0.2, 0);
-//		arm.config_kP(0, 0.5, 0);
-//		arm.config_kI(0, 0, 0);
-//		arm.config_kD(0, 0, 0);
-//		
-//		SmartDashboard.putNumber("MM Arm F", .2);
-//		SmartDashboard.putNumber("MM Arm P", .5);
-//		
-//		SmartDashboard.putNumber("MM Arm Velocity", 30000);
-//		SmartDashboard.putNumber("MM Arm Acceleration", 12000);
-//		
-//		arm.configMotionCruiseVelocity(30000, 0);
-//		arm.configMotionAcceleration(12000, 0);
-//		
-//		arm.setSelectedSensorPosition(0, 0, 0);
+		arm = new TalonSRX(Wiring.ARM_MOTOR);
+		arm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
+		arm.setSelectedSensorPosition(0, 0, 0);
+		
+		arm.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 0);
+		arm.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
+		
+		arm.configNominalOutputForward(0, 0);
+		arm.configNominalOutputReverse(0, 0);
+		arm.configPeakOutputForward(.5, 0);  // changed to half power temporarily
+		arm.configPeakOutputReverse(-.5, 0);
+		
+		arm.selectProfileSlot(0, 0);
+		arm.config_kF(0, 0.2, 0);
+		arm.config_kP(0, 0.5, 0);
+		arm.config_kI(0, 0, 0);
+		arm.config_kD(0, 0, 0);
+		
+		SmartDashboard.putNumber("MM Arm F", .2);
+		SmartDashboard.putNumber("MM Arm P", .5);
+		
+		SmartDashboard.putNumber("MM Arm Velocity", 30000);
+		SmartDashboard.putNumber("MM Arm Acceleration", 12000);
+		
+		arm.configMotionCruiseVelocity(30000, 0);
+		arm.configMotionAcceleration(12000, 0);
+		
+		arm.setSelectedSensorPosition(0, 0, 0);
 		
 		clawOpenCloseSolenoid = new DoubleSolenoid(Wiring.CLAW_PCM_PORTA, Wiring.CLAW_PCM_PORTB);
 
@@ -73,11 +73,11 @@ public class CubeClaw {
 	 */
 	public static void tick() {
 		
-//		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
-//		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
-//		//arm.config_kF(0, (int)SmartDashboard.getNumber("MM Arm F", 0), 0);
-//		//arm.config_kP(0, (int)SmartDashboard.getNumber("MM Arm P", 0), 0);
-//		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
+		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
+		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
+		//arm.config_kF(0, (int)SmartDashboard.getNumber("MM Arm F", 0), 0);
+		//arm.config_kP(0, (int)SmartDashboard.getNumber("MM Arm P", 0), 0);
+		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
 
 		if (currentBreaker.tripped()) {
 			System.out.println("breaker tripped " + currentBreaker.getCurrent());
@@ -101,18 +101,18 @@ public class CubeClaw {
 	
 	public static void setArmHorizontalPosition() {
 		System.out.println("set arm horizontal");
-		arm.set(ControlMode.MotionMagic, 50); //0 for competition robot?
+		arm.set(ControlMode.MotionMagic, 0); //0 for competition robot?
 	}
 	
 	public static void setArmSwitchPosition() {
 		System.out.println("set arm switch");
 		//arm.set(ControlMode.MotionMagic, 672); //competition robot?
-		arm.set(ControlMode.MotionMagic, 1350);
+		arm.set(ControlMode.MotionMagic, -1350);
 	}
 	
 	public static void setArmScalePosition() {
 		System.out.println("set arm scale");
-		arm.set(ControlMode.MotionMagic, 1500); //1000 Competition robot? 
+		arm.set(ControlMode.MotionMagic, -1500); //1000 Competition robot? 
 	}
 	
 	public static void armMove(double speed) {

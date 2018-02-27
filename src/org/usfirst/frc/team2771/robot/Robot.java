@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
 		
-		CubeClaw.resetArmEncoder();
+		//CubeClaw.resetArmEncoder();
 
 	}
 
@@ -114,17 +114,16 @@ public class Robot extends TimedRobot {
 			CubeClaw.armMove(gamepad.getArmAxis());
 		}
 
-		//Lift.move(gamepad.getLiftAxis());  // 2 - left stick
-		
 		if (gamepad.goLowGear()) {  // 2 - Back
 			Lift.setLowGear();
 		}
 		
 		if (gamepad.goHighGear()) { // 2 - start
 			Lift.setHighGear();
+			
 		}
 		
-		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1){
+		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1){  // 2 - left stick 
 			Lift.move(gamepad.manualLift());
 		}
 
@@ -233,7 +232,7 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		DriveTrain.resetTurnEncoders();   // happens only once because a flag prevents multiple calls
 		DriveTrain.disablePID();
-		CubeClaw.tick();
+		//CubeClaw.tick();
 	}
 
 	private double powerOf2PreserveSign(double v) {
