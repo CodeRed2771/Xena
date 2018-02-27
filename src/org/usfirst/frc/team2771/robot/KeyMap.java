@@ -21,7 +21,8 @@ public class KeyMap {
     
     private final HID.Axis liftAxis = LogitechF310.STICK_LEFT_Y;
     private final HID.Axis armAxis = LogitechF310.STICK_RIGHT_Y;
-    //private final HID.Axis clawIntakeAxis = LogitechF310.TRIGGER_LEFT_AXIS;
+    private final HID.Axis manualLiftAxis = LogitechF310.TRIGGER_LEFT_AXIS;
+//    private final HID.Button manualLiftButton = LogitechF310.DPAD_LEFT;
     //private final HID.Axis clawEjectAxis = LogitechF310.TRIGGER_RIGHT_AXIS;
 
     
@@ -107,5 +108,9 @@ public class KeyMap {
     
     public boolean goHighGear() {
     	return getHID(gamepad2).button(highGearButton);
+    }
+    
+    public double manualLift(){
+    	return getHID(gamepad2).axis(manualLiftAxis);
     }
 }

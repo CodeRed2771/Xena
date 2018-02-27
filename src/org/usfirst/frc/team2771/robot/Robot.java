@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
 	final String visionAuto = "Vision Auto";
 	final String autoScale = "Auto Scale";
 	final String autoSwitchToScale = "Auto Switch to Scale";
+	final String autoTest = "Auto Test";
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
 
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
       	//autoChooser.addObject(autoCubeFollow, autoCubeFollow);
       	autoChooser.addObject(autoSwitch, autoSwitch);
       	autoChooser.addObject(autoScale, autoScale);
+      	autoChooser.addObject(autoTest, autoTest);
   
 		SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
 		SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
@@ -108,7 +110,9 @@ public class Robot extends TimedRobot {
 			//CubeClaw.open();
 		}
 		
-		CubeClaw.armMove(gamepad.getArmAxis());  // 2 - right stick
+		if (gamepad.getArmAxis() > .1 || gamepad.getArmAxis() < -.1){
+			CubeClaw.armMove(gamepad.getArmAxis());
+		}
 
 		//Lift.move(gamepad.getLiftAxis());  // 2 - left stick
 		
@@ -118,6 +122,10 @@ public class Robot extends TimedRobot {
 		
 		if (gamepad.goHighGear()) { // 2 - start
 			Lift.setHighGear();
+		}
+		
+		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1){
+			Lift.move(gamepad.manualLift());
 		}
 
 		SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
@@ -167,15 +175,20 @@ public class Robot extends TimedRobot {
     	    case autoBaseLine:
     	    	mAutoProgram = new AutoBaseLine(robotPosition);
     	    	break;
+    	    case autoTest:
+    	    	mAutoProgram = new AutoCalibrateDrive(robotPosition);
+    	    	break;
     	} 
 
 		DriveAuto.reset();
 		DriveTrain.setAllTurnOrientiation(0);
+		
+		System.out.println("end of auto init");
 
-		if (mAutoProgram != null) {
-			mAutoProgram.start();
-		} else
-			System.out.println("No auto program started in switch statement");
+//		if (mAutoProgram != null) {
+//			mAutoProgram.start();
+//		} else
+//			System.out.println("No auto program started in switch statement");
 	}
 
 	@Override
@@ -185,7 +198,13 @@ public class Robot extends TimedRobot {
         	mAutoProgram.tick();
             DriveAuto.tick();
             DriveAuto.showEncoderValues();
+        	SmartDashboard.putNumber("Elapsed Time TICK", System.currentTimeMillis());
+
     	}
+    	
+    	System.out.println("in auto periodic");
+    	
+    	SmartDashboard.putNumber("Elapsed Time PERIOD ", System.currentTimeMillis());
     	
     	DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto P:", 0), SmartDashboard.getNumber("Drive I:", 0), SmartDashboard.getNumber("Auto D:", 0));
     	SmartDashboard.putNumber("Drive Error", DriveTrain.getAverageError());
