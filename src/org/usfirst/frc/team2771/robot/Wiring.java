@@ -15,7 +15,8 @@ public class Wiring {
 	/*
 	 * PDP PORTS
 	 */
-	public static final int CLAW_PDP_PORT = 7;
+	public static final int CLAW_PDP_PORT1 = 6;
+	public static final int CLAW_PDP_PORT2 = 7;
 	
 	/* 
 	 * PCM PORTS

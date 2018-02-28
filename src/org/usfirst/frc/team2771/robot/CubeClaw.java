@@ -19,7 +19,11 @@ public class CubeClaw {
 	private static TalonSRX arm;
 	private static DoubleSolenoid clawOpenCloseSolenoid;
 
-	private static CurrentBreaker currentBreaker;
+	private static CurrentBreaker currentBreaker1;
+	private static CurrentBreaker currentBreaker2;
+	
+	private static boolean holdingCube = false;
+	private static double ejectEndTime;
 	
 	public static CubeClaw getInstance() {
 		if (instance == null)
@@ -33,7 +37,9 @@ public class CubeClaw {
 		
 		rightRollers = new TalonSRX(Wiring.CUBE_CLAW_RIGHT_MOTOR);
 		
-		currentBreaker = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT, Calibration.CLAW_MAX_CURRENT, 2000, 2000); //These are not real numbers.
+		currentBreaker1 = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT1, Calibration.CLAW_MAX_CURRENT, 1000, 2000); // The 2000 is pretty much irrelevant
+		currentBreaker2 = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT2, Calibration.CLAW_MAX_CURRENT, 1000, 2000);
+		resetIntakeStallDetector();
 		
 		arm = new TalonSRX(Wiring.ARM_MOTOR);
 		arm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
@@ -65,11 +71,13 @@ public class CubeClaw {
 		arm.setSelectedSensorPosition(0, 0, 0);
 		
 		clawOpenCloseSolenoid = new DoubleSolenoid(Wiring.CLAW_PCM_PORTA, Wiring.CLAW_PCM_PORTB);
+		
+		ejectEndTime = aDistantFutureTime();
 
 	}
 	
 	/*
-	 * TICK ***********************************
+	 * TICK -----------------------------------------------
 	 */
 	public static void tick() {
 		
@@ -79,75 +87,106 @@ public class CubeClaw {
 		//arm.config_kP(0, (int)SmartDashboard.getNumber("MM Arm P", 0), 0);
 		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
 
-		if (currentBreaker.tripped()) {
-			System.out.println("breaker tripped " + currentBreaker.getCurrent());
+		if (intakeStalled() && !holdingCube) {
+			System.out.println("Intake stalled - switching to hold mode");
 			holdCube();
 			setArmScalePosition(); // pop up the arm so we know we have it.
 		}
+		
+		// this turns off the claw after starting an eject
+		if (System.currentTimeMillis() > ejectEndTime) {
+			System.out.println("Stopped ejecting");
+			stopIntake();
+			ejectEndTime = aDistantFutureTime();
+		}
 	}
-	public static void off() {
+	
+	// CONTROL METHODS ------------------------------------------------
+
+	public static void intakeCube() {
+		holdingCube = false;
+		closeClaw();
+		leftRollers.set(ControlMode.PercentOutput, 1);
+		rightRollers.set(ControlMode.PercentOutput, 1);
+		resetIntakeStallDetector();
+		ejectEndTime = aDistantFutureTime();
+	}
+
+	public static void holdCube() {
+		holdingCube = true;
+		
+		// with new claw, I don't think we need to do anything else
+//		leftRollers.set(ControlMode.PercentOutput, .02);
+//		rightRollers.set(ControlMode.PercentOutput, .02);
+//		closeClaw();
+	}
+	
+	public static void dropCube() {
+		holdingCube = false;
+		openClaw();	
+		resetIntakeStallDetector();
+	}
+	
+	public static void ejectCube() {
+		holdingCube = false;
+		resetIntakeStallDetector();
+		leftRollers.set(ControlMode.PercentOutput, -1.0);
+		rightRollers.set(ControlMode.PercentOutput, -1.0);
+		
+		ejectEndTime = System.currentTimeMillis() + 1000;  // give it one second to eject.
+	}
+	
+	public static void stopIntake() {
+		leftRollers.set(ControlMode.PercentOutput, 0);
+		rightRollers.set(ControlMode.PercentOutput, 0);
+		resetIntakeStallDetector();
+	}
+	
+	// CLAW PNEUMATICS ------------------------------------------------
+	private static void turnOffClawSolenoid() {
 		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
-	public static void open() {
+	private static void openClaw() {
 		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
-	public static void close() {
+	private static void closeClaw() {
 		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	
+	// ARM POSITIONING ------------------------------------------------
 	public static void setArmVerticalPosition() {
 		arm.set(ControlMode.MotionMagic, 0);
 	}
 	
 	public static void setArmHorizontalPosition() {
 		System.out.println("set arm horizontal");
-		arm.set(ControlMode.MotionMagic, 0); //0 for competition robot?
+		arm.set(ControlMode.MotionMagic, 0); 
 	}
 	
 	public static void setArmSwitchPosition() {
 		System.out.println("set arm switch");
-		//arm.set(ControlMode.MotionMagic, 672); //competition robot?
 		arm.set(ControlMode.MotionMagic, -1350);
 	}
 	
 	public static void setArmScalePosition() {
 		System.out.println("set arm scale");
-		arm.set(ControlMode.MotionMagic, -1500); //1000 Competition robot? 
+		arm.set(ControlMode.MotionMagic, -1500); 
 	}
 	
-	public static void armMove(double speed) {
-		System.out.println("calling for arm move " + speed);
-		arm.set(ControlMode.PercentOutput, speed);
+	public static void setArmOverTheTopPosition() {
+		System.out.println("set arm over the top");
+		arm.set(ControlMode.MotionMagic, -1500);
 	}
 	
-	public static void holdCube() {
-		leftRollers.set(ControlMode.PercentOutput, .02);
-		rightRollers.set(ControlMode.PercentOutput, .02);
-		close();
-		currentBreaker.reset();
+	// UTILITY METHODS ---------------------------------------------------------	
+	
+	public static boolean intakeStalled() {
+		return (currentBreaker1.tripped() || currentBreaker2.tripped());
 	}
 	
-	public static void intakeCube() {
-		close();
-		leftRollers.set(ControlMode.PercentOutput, 1);
-		rightRollers.set(ControlMode.PercentOutput, 1);
-		currentBreaker.reset();
-	}
-	
-	public static void dropCube() {
-		open();	
-		ejectCube();
-		currentBreaker.reset();
-	}
-	public static void ejectCube() {
-		currentBreaker.reset();
-		leftRollers.set(ControlMode.PercentOutput, -1.0);
-		rightRollers.set(ControlMode.PercentOutput, -1.0);
-	}
-	public static void stopIntake() {
-		leftRollers.set(ControlMode.PercentOutput, 0);
-		rightRollers.set(ControlMode.PercentOutput, 0);
-		currentBreaker.reset();
+	public static void resetIntakeStallDetector() {
+		currentBreaker1.reset();
+		currentBreaker2.reset();
 	}
 	
 	public static double getArmAbsolutePosition() {
@@ -159,7 +198,6 @@ public class CubeClaw {
 		arm.getSensorCollection().setQuadraturePosition(d, 500);
 	}
 	
-
 	/* 
 	 * Resets the arm encoder value relative to what we've 
 	 * determined to be the "zero" position. (the calibration values).
@@ -195,10 +233,20 @@ public class CubeClaw {
 			return (1 - calibrationZeroPosition) + currentPosition;
 		}
 	}
+	
+	private static double aDistantFutureTime() {
+		return System.currentTimeMillis() + 900000;  // 15 minutes in the future
+	}
 
 	/*
 	 * TEST METHODS
 	 */
+
+	public static void armMove(double speed) {
+		System.out.println("calling for arm move " + speed);
+		arm.set(ControlMode.PercentOutput, speed);
+	}
+	
 	public static void testIntakeCube(double speed) {
 		leftRollers.set(ControlMode.PercentOutput, speed);
 		rightRollers.set(ControlMode.PercentOutput, speed);
@@ -208,4 +256,6 @@ public class CubeClaw {
 		leftRollers.set(ControlMode.PercentOutput, -speed);
 		rightRollers.set(ControlMode.PercentOutput, -speed);
 	}
+	
+
 }

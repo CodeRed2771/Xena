@@ -56,7 +56,6 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 
-
     	SmartDashboard.putNumber("Robot Position", 1);
     	
 		compressor = new Compressor(0);
@@ -74,8 +73,19 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		
+		double driveYAxisAmount = gamepad.getSwerveYAxis();
 		
-		DriveTrain.fieldCentricDrive(gamepad.getSwerveYAxis(), -gamepad.getSwerveXAxis(), powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
+		if (Lift.driveCautionNeeded()) {
+			// limit the Y axis input to slow driving down
+			if (Math.abs(driveYAxisAmount) > .25) {
+				if (driveYAxisAmount < 0) 
+					driveYAxisAmount = -.25;
+				else
+					driveYAxisAmount = .25;
+			}
+		}
+		
+		DriveTrain.fieldCentricDrive(driveYAxisAmount, -gamepad.getSwerveXAxis(), powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
 		
 		if (gamepad.activateIntake()){  // 2 - right bumper
 			CubeClaw.intakeCube();  // this will transition to a "hold" when the current breaker is tripped
@@ -102,12 +112,10 @@ public class Robot extends TimedRobot {
 		
 		if (gamepad.getHID(0).getRawButton(1)) { // 1- A
 			CubeClaw.setArmHorizontalPosition();
-			//CubeClaw.close();
 		}
 		
 		if (gamepad.getHID(0).getRawButton(2)) { // 1 - B
 			CubeClaw.setArmScalePosition();
-			//CubeClaw.open();
 		}
 		
 		if (gamepad.getArmAxis() > .1 || gamepad.getArmAxis() < -.1){

@@ -106,4 +106,9 @@ public class Lift {
 	public static void stop(){
 		liftMotor.set(ControlMode.PercentOutput, 0);	
 	}
+	
+	// returns true if the lift is high enough that we should reduce drving speed
+	public static boolean driveCautionNeeded() {
+		return Math.abs(liftMotor.getSensorCollection().getPulseWidthPosition()) > 25000; 
+	}
 }
