@@ -41,6 +41,8 @@ public class Lift {
 		liftMotor.configPeakOutputForward(1, 0);
 		liftMotor.configPeakOutputReverse(-1, 0);
 		
+		liftMotor.configClosedloopRamp(.25, 0);
+		
 		/*set closed loop gains in slot0 - see documentation*/
 		liftMotor.selectProfileSlot(0, 0);
 		liftMotor.config_kF(0, 1, 0);
@@ -83,13 +85,13 @@ public class Lift {
 	}
 	public static  void goSwitch() {
 		//The switch is the little one.
-		liftMotor.set(ControlMode.MotionMagic, -4000); //TODO change the number to the correct height.
+		liftMotor.set(ControlMode.MotionMagic, -8000); 
 		System.out.println("Going to switch");
 	}
 	public static  void goLowScale() {
 		//The scale is the big one.
 		//The scale has three different positions, up, down, and level. It could be useful for autonomous.
-		liftMotor.set(ControlMode.MotionMagic, -39000); //TODO change the number to the correct height. 
+		liftMotor.set(ControlMode.MotionMagic, -39000); 
 	}
 	public static void goHighScale() {
 		liftMotor.set(ControlMode.MotionMagic, -39000);

@@ -37,6 +37,9 @@ public class CubeClaw {
 		
 		rightRollers = new TalonSRX(Wiring.CUBE_CLAW_RIGHT_MOTOR);
 		
+		leftRollers.configOpenloopRamp(.2, 0);
+		rightRollers.configOpenloopRamp(.2,0);
+		
 		currentBreaker1 = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT1, Calibration.CLAW_MAX_CURRENT, 250, 2000); // The 2000 is pretty much irrelevant
 		currentBreaker2 = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT2, Calibration.CLAW_MAX_CURRENT, 250, 2000);
 		resetIntakeStallDetector();
@@ -54,6 +57,8 @@ public class CubeClaw {
 		arm.configNominalOutputReverse(0, 0);
 		arm.configPeakOutputForward(1, 0);  
 		arm.configPeakOutputReverse(-1, 0);
+		
+		arm.configClosedloopRamp(.1, 0);
 		
 		arm.selectProfileSlot(0, 0);
 		arm.config_kF(0, 5, 0);

@@ -33,6 +33,7 @@ public class Module {
 		drive.config_IntegralZone(0, DRIVE_IZONE, 0);
 		drive.selectProfileSlot(0, 0);
 		
+		drive.configOpenloopRamp(.1, 0);
 		
 		turn = new WPI_TalonSRX(turnTalonID);
 	
@@ -47,6 +48,9 @@ public class Module {
 		turn.config_kD(0,  TURN_D, 0);
 		turn.config_IntegralZone(0, TURN_IZONE, 0);
 		turn.selectProfileSlot(0, 0);
+		
+		turn.configClosedloopRamp(.1, 0);
+		
 	}
 	
 	/**
