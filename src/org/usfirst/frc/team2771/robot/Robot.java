@@ -87,11 +87,14 @@ public class Robot extends TimedRobot {
 		
 		DriveTrain.fieldCentricDrive(driveYAxisAmount, -gamepad.getSwerveXAxis(), powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
 		
+		
+		
 		if (gamepad.activateIntake()){  // 2 - right bumper
 			CubeClaw.intakeCube();  // this will transition to a "hold" when the current breaker is tripped
 		}
 		
 		if (gamepad.dropCube()) { // 2 - left bumper
+			CubeClaw.stopIntake();
 			CubeClaw.dropCube();
 		}
 		
@@ -133,6 +136,14 @@ public class Robot extends TimedRobot {
 		
 		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1){  // 2 - left stick 
 			Lift.move(gamepad.manualLift());
+		}
+		
+		if (gamepad.ejectCube()){
+			CubeClaw.ejectCube();
+		}
+		
+		if (gamepad.overTheTop() && Lift.isOverTheTopHeight()){
+			CubeClaw.setArmOverTheTopPosition();
 		}
 
 		SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
@@ -219,6 +230,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		CubeClaw.resetArmEncoder();
 		Lift.stop();
 		CubeClaw.setArmSwitchPosition();
 
@@ -240,7 +252,11 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		DriveTrain.resetTurnEncoders();   // happens only once because a flag prevents multiple calls
 		DriveTrain.disablePID();
-		//CubeClaw.tick();
+		
+		//System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
+
+		CubeClaw.tick();
+		Lift.tick();
 	}
 
 	private double powerOf2PreserveSign(double v) {

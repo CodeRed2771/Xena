@@ -43,21 +43,21 @@ public class Lift {
 		
 		/*set closed loop gains in slot0 - see documentation*/
 		liftMotor.selectProfileSlot(0, 0);
-		liftMotor.config_kF(0, 0.2, 0);
-		liftMotor.config_kP(0, 0.2, 0);
+		liftMotor.config_kF(0, 1, 0);
+		liftMotor.config_kP(0, 1, 0);
 		liftMotor.config_kI(0, 0, 0);
 		liftMotor.config_kD(0, 0, 0);
 		
-		SmartDashboard.putNumber("MM Lift Velocity", 4000);
-		SmartDashboard.putNumber("MM Lift Acceleration", 3000);
+		SmartDashboard.putNumber("MM Lift Velocity", 3000);
+		SmartDashboard.putNumber("MM Lift Acceleration", 1500);
 		SmartDashboard.putNumber("Lift F", 1);
 		SmartDashboard.putNumber("Lift P", 1);
 		SmartDashboard.putNumber("Lift I", 0);
 		SmartDashboard.putNumber("Lif D", 0);
 		
 		/* set acceleration and vcruise velocity - see documentation*/
-		liftMotor.configMotionCruiseVelocity(4000, 0);
-		liftMotor.configMotionAcceleration(3000, 0);
+		liftMotor.configMotionCruiseVelocity(3000, 0);
+		liftMotor.configMotionAcceleration(1500, 0);
 		
 		/* zero the sensor */
 		liftMotor.setSelectedSensorPosition(0, 0, 0);
@@ -76,23 +76,23 @@ public class Lift {
 		liftMotor.config_kP(0, SmartDashboard.getNumber("Lift P", 1.0), 0);
 		liftMotor.config_kI(0, SmartDashboard.getNumber("Lift I", 0), 0);
 		liftMotor.config_kD(0, SmartDashboard.getNumber("Lift D", 0), 0);
-		SmartDashboard.putNumber("Lift Motor Encoder", liftMotor.getSensorCollection().getPulseWidthPosition());
+		SmartDashboard.putNumber("Lift Motor Encoder", liftMotor.getSensorCollection().getQuadraturePosition());
 	}
 	public static  void move(double speed) {
 		liftMotor.set(ControlMode.PercentOutput, speed);	
 	}
 	public static  void goSwitch() {
 		//The switch is the little one.
-		liftMotor.set(ControlMode.MotionMagic, -200); //TODO change the number to the correct height.
+		liftMotor.set(ControlMode.MotionMagic, -4000); //TODO change the number to the correct height.
 		System.out.println("Going to switch");
 	}
 	public static  void goLowScale() {
 		//The scale is the big one.
 		//The scale has three different positions, up, down, and level. It could be useful for autonomous.
-		liftMotor.set(ControlMode.MotionMagic, -40000); //TODO change the number to the correct height. 
+		liftMotor.set(ControlMode.MotionMagic, -39000); //TODO change the number to the correct height. 
 	}
 	public static void goHighScale() {
-		liftMotor.set(ControlMode.MotionMagic, -575);
+		liftMotor.set(ControlMode.MotionMagic, -39000);
 	}
 	public static void goStartPosition(){
 		liftMotor.set(ControlMode.MotionMagic, 5);
@@ -105,6 +105,10 @@ public class Lift {
 	}
 	public static void stop(){
 		liftMotor.set(ControlMode.PercentOutput, 0);	
+	}
+	
+	public static boolean isOverTheTopHeight(){
+		return (liftMotor.getSensorCollection().getQuadraturePosition() < -38000);
 	}
 	
 	// returns true if the lift is high enough that we should reduce drving speed

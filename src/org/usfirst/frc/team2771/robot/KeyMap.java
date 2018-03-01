@@ -26,7 +26,7 @@ public class KeyMap {
 
     
     // CONTROLLER 1
-    private final HID.Button clawOpenButton = LogitechF310.X;
+    //private final HID.Button clawOpenButton = LogitechF310.X;
     private final HID.Button gotoLiftFloor = LogitechF310.A;
     private final HID.Button gotoLiftSwitch = LogitechF310.B;
     private final HID.Button gotoLiftScale = LogitechF310.Y;
@@ -34,6 +34,8 @@ public class KeyMap {
     private final HID.Button dropCube = LogitechF310.BUMPER_LEFT;
     private final HID.Button lowGearButton = LogitechF310.BACK;
     private final HID.Button highGearButton = LogitechF310.START;
+    private final HID.Button ejectCube = LogitechF310.DPAD_UP;
+    private final HID.Button overTheTop = LogitechF310.X;
     
     //private final HID.Button clawCloseButton = LogitechF310.X;
     
@@ -77,10 +79,6 @@ public class KeyMap {
         return getHID(gamepad1).axis(swerveRotAxis);
     }
     
-    public boolean openClaw() {
-    	return getHID(gamepad2).button(this.clawOpenButton);
-    }
-    
     public boolean gotoLiftFloor(){
     	return getHID(gamepad2).button(gotoLiftFloor);
     }
@@ -111,5 +109,12 @@ public class KeyMap {
     
     public double manualLift(){
     	return getHID(gamepad2).axis(manualLiftAxis);
+    }
+    
+    public boolean ejectCube(){
+    	return getHID(gamepad2).button(ejectCube);
+    }
+    public boolean overTheTop(){
+    	return getHID(gamepad2).button(overTheTop);
     }
 }

@@ -37,11 +37,13 @@ public class CubeClaw {
 		
 		rightRollers = new TalonSRX(Wiring.CUBE_CLAW_RIGHT_MOTOR);
 		
-		currentBreaker1 = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT1, Calibration.CLAW_MAX_CURRENT, 1000, 2000); // The 2000 is pretty much irrelevant
-		currentBreaker2 = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT2, Calibration.CLAW_MAX_CURRENT, 1000, 2000);
+		currentBreaker1 = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT1, Calibration.CLAW_MAX_CURRENT, 250, 2000); // The 2000 is pretty much irrelevant
+		currentBreaker2 = new CurrentBreaker(null, Wiring.CLAW_PDP_PORT2, Calibration.CLAW_MAX_CURRENT, 250, 2000);
 		resetIntakeStallDetector();
 		
 		arm = new TalonSRX(Wiring.ARM_MOTOR);
+		//arm.setSensorPhase(true);
+		
 		arm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0);
 		arm.setSelectedSensorPosition(0, 0, 0);
 		
@@ -50,23 +52,23 @@ public class CubeClaw {
 		
 		arm.configNominalOutputForward(0, 0);
 		arm.configNominalOutputReverse(0, 0);
-		arm.configPeakOutputForward(.5, 0);  // changed to half power temporarily
-		arm.configPeakOutputReverse(-.5, 0);
+		arm.configPeakOutputForward(1, 0);  
+		arm.configPeakOutputReverse(-1, 0);
 		
 		arm.selectProfileSlot(0, 0);
-		arm.config_kF(0, 0.2, 0);
-		arm.config_kP(0, 0.5, 0);
+		arm.config_kF(0, 5, 0);
+		arm.config_kP(0, 5, 0);
 		arm.config_kI(0, 0, 0);
 		arm.config_kD(0, 0, 0);
 		
-		SmartDashboard.putNumber("MM Arm F", .2);
-		SmartDashboard.putNumber("MM Arm P", .5);
+		SmartDashboard.putNumber("MM Arm F", 5);
+		SmartDashboard.putNumber("MM Arm P", 5);
 		
-		SmartDashboard.putNumber("MM Arm Velocity", 30000);
-		SmartDashboard.putNumber("MM Arm Acceleration", 12000);
+		SmartDashboard.putNumber("MM Arm Velocity", 100);
+		SmartDashboard.putNumber("MM Arm Acceleration", 300);
 		
-		arm.configMotionCruiseVelocity(30000, 0);
-		arm.configMotionAcceleration(12000, 0);
+		arm.configMotionCruiseVelocity(100, 0);
+		arm.configMotionAcceleration(300, 0);
 		
 		arm.setSelectedSensorPosition(0, 0, 0);
 		
@@ -83,14 +85,15 @@ public class CubeClaw {
 		
 		arm.configMotionCruiseVelocity((int)SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
 		arm.configMotionAcceleration((int)SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
-		//arm.config_kF(0, (int)SmartDashboard.getNumber("MM Arm F", 0), 0);
-		//arm.config_kP(0, (int)SmartDashboard.getNumber("MM Arm P", 0), 0);
+		arm.config_kF(0, (int)SmartDashboard.getNumber("MM Arm F", 0), 0);
+		arm.config_kP(0, (int)SmartDashboard.getNumber("MM Arm P", 0), 0);
 		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
+		SmartDashboard.putNumber("Arm Relative Encoder ", arm.getSensorCollection().getQuadraturePosition());
 
 		if (intakeStalled() && !holdingCube) {
 			System.out.println("Intake stalled - switching to hold mode");
 			holdCube();
-			setArmScalePosition(); // pop up the arm so we know we have it.
+			setArmTravelPosition(); // pop up the arm so we know we have it.
 		}
 		
 		// this turns off the claw after starting an eject
@@ -104,21 +107,18 @@ public class CubeClaw {
 	// CONTROL METHODS ------------------------------------------------
 
 	public static void intakeCube() {
+		setArmHorizontalPosition();
 		holdingCube = false;
 		closeClaw();
-		leftRollers.set(ControlMode.PercentOutput, 1);
-		rightRollers.set(ControlMode.PercentOutput, 1);
+		leftRollers.set(ControlMode.PercentOutput, -.75);
+		rightRollers.set(ControlMode.PercentOutput, -.75);
 		resetIntakeStallDetector();
 		ejectEndTime = aDistantFutureTime();
 	}
 
 	public static void holdCube() {
 		holdingCube = true;
-		
-		// with new claw, I don't think we need to do anything else
-//		leftRollers.set(ControlMode.PercentOutput, .02);
-//		rightRollers.set(ControlMode.PercentOutput, .02);
-//		closeClaw();
+		stopIntake();
 	}
 	
 	public static void dropCube() {
@@ -130,8 +130,8 @@ public class CubeClaw {
 	public static void ejectCube() {
 		holdingCube = false;
 		resetIntakeStallDetector();
-		leftRollers.set(ControlMode.PercentOutput, -1.0);
-		rightRollers.set(ControlMode.PercentOutput, -1.0);
+		leftRollers.set(ControlMode.PercentOutput, 1.0);
+		rightRollers.set(ControlMode.PercentOutput, 1.0);
 		
 		ejectEndTime = System.currentTimeMillis() + 1000;  // give it one second to eject.
 	}
@@ -165,17 +165,22 @@ public class CubeClaw {
 	
 	public static void setArmSwitchPosition() {
 		System.out.println("set arm switch");
-		arm.set(ControlMode.MotionMagic, -1350);
+		arm.set(ControlMode.MotionMagic, -400);
 	}
 	
 	public static void setArmScalePosition() {
 		System.out.println("set arm scale");
-		arm.set(ControlMode.MotionMagic, -1500); 
+		arm.set(ControlMode.MotionMagic, -700); 
+	}
+	
+	public static void setArmTravelPosition() {
+		System.out.println("set arm travel");
+		arm.set(ControlMode.MotionMagic, -800);
 	}
 	
 	public static void setArmOverTheTopPosition() {
 		System.out.println("set arm over the top");
-		arm.set(ControlMode.MotionMagic, -1500);
+		arm.set(ControlMode.MotionMagic, -1200);
 	}
 	
 	// UTILITY METHODS ---------------------------------------------------------	
@@ -214,7 +219,8 @@ public class CubeClaw {
 		if (getInstance() == null) return;
 
 			double offSet = 0;
-		
+			int newArmEncoderValue = 0;
+			
 			arm.set(ControlMode.PercentOutput, 0); // turn off the motor while we're setting encoder
 			
 			// first find the current absolute position of the arm encoder
@@ -222,16 +228,15 @@ public class CubeClaw {
 			
 			// now use the difference between the current position and the calibration zero position
 			// to tell the encoder what the current relative position is (relative to the zero pos)
-			setArmEncPos((int) (calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO) * 4095d));
+			newArmEncoderValue = (int) (calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO) * 4095d);
+			setArmEncPos(newArmEncoderValue);
+			System.out.println("arm absolute " + offSet);
+			System.out.println("Setting arm encoder to " + newArmEncoderValue);
 
 	}
 
 	private static double calculatePositionDifference(double currentPosition, double calibrationZeroPosition) {
-		if (currentPosition - calibrationZeroPosition > 0) {
 			return currentPosition - calibrationZeroPosition;
-		} else {
-			return (1 - calibrationZeroPosition) + currentPosition;
-		}
 	}
 	
 	private static double aDistantFutureTime() {
