@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AutoLineToScale extends AutoBaseClass {
 	public AutoLineToScale(int robotPosition) {
 		super(robotPosition);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void tick() {
