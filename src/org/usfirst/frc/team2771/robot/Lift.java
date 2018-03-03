@@ -46,14 +46,14 @@ public class Lift {
 		/*set closed loop gains in slot0 - see documentation*/
 		liftMotor.selectProfileSlot(0, 0);
 		liftMotor.config_kF(0, 1, 0);
-		liftMotor.config_kP(0, 1, 0);
+		liftMotor.config_kP(0, .6, 0);
 		liftMotor.config_kI(0, 0, 0);
 		liftMotor.config_kD(0, 0, 0);
 		
 		SmartDashboard.putNumber("MM Lift Velocity", 3000);
 		SmartDashboard.putNumber("MM Lift Acceleration", 1500);
 		SmartDashboard.putNumber("Lift F", 1);
-		SmartDashboard.putNumber("Lift P", 1);
+		SmartDashboard.putNumber("Lift P", .6);
 		SmartDashboard.putNumber("Lift I", 0);
 		SmartDashboard.putNumber("Lif D", 0);
 		
@@ -91,10 +91,10 @@ public class Lift {
 	public static  void goLowScale() {
 		//The scale is the big one.
 		//The scale has three different positions, up, down, and level. It could be useful for autonomous.
-		liftMotor.set(ControlMode.MotionMagic, -39000); 
+		liftMotor.set(ControlMode.MotionMagic, -40000); 
 	}
 	public static void goHighScale() {
-		liftMotor.set(ControlMode.MotionMagic, -39000);
+		liftMotor.set(ControlMode.MotionMagic, -40000);
 	}
 	public static void goStartPosition(){
 		liftMotor.set(ControlMode.MotionMagic, 5);

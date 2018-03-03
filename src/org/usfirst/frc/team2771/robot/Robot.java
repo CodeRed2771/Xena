@@ -1,17 +1,19 @@
 
 package org.usfirst.frc.team2771.robot;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class Robot extends TimedRobot {
 
 	KeyMap gamepad;
-	Compressor compressor; 
+	Compressor compressor;
 	SendableChooser<String> autoChooser;
 	final String autoDriveDoubleDiamond = "Auto Drive Double Diamond";
 	final String autoRotateTest = "Auto Rotate Test";
@@ -33,36 +35,38 @@ public class Robot extends TimedRobot {
 		gamepad = new KeyMap();
 		RobotGyro.getInstance();
 		DriveTrain.getInstance();
+      	DriveAuto.getInstance();
 		CubeClaw.getInstance();
 		Lift.getInstance();
 
 		Calibration.loadSwerveCalibration();
 
-		RobotGyro.reset();  // this is also done in auto init in case it wasn't settled here yet
-		
-     	autoChooser = new SendableChooser<String>();
-      	autoChooser.addDefault(autoBaseLine, autoBaseLine);
-      	autoChooser.addObject(calibrateSwerveModules, calibrateSwerveModules);
-      	autoChooser.addObject(deleteSwerveCalibration, deleteSwerveCalibration);
-      	autoChooser.addObject(autoDriveDoubleDiamond, autoDriveDoubleDiamond);
-      	autoChooser.addObject(autoRotateTest, autoRotateTest);
-      	//autoChooser.addObject(autoCubeFollow, autoCubeFollow);
-      	autoChooser.addObject(autoSwitch, autoSwitch);
-    	autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
-      	autoChooser.addObject(autoScale, autoScale);
-      	autoChooser.addObject(autoTest, autoTest);
-  
+		RobotGyro.reset(); // this is also done in auto init in case it wasn't
+							// settled here yet
+
+		autoChooser = new SendableChooser<String>();
+		autoChooser.addDefault(autoBaseLine, autoBaseLine);
+		autoChooser.addObject(calibrateSwerveModules, calibrateSwerveModules);
+		autoChooser.addObject(deleteSwerveCalibration, deleteSwerveCalibration);
+		autoChooser.addObject(autoDriveDoubleDiamond, autoDriveDoubleDiamond);
+		autoChooser.addObject(autoRotateTest, autoRotateTest);
+		// autoChooser.addObject(autoCubeFollow, autoCubeFollow);
+		autoChooser.addObject(autoSwitch, autoSwitch);
+		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
+		autoChooser.addObject(autoScale, autoScale);
+		autoChooser.addObject(autoTest, autoTest);
+
 		SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
 		SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
 		SmartDashboard.putNumber("Auto D:", Calibration.AUTO_DRIVE_D);
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 
-    	SmartDashboard.putNumber("Robot Position", 1);
-    	
+		SmartDashboard.putNumber("Robot Position", 1);
+
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
-		
+
 		CubeClaw.resetArmEncoder();
 
 	}
@@ -74,171 +78,172 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		
+
 		double driveYAxisAmount = gamepad.getSwerveYAxis();
-		
+
 		if (Lift.driveCautionNeeded()) {
 			// limit the Y axis input to slow driving down
 			if (Math.abs(driveYAxisAmount) > .25) {
-				if (driveYAxisAmount < 0) 
+				if (driveYAxisAmount < 0)
 					driveYAxisAmount = -.25;
 				else
 					driveYAxisAmount = .25;
 			}
 		}
-		
-		DriveTrain.fieldCentricDrive(driveYAxisAmount, -gamepad.getSwerveXAxis(), powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
-		
-		
-		
-		if (gamepad.activateIntake()){  // 2 - right bumper
-			CubeClaw.intakeCube();  // this will transition to a "hold" when the current breaker is tripped
+
+		DriveTrain.fieldCentricDrive(driveYAxisAmount, -gamepad.getSwerveXAxis(),
+				powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
+
+		if (gamepad.activateIntake()) { // 2 - right bumper
+			CubeClaw.intakeCube(); // this will transition to a "hold" when the
+									// current breaker is tripped
 		}
-		
+
 		if (gamepad.dropCube()) { // 2 - left bumper
 			CubeClaw.stopIntake();
 			CubeClaw.dropCube();
 		}
-		
-		if (gamepad.gotoLiftFloor()){  // 2 - A
+
+		if (gamepad.gotoLiftFloor()) { // 2 - A
 			Lift.goStartPosition();
 			CubeClaw.setArmHorizontalPosition();
 		}
-		
-		if (gamepad.gotoLiftSwitch()){  // 2 - B
+
+		if (gamepad.gotoLiftSwitch()) { // 2 - B
 			CubeClaw.setArmSwitchPosition();
 			Lift.goSwitch();
 		}
-		
-		if (gamepad.gotoLiftScale()){  // 2 - Y
+
+		if (gamepad.gotoLiftScale()) { // 2 - Y
 			CubeClaw.setArmScalePosition();
 			Lift.goHighScale();
 		}
-		
+
 		if (gamepad.getHID(0).getRawButton(1)) { // 1- A
 			CubeClaw.setArmHorizontalPosition();
 		}
-		
+
 		if (gamepad.getHID(0).getRawButton(2)) { // 1 - B
 			CubeClaw.setArmScalePosition();
 		}
-		
-		if (gamepad.getArmAxis() > .1 || gamepad.getArmAxis() < -.1){
+
+		if (gamepad.getArmAxis() > .1 || gamepad.getArmAxis() < -.1) {
 			CubeClaw.armMove(gamepad.getArmAxis());
 		}
 
-		if (gamepad.goLowGear()) {  // 2 - Back
+		if (gamepad.goLowGear()) { // 2 - Back
 			Lift.setLowGear();
 		}
-		
+
 		if (gamepad.goHighGear()) { // 2 - start
 			Lift.setHighGear();
-			
+
 		}
-		
-		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1){  // 2 - left stick 
-			Lift.move(gamepad.manualLift());
+
+		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1) { // 2 -
+																		// left
+																		// stick
+			Lift.move(-gamepad.manualLift());
 		}
-		
-		if (gamepad.ejectCube()){
+
+		if (gamepad.ejectCube()) {
 			CubeClaw.ejectCube();
 		}
-		
-		if (gamepad.overTheTop() && Lift.isOverTheTopHeight()){
+
+		if (gamepad.overTheTop() && Lift.isOverTheTopHeight()) {
 			CubeClaw.setArmOverTheTopPosition();
 		}
 
 		SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
 		SmartDashboard.putNumber("Gyro Heading", RobotGyro.getAngle());
-		
+
 		Lift.tick();
 		CubeClaw.tick();
-		
+
 	}
-	
+
 	@Override
 	public void autonomousInit() {
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	int robotPosition = (int) SmartDashboard.getNumber("Robot Position",1);
-		
-    	RobotGyro.reset(); 
-		
-    	autoSelected = (String) autoChooser.getSelected();
+		int robotPosition = (int) SmartDashboard.getNumber("Robot Position", 1);
+
+		RobotGyro.reset();
+
+		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
 		SmartDashboard.putString("GameData", gameData);
 
-    	mAutoProgram = null;
-    	
-    	switch(autoSelected){
-    	    case autoDriveDoubleDiamond:
-        		mAutoProgram = new AutoCalibrateDrive(robotPosition);
-        		break;
-    	    case autoRotateTest:
-    	    	mAutoProgram = new AutoRotateTest(robotPosition);
-    	    	break;
-    	    case autoCalibrateDrive:
-    	    	mAutoProgram = new AutoCalibrateDrive(robotPosition);
-    	    	break;
-    	    case calibrateSwerveModules:
-    	    	double[] pos = DriveTrain.getAllAbsoluteTurnOrientations();
-    	    	Calibration.saveSwerveCalibration(pos[0], pos[1], pos[2], pos[3]);
-    	    	break;
-    	    case deleteSwerveCalibration:
-    	    	Calibration.resetSwerveDriveCalibration();
-    	    	break;
-    	    case autoSwitch:
-    	    	mAutoProgram = new AutoMainSwitchOrScale(robotPosition);
-        		break;
-    	    case autoScale:
-    	    	mAutoProgram = new AutoStartToScale(robotPosition);
-    	    	break;
-    	    case autoCubeFollow:
-    	    	mAutoProgram = new AutoCubeFollow(robotPosition);
-    	    	break;
-    	    case autoBaseLine:
-    	    	mAutoProgram = new AutoBaseLine(robotPosition);
-    	    	break;
-    	    case autoTest:
-    	    	mAutoProgram = new AutoCalibrateDrive(robotPosition);
-    	    	break;
-    	} 
+		mAutoProgram = null;
+
+		switch (autoSelected) {
+		case autoDriveDoubleDiamond:
+			mAutoProgram = new AutoCalibrateDrive(robotPosition);
+			break;
+		case autoRotateTest:
+			mAutoProgram = new AutoRotateTest(robotPosition);
+			break;
+		case autoCalibrateDrive:
+			mAutoProgram = new AutoCalibrateDrive(robotPosition);
+			break;
+		case calibrateSwerveModules:
+			double[] pos = DriveTrain.getAllAbsoluteTurnOrientations();
+			Calibration.saveSwerveCalibration(pos[0], pos[1], pos[2], pos[3]);
+			break;
+		case deleteSwerveCalibration:
+			Calibration.resetSwerveDriveCalibration();
+			break;
+		case autoSwitch:
+			mAutoProgram = new AutoMainSwitchOrScale(robotPosition);
+			break;
+		case autoScale:
+			mAutoProgram = new AutoStartToScale(robotPosition);
+			break;
+		case autoCubeFollow:
+			mAutoProgram = new AutoCubeFollow(robotPosition);
+			break;
+		case autoBaseLine:
+			mAutoProgram = new AutoBaseLine(robotPosition);
+			break;
+		case autoTest:
+			mAutoProgram = new AutoCalibrateDrive(robotPosition);
+			break;
+		}
 
 		DriveAuto.reset();
 		DriveTrain.setAllTurnOrientiation(0);
-		
+
 		System.out.println("end of auto init");
 
-//		if (mAutoProgram != null) {
-//			mAutoProgram.start();
-//		} else
-//			System.out.println("No auto program started in switch statement");
+		 if (mAutoProgram != null) {
+		 mAutoProgram.start();
+		 } else
+		 System.out.println("No auto program started in switch statement");
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 
-    	if (mAutoProgram != null) {
-        	mAutoProgram.tick();
-            DriveAuto.tick();
-            DriveAuto.showEncoderValues();
-        	SmartDashboard.putNumber("Elapsed Time TICK", System.currentTimeMillis());
+		if (mAutoProgram != null) {
+			mAutoProgram.tick();
+			DriveAuto.tick();
+			DriveAuto.showEncoderValues();
+			SmartDashboard.putNumber("Elapsed Time TICK", System.currentTimeMillis());
 
-    	}
-    	
-    	System.out.println("in auto periodic");
-    	
-    	SmartDashboard.putNumber("Elapsed Time PERIOD ", System.currentTimeMillis());
-    	
-    	DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto P:", 0), SmartDashboard.getNumber("Drive I:", 0), SmartDashboard.getNumber("Auto D:", 0));
-    	SmartDashboard.putNumber("Drive Error", DriveTrain.getAverageError());
+		}
+
+		SmartDashboard.putNumber("Elapsed Time PERIOD ", System.currentTimeMillis());
+
+		DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto P:", 0),
+				SmartDashboard.getNumber("Drive I:", 0), SmartDashboard.getNumber("Auto D:", 0));
+		
+		SmartDashboard.putNumber("Drive Error", DriveTrain.getAverageError());
 	}
 
 	@Override
 	public void teleopInit() {
 		CubeClaw.resetArmEncoder();
 		Lift.stop();
-		CubeClaw.setArmSwitchPosition();
-
+		CubeClaw.setArmTravelPosition();
 	}
 
 	@Override
@@ -250,21 +255,31 @@ public class Robot extends TimedRobot {
 	}
 
 	public void disabledInit() {
-		DriveTrain.allowTurnEncoderReset(); // allows the turn encoders to be reset once during disabled periodic
+		DriveTrain.allowTurnEncoderReset(); // allows the turn encoders to be
+											// reset once during disabled
+											// periodic
 		DriveTrain.resetDriveEncoders();
 	}
 
 	public void disabledPeriodic() {
-		DriveTrain.resetTurnEncoders();   // happens only once because a flag prevents multiple calls
+		DriveTrain.resetTurnEncoders(); // happens only once because a flag
+										// prevents multiple calls
 		DriveTrain.disablePID();
-		
-		//System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
+
+		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
+
+		// System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
 
 		CubeClaw.tick();
 		Lift.tick();
 	}
 
 	private double powerOf2PreserveSign(double v) {
-		return (v > 0 ) ? Math.pow(v, 2) : -Math.pow(v, 2);
+		return (v > 0) ? Math.pow(v, 2) : -Math.pow(v, 2);
+	}
+
+	private static Double round2(Double val) {
+		// added this back in on 1/15/18
+		return new BigDecimal(val.toString()).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }

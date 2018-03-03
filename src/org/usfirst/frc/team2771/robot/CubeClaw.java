@@ -175,17 +175,17 @@ public class CubeClaw {
 	
 	public static void setArmScalePosition() {
 		System.out.println("set arm scale");
-		arm.set(ControlMode.MotionMagic, -700); 
+		arm.set(ControlMode.MotionMagic, -800); 
 	}
 	
 	public static void setArmTravelPosition() {
 		System.out.println("set arm travel");
-		arm.set(ControlMode.MotionMagic, -800);
+		arm.set(ControlMode.MotionMagic, -850);
 	}
 	
 	public static void setArmOverTheTopPosition() {
 		System.out.println("set arm over the top");
-		arm.set(ControlMode.MotionMagic, -1200);
+		arm.set(ControlMode.MotionMagic, -1300);
 	}
 	
 	// UTILITY METHODS ---------------------------------------------------------	

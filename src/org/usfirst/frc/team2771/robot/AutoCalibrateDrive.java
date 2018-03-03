@@ -16,7 +16,7 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 
 			switch (getCurrentStep()) {
 			case 0:
-				setTimerAndAdvanceStep(2000);
+				setTimerAndAdvanceStep(3000);
 				driveInches(50,0,1);
 				break;
 			case 1:

@@ -52,7 +52,7 @@ public class Calibration {
 	public final static double DT_ROT_PID_D= .000;
 	public final static double DT_ROT_PID_IZONE = 18;
 
-	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 32.313;
+	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 32.800;
 	
 	public static final double AUTO_ROT_P = 0.03; // increased from .022 on 3/20/17 dvv
 	public static final double AUTO_ROT_I = 0;
@@ -65,7 +65,7 @@ public class Calibration {
 	
 	public static final double CLAW_MAX_CURRENT = 17;
 	
-	public static final double ARM_ABS_ZERO = 0.628;  // Absolute encoder value in horizontal position
+	public static final double ARM_ABS_ZERO = 0.551;  // Absolute encoder value in horizontal position
 
 	public static void loadSwerveCalibration() {
 		File calibrationFile = new File("/home/lvuser/swerve.calibration");
