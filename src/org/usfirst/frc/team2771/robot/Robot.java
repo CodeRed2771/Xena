@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
 	final String autoScale = "Auto Scale";
 	final String autoSwitchToScale = "Auto Switch to Scale";
 	final String autoTest = "Auto Test";
+	final String autoCalibrateDrive = "Auto Calibrate Drive";
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
 
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
       	autoChooser.addObject(autoRotateTest, autoRotateTest);
       	//autoChooser.addObject(autoCubeFollow, autoCubeFollow);
       	autoChooser.addObject(autoSwitch, autoSwitch);
+    	autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
       	autoChooser.addObject(autoScale, autoScale);
       	autoChooser.addObject(autoTest, autoTest);
   
@@ -174,6 +176,9 @@ public class Robot extends TimedRobot {
     	    case autoRotateTest:
     	    	mAutoProgram = new AutoRotateTest(robotPosition);
     	    	break;
+    	    case autoCalibrateDrive:
+    	    	mAutoProgram = new AutoCalibrateDrive(robotPosition);
+    	    	break;
     	    case calibrateSwerveModules:
     	    	double[] pos = DriveTrain.getAllAbsoluteTurnOrientations();
     	    	Calibration.saveSwerveCalibration(pos[0], pos[1], pos[2], pos[3]);
@@ -182,7 +187,7 @@ public class Robot extends TimedRobot {
     	    	Calibration.resetSwerveDriveCalibration();
     	    	break;
     	    case autoSwitch:
-    	    	mAutoProgram = new AutoMainSwitch(robotPosition);
+    	    	mAutoProgram = new AutoMainSwitchOrScale(robotPosition);
         		break;
     	    case autoScale:
     	    	mAutoProgram = new AutoStartToScale(robotPosition);

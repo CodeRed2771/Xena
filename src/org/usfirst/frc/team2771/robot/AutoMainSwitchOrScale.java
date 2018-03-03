@@ -2,10 +2,10 @@ package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoMainSwitch extends AutoBaseClass {
+public class AutoMainSwitchOrScale extends AutoBaseClass {
 	AutoBaseClass mAutoSubroutine;
 
-	public AutoMainSwitch(int robotPosition) {
+	public AutoMainSwitchOrScale(int robotPosition) {
 		super(robotPosition);
 	}
 
