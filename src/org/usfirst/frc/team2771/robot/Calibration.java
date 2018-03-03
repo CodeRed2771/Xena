@@ -25,7 +25,7 @@ public class Calibration {
 	// Physical Module - B
 	public final static int DT_B_DRIVE_TALON_ID = 3;
 	public final static int DT_B_TURN_TALON_ID = 4;
-	private final static double DT_B_ABS_ZERO_INITIAL =.135; //Practice Robot Calibration
+	private final static double DT_B_ABS_ZERO_INITIAL = .166; //Practice Robot Calibration
 	//private final static double DT_B_ABS_ZERO_INITIAL = .2295;
 	private static double DT_B_ABS_ZERO = DT_B_ABS_ZERO_INITIAL;
 	public static double GET_DT_B_ABS_ZERO() { return DT_B_ABS_ZERO; }
@@ -65,7 +65,7 @@ public class Calibration {
 	
 	public static final double CLAW_MAX_CURRENT = 17;
 	
-	public static final double ARM_ABS_ZERO = 0.048;  // Absolute encoder value in horizontal position
+	public static final double ARM_ABS_ZERO = 0.628;  // Absolute encoder value in horizontal position
 
 	public static void loadSwerveCalibration() {
 		File calibrationFile = new File("/home/lvuser/swerve.calibration");
