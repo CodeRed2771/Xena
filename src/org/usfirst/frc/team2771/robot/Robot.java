@@ -16,6 +16,7 @@ public class Robot extends TimedRobot {
 	Compressor compressor;
 	SendableChooser<String> autoChooser;
 	final String autoDriveDoubleDiamond = "Auto Drive Double Diamond";
+	final String autoCenterSwitch = "Auto Center Switch";
 	final String autoRotateTest = "Auto Rotate Test";
 	final String calibrateSwerveModules = "Calibrate Swerve Modules";
 	final String deleteSwerveCalibration = "Delete Swerve Calibration";
@@ -53,6 +54,7 @@ public class Robot extends TimedRobot {
 		// autoChooser.addObject(autoCubeFollow, autoCubeFollow);
 		autoChooser.addObject(autoSwitch, autoSwitch);
 		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
+		autoChooser.addObject(autoCenterSwitch, autoCenterSwitch);
 		autoChooser.addObject(autoScale, autoScale);
 		autoChooser.addObject(autoTest, autoTest);
 
@@ -95,6 +97,8 @@ public class Robot extends TimedRobot {
 				powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
 
 		if (gamepad.activateIntake()) { // 2 - right bumper
+			CubeClaw.setArmHorizontalPosition();
+			Lift.goStartPosition();
 			CubeClaw.intakeCube(); // this will transition to a "hold" when the
 									// current breaker is tripped
 		}
@@ -178,6 +182,9 @@ public class Robot extends TimedRobot {
 		switch (autoSelected) {
 		case autoDriveDoubleDiamond:
 			mAutoProgram = new AutoCalibrateDrive(robotPosition);
+			break;
+		case autoCenterSwitch:
+			mAutoProgram = new AutoMainCenterSwitch(robotPosition);
 			break;
 		case autoRotateTest:
 			mAutoProgram = new AutoRotateTest(robotPosition);

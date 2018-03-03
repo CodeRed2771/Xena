@@ -70,7 +70,7 @@ public class CubeClaw {
 		SmartDashboard.putNumber("MM Arm P", 5);
 		
 		SmartDashboard.putNumber("MM Arm Velocity", 100);
-		SmartDashboard.putNumber("MM Arm Acceleration", 300);
+		SmartDashboard.putNumber("MM Arm Acceleration", 200);
 		
 		arm.configMotionCruiseVelocity(100, 0);
 		arm.configMotionAcceleration(300, 0);
@@ -135,8 +135,8 @@ public class CubeClaw {
 	public static void ejectCube() {
 		holdingCube = false;
 		resetIntakeStallDetector();
-		leftRollers.set(ControlMode.PercentOutput, 1.0);
-		rightRollers.set(ControlMode.PercentOutput, 1.0);
+		leftRollers.set(ControlMode.PercentOutput, .8);
+		rightRollers.set(ControlMode.PercentOutput, .8);
 		
 		ejectEndTime = System.currentTimeMillis() + 1000;  // give it one second to eject.
 	}
