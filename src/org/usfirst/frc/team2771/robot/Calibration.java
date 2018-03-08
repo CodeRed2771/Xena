@@ -65,7 +65,7 @@ public class Calibration {
 	
 	public static final double CLAW_MAX_CURRENT = 17;
 	
-	public static final double ARM_ABS_ZERO = 0.613;  // Absolute encoder value in horizontal position
+	public static final double ARM_ABS_ZERO = 0.712;  // Absolute encoder value in horizontal position
 
 	public static void loadSwerveCalibration() {
 		File calibrationFile = new File("/home/lvuser/swerve.calibration");

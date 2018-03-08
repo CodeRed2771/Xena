@@ -42,8 +42,6 @@ public class Robot extends TimedRobot {
 
 		Calibration.loadSwerveCalibration();
 
-		RobotGyro.reset(); // this is also done in auto init in case it wasn't
-							// settled here yet
 
 		autoChooser = new SendableChooser<String>();
 		autoChooser.addDefault(autoBaseLine, autoBaseLine);
@@ -70,6 +68,9 @@ public class Robot extends TimedRobot {
 		compressor.setClosedLoopControl(true);
 
 		CubeClaw.resetArmEncoder();
+		
+		RobotGyro.reset(); // this is also done in auto init in case it wasn't
+		// settled here yet
 
 	}
 
@@ -98,7 +99,6 @@ public class Robot extends TimedRobot {
 
 		if (gamepad.activateIntake()) { // 2 - right bumper
 			CubeClaw.setArmHorizontalPosition();
-			Lift.goStartPosition();
 			CubeClaw.intakeCube(); // this will transition to a "hold" when the
 									// current breaker is tripped
 		}
@@ -107,20 +107,34 @@ public class Robot extends TimedRobot {
 			CubeClaw.stopIntake();
 			CubeClaw.dropCube();
 		}
-
-		if (gamepad.gotoLiftFloor()) { // 2 - A
+		
+		if (gamepad.armLiftModifier()) {
+			System.out.println("arm modifier pressed");
+		}
+		if (gamepad.armLiftModifier() && gamepad.gotoLiftFloor()) {
+			System.out.println("pickup high cube position");
+			Lift.goLowScale();
+			CubeClaw.setArmHorizontalPosition();
+		} else if (gamepad.gotoLiftFloor()) { // 2 - A
+			CubeClaw.stopIntake();
 			Lift.goStartPosition();
 			CubeClaw.setArmHorizontalPosition();
 		}
 
 		if (gamepad.gotoLiftSwitch()) { // 2 - B
+			CubeClaw.stopIntake();
 			CubeClaw.setArmSwitchPosition();
 			Lift.goSwitch();
 		}
 
 		if (gamepad.gotoLiftScale()) { // 2 - Y
+			CubeClaw.stopIntake();
 			CubeClaw.setArmScalePosition();
 			Lift.goHighScale();
+		}
+		
+		if(gamepad.goToTravelPosition()){
+			CubeClaw.setArmTravelPosition();
 		}
 
 		if (gamepad.getHID(0).getRawButton(1)) { // 1- A
@@ -128,7 +142,7 @@ public class Robot extends TimedRobot {
 		}
 
 		if (gamepad.getHID(0).getRawButton(2)) { // 1 - B
-			CubeClaw.setArmScalePosition();
+			CubeClaw.setArmTravelPosition();
 		}
 
 		if (gamepad.getArmAxis() > .1 || gamepad.getArmAxis() < -.1) {

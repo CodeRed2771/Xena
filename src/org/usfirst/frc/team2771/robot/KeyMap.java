@@ -17,6 +17,9 @@ public class KeyMap {
     private final HID.Axis swerveXAxis = LogitechF310.STICK_LEFT_X;
     private final HID.Axis swerveYAxis = LogitechF310.STICK_LEFT_Y;
     private final HID.Axis swerveRotAxis = LogitechF310.STICK_RIGHT_X;
+    
+    private final HID.Button lowGearButton = LogitechF310.BACK;
+    private final HID.Button highGearButton = LogitechF310.START;
    
     
     private final HID.Axis manualLiftAxis = LogitechF310.STICK_LEFT_Y;
@@ -32,11 +35,11 @@ public class KeyMap {
     private final HID.Button gotoLiftScale = LogitechF310.Y;
     private final HID.Button activateIntake = LogitechF310.BUMPER_RIGHT;
     private final HID.Button dropCube = LogitechF310.BUMPER_LEFT;
-    private final HID.Button lowGearButton = LogitechF310.BACK;
-    private final HID.Button highGearButton = LogitechF310.START;
     private final HID.Button ejectCube = LogitechF310.DPAD_UP;
     private final HID.Button overTheTop = LogitechF310.X;
-    
+    private final HID.Button goToTravelPosition = LogitechF310.START;
+    private final HID.Button armLiftModifier = LogitechF310.DPAD_LEFT;
+    		
     //private final HID.Button clawCloseButton = LogitechF310.X;
     
     
@@ -100,11 +103,11 @@ public class KeyMap {
     }
     
     public boolean goLowGear() {
-    	return getHID(gamepad2).button(lowGearButton);
+    	return getHID(gamepad1).button(lowGearButton);
     }
     
     public boolean goHighGear() {
-    	return getHID(gamepad2).button(highGearButton);
+    	return getHID(gamepad1).button(highGearButton);
     }
     
     public double manualLift(){
@@ -116,5 +119,11 @@ public class KeyMap {
     }
     public boolean overTheTop(){
     	return getHID(gamepad2).button(overTheTop);
+    }
+    public boolean goToTravelPosition(){
+    	return getHID(gamepad2).button(goToTravelPosition);
+    }
+    public boolean armLiftModifier() {
+    	return getHID(gamepad2).button(armLiftModifier);
     }
 }

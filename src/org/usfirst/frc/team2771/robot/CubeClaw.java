@@ -60,6 +60,12 @@ public class CubeClaw {
 		
 		arm.configClosedloopRamp(.1, 0);
 		
+		// added this in 3/7/18 to try to protect the arm
+		arm.configPeakCurrentLimit(24, 10); 
+		arm.configPeakCurrentDuration(200, 10);
+		arm.configContinuousCurrentLimit(17, 10); 
+		arm.enableCurrentLimit(true);
+		
 		arm.selectProfileSlot(0, 0);
 		arm.config_kF(0, 5, 0);
 		arm.config_kP(0, 5, 0);
@@ -69,10 +75,10 @@ public class CubeClaw {
 		SmartDashboard.putNumber("MM Arm F", 5);
 		SmartDashboard.putNumber("MM Arm P", 5);
 		
-		SmartDashboard.putNumber("MM Arm Velocity", 100);
-		SmartDashboard.putNumber("MM Arm Acceleration", 200);
+		SmartDashboard.putNumber("MM Arm Velocity", 300);
+		SmartDashboard.putNumber("MM Arm Acceleration", 300);
 		
-		arm.configMotionCruiseVelocity(100, 0);
+		arm.configMotionCruiseVelocity(300, 0);
 		arm.configMotionAcceleration(300, 0);
 		
 		arm.setSelectedSensorPosition(0, 0, 0);
@@ -159,9 +165,6 @@ public class CubeClaw {
 	}
 	
 	// ARM POSITIONING ------------------------------------------------
-	public static void setArmVerticalPosition() {
-		arm.set(ControlMode.MotionMagic, 0);
-	}
 	
 	public static void setArmHorizontalPosition() {
 		System.out.println("set arm horizontal");
@@ -170,22 +173,22 @@ public class CubeClaw {
 	
 	public static void setArmSwitchPosition() {
 		System.out.println("set arm switch");
-		arm.set(ControlMode.MotionMagic, -400);
+		arm.set(ControlMode.MotionMagic, -745);
 	}
 	
 	public static void setArmScalePosition() {
 		System.out.println("set arm scale");
-		arm.set(ControlMode.MotionMagic, -800); 
+		arm.set(ControlMode.MotionMagic, -900); 
 	}
 	
 	public static void setArmTravelPosition() {
 		System.out.println("set arm travel");
-		arm.set(ControlMode.MotionMagic, -850);
+		arm.set(ControlMode.MotionMagic, -1819);
 	}
 	
 	public static void setArmOverTheTopPosition() {
 		System.out.println("set arm over the top");
-		arm.set(ControlMode.MotionMagic, -1300);
+		arm.set(ControlMode.MotionMagic, -3000);
 	}
 	
 	// UTILITY METHODS ---------------------------------------------------------	

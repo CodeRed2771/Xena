@@ -40,6 +40,7 @@ public class Lift {
 		liftMotor.configNominalOutputReverse(0, 0);
 		liftMotor.configPeakOutputForward(1, 0);
 		liftMotor.configPeakOutputReverse(-1, 0);
+		liftMotor.setNeutralMode(NeutralMode.Brake);
 		
 		liftMotor.configClosedloopRamp(.25, 0);
 		
@@ -85,7 +86,7 @@ public class Lift {
 	}
 	public static  void goSwitch() {
 		//The switch is the little one.
-		liftMotor.set(ControlMode.MotionMagic, -8000); 
+		liftMotor.set(ControlMode.MotionMagic, -11000); 
 		System.out.println("Going to switch");
 	}
 	public static  void goLowScale() {
