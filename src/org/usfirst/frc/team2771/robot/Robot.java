@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
 		}
 		if (gamepad.armLiftModifier() && gamepad.gotoLiftFloor()) {
 			System.out.println("pickup high cube position");
-			Lift.goLowScale();
+			Lift.goPortalPosition();
 			CubeClaw.setArmHorizontalPosition();
 		} else if (gamepad.gotoLiftFloor()) { // 2 - A
 			CubeClaw.stopIntake();
@@ -121,7 +121,10 @@ public class Robot extends TimedRobot {
 			CubeClaw.setArmHorizontalPosition();
 		}
 
-		if (gamepad.gotoLiftSwitch()) { // 2 - B
+		if (gamepad.armLiftModifier() && gamepad.gotoLiftSwitch()) {
+			Lift.goPickSecondCubePosition();
+			CubeClaw.setArmHorizontalPosition();
+		} else if (gamepad.gotoLiftSwitch()) { // 2 - B
 			CubeClaw.stopIntake();
 			CubeClaw.setArmSwitchPosition();
 			Lift.goSwitch();

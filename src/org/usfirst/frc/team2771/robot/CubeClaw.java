@@ -141,8 +141,8 @@ public class CubeClaw {
 	public static void ejectCube() {
 		holdingCube = false;
 		resetIntakeStallDetector();
-		leftRollers.set(ControlMode.PercentOutput, .8);
-		rightRollers.set(ControlMode.PercentOutput, .8);
+		leftRollers.set(ControlMode.PercentOutput, .7);
+		rightRollers.set(ControlMode.PercentOutput, .7);
 		
 		ejectEndTime = System.currentTimeMillis() + 1000;  // give it one second to eject.
 	}
@@ -188,7 +188,7 @@ public class CubeClaw {
 	
 	public static void setArmOverTheTopPosition() {
 		System.out.println("set arm over the top");
-		arm.set(ControlMode.MotionMagic, -3000);
+		arm.set(ControlMode.MotionMagic, -3300);
 	}
 	
 	// UTILITY METHODS ---------------------------------------------------------	

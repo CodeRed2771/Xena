@@ -100,6 +100,12 @@ public class Lift {
 	public static void goStartPosition(){
 		liftMotor.set(ControlMode.MotionMagic, 5);
 	}
+	public static void goPortalPosition() {
+		liftMotor.set(ControlMode.MotionMagic, -2000);
+	}
+	public static void goPickSecondCubePosition() {
+		liftMotor.set(ControlMode.MotionMagic, -6000);
+	}
 	public static void setLowGear() {
 		shifterSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
