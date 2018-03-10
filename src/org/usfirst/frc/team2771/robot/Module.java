@@ -34,7 +34,10 @@ public class Module {
 		drive.selectProfileSlot(0, 0);
 		
 		drive.configOpenloopRamp(.1, 0);
-		drive.configClosedloopRamp(.75, 0);
+		drive.configClosedloopRamp(.1, 0);
+		
+		drive.configMotionCruiseVelocity(Calibration.DT_MM_VELOCITY, 0);
+		drive.configMotionAcceleration(Calibration.DT_MM_ACCEL, 0);
 		
 		turn = new WPI_TalonSRX(turnTalonID);
 	
@@ -52,6 +55,14 @@ public class Module {
 		
 		turn.configClosedloopRamp(.1, 0);
 		
+	}
+	
+	public void setDriveMMAccel(int accel) {
+		drive.configMotionAcceleration(accel, 0);
+	}
+	
+	public void setDriveMMVelocity(int velocity) {
+		drive.configMotionCruiseVelocity(velocity, 0);
 	}
 	
 	/**
@@ -124,7 +135,7 @@ public class Module {
 	}
 	
 	public void setDrivePIDToSetPoint(double setpoint) {
-		drive.set(ControlMode.Position, setpoint);
+		drive.set(ControlMode.MotionMagic, setpoint);
 	}
 	
 	public void setTurnPIDToSetPoint(double setpoint) {

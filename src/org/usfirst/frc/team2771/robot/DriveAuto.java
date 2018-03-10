@@ -39,6 +39,9 @@ public class DriveAuto {
 		SmartDashboard.putNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P);
 		SmartDashboard.putNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I);
 		SmartDashboard.putNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D);
+		
+		SmartDashboard.putNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY);
+		SmartDashboard.putNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL);
 
 	}
 
@@ -53,7 +56,7 @@ public class DriveAuto {
 
 		SmartDashboard.putNumber("DRIVE INCHES", inches);
 
-		setPowerOutput(curPowerSetting);
+		setPowerOutput(curPowerSetting); //not used
 		SmartDashboard.putNumber("Speed Called For", curPowerSetting);
 
 		rotDrivePID.disable();
@@ -150,6 +153,10 @@ public class DriveAuto {
 		rotDrivePID.setPID(SmartDashboard.getNumber("ROT P", Calibration.AUTO_ROT_P),
 				SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I),
 				SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
+		
+		DriveTrain.setDriveMMAccel((int) SmartDashboard.getNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL));
+		DriveTrain.setDriveMMVelocity((int) SmartDashboard.getNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY));
+			
 	}
 
 	private static void setPowerOutput(double powerLevel) {
@@ -166,7 +173,7 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-		return false;
+		return (Math.abs(DriveTrain.getDriveError()) < 100);
 	}
 
 	public static boolean turnCompleted() {
