@@ -26,31 +26,49 @@ public class AutoMainSwitchOrScale extends AutoBaseClass {
 					break;
 				}
 			} else {
-
-				SmartDashboard.putNumber("Auto Base Step", getCurrentStep());
-
-				switch (getCurrentStep()) {
-				case 0:
-					mAutoSubroutine = new AutoStartToSwitch(this.robotPosition());
-					mAutoSubroutine.start();
-					advanceStep();
-					break;
-				case 1:
-					if (mAutoSubroutine.hasCompleted())
-						advanceStep();
-					break;
-				case 2:
-					mAutoSubroutine = new AutoSwitchPlaceCube(this.robotPosition());
-					mAutoSubroutine.start();
-					advanceStep();
-					break;
-				case 3:
-					if (mAutoSubroutine.hasCompleted())
-						stop();
-					break;
-				case 4:
-					break;
+				if (robotPosition() == 1) {
+					if (this.isSwitchRight()) {
+						switch (getCurrentStep()) {
+						case 0:
+							mAutoSubroutine = new AutoStartToSwitch(this.robotPosition());
+							mAutoSubroutine.start();
+							break;
+						case 3:
+							if (mAutoSubroutine.hasCompleted())
+								stop();
+							break;
+						case 4:
+							break;
+						}
+					} else if (this.isScaleRight()) {
+						switch (getCurrentStep()) {
+						case 0:
+							mAutoSubroutine = new AutoStartToScale(this.robotPosition());
+							mAutoSubroutine.start();
+							break;
+						case 3:
+							if (mAutoSubroutine.hasCompleted())
+								stop();
+							break;
+						case 4:
+							break;
+						}
+					} else {
+						switch (getCurrentStep()) {
+						case 0:
+							mAutoSubroutine = new AutoBaseLine(this.robotPosition());
+							mAutoSubroutine.start();
+							break;
+						case 3:
+							if (mAutoSubroutine.hasCompleted())
+								stop();
+							break;
+						case 4:
+							break;
+						}
+					}
 				}
+				SmartDashboard.putNumber("Auto Base Step", getCurrentStep());
 			}
 		}
 
