@@ -158,6 +158,15 @@ public class DriveTrain implements PIDOutput {
 		moduleD.resetDriveEnc();
 	}
 
+	public static void stopDriveAndTurnMotors() {
+		if (getInstance() == null) return;
+
+		moduleA.stopDriveAndTurnMotors();
+		moduleB.stopDriveAndTurnMotors();
+		moduleC.stopDriveAndTurnMotors();
+		moduleD.stopDriveAndTurnMotors();
+	}
+	
 	public static void stopDrive() {
 		if (getInstance() == null) return;
 
