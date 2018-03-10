@@ -128,6 +128,7 @@ public class CubeClaw {
 	}
 
 	public static void holdCube() {
+		closeClaw(); // makes sure the claw is closed (esp in auto)
 		holdingCube = true;
 		stopIntake();
 	}
