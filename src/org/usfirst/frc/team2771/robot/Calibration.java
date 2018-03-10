@@ -17,7 +17,7 @@ public class Calibration {
 	//Physical Module - A
 	public final static int DT_A_DRIVE_TALON_ID = 6;
 	public final static int DT_A_TURN_TALON_ID = 5;
-	private final static double DT_A_ABS_ZERO_INITIAL = .402; //Practice Robot Calibration
+	private final static double DT_A_ABS_ZERO_INITIAL = .401; //Practice Robot Calibration
 	//private final static double DT_A_ABS_ZERO_INITIAL = .388766788766;
 	private static double DT_A_ABS_ZERO = DT_A_ABS_ZERO_INITIAL;
 	public static double GET_DT_A_ABS_ZERO() { return DT_A_ABS_ZERO; }
@@ -33,7 +33,7 @@ public class Calibration {
 	// Physical Module - C
 	public final static int DT_C_DRIVE_TALON_ID = 7;
 	public final static int DT_C_TURN_TALON_ID = 8;
-	private final static double DT_C_ABS_ZERO_INITIAL =.324; //Practice Robot Calibration
+	private final static double DT_C_ABS_ZERO_INITIAL =.350; //Practice Robot Calibration
 	//private final static double DT_C_ABS_ZERO_INITIAL = .455189255189;
 	private static double DT_C_ABS_ZERO = DT_C_ABS_ZERO_INITIAL;
 	public static double GET_DT_C_ABS_ZERO() { return DT_C_ABS_ZERO; }
@@ -52,7 +52,7 @@ public class Calibration {
 	public final static double DT_ROT_PID_D= .000;
 	public final static double DT_ROT_PID_IZONE = 18;
 
-	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 32.800;
+	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 35.600; //2624 ticks in 80 inches, goes 2,427.2
 	
 	public static final double AUTO_ROT_P = 0.03; // increased from .022 on 3/20/17 dvv
 	public static final double AUTO_ROT_I = 0;
@@ -65,7 +65,7 @@ public class Calibration {
 	
 	public static final double CLAW_MAX_CURRENT = 17;
 	
-	public static final double ARM_ABS_ZERO = 0.712;  // Absolute encoder value in horizontal position
+	public static final double ARM_ABS_ZERO = 0.728;  // Absolute encoder value in horizontal position
 
 	public static void loadSwerveCalibration() {
 		File calibrationFile = new File("/home/lvuser/swerve.calibration");

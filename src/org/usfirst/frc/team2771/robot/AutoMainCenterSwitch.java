@@ -18,9 +18,9 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			case 0:
 				setTimerAndAdvanceStep(3000);
 				if (isScaleLeft()) {
-					driveInches(80, -25,.3);
+					driveInches(80, -25, .1);
 				} else {
-					driveInches(80, 25, .3);
+					driveInches(80, 25, 1);
 				}
 				Lift.goSwitch(); 
 				CubeClaw.setArmSwitchPosition();

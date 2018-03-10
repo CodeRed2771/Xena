@@ -18,11 +18,8 @@ public class AutoBaseLine extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(6000);
-				driveInches(160, 0, .1);
-				break;
-			case 1:
-				if (driveCompleted())
-					advanceStep();
+				driveInches(80, -90, .1);
+			
 				break;
 			case 2:
 				stop();

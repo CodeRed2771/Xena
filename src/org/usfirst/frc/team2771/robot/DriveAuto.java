@@ -65,10 +65,11 @@ public class DriveAuto {
 		SmartDashboard.putNumber("DRIVE INCHES", inches);
 
 		setPowerOutput(curPowerSetting);
+		SmartDashboard.putNumber("Speed Called For", curPowerSetting);
 
 		rotDrivePID.disable();
 
-		DriveTrain.setAllTurnOrientiation(-DriveTrain.angleToLoc(angle));
+		DriveTrain.setAllTurnOrientiation(-DriveTrain.angleToLoc(strafeAngle)); // angle at which the wheels turn
 
 		DriveTrain.setAllDrivePosition(DriveTrain.getDriveEnc() + convertToTicks(inches));
 		// drivePID.setSetpoint(drivePID.getSetpoint() +
@@ -225,6 +226,8 @@ public class DriveAuto {
 		// SmartDashboard.putNumber("Drive PID Error: ", drivePID.getError());
 		// SmartDashboard.putBoolean("Drive On Target", drivePID.onTarget());
 		SmartDashboard.putNumber("Drive Encoder", DriveTrain.getDriveEnc());
+		
+		SmartDashboard.putNumber("Drive PID Error", DriveTrain.getDriveError());
 
 		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
 		SmartDashboard.putNumber("Gyro PID Setpoint", rotDrivePID.getSetpoint());
@@ -245,8 +248,8 @@ public class DriveAuto {
 		// leftEncoder.getDistance());
 		// SmartDashboard.putNumber("Right Drive Distance: ",
 		// rightEncoder.getDistance());
-		// SmartDashboard.putNumber("Right Drive Encoder Raw: ",
-		// rightEncoder.getRaw());
+		//SmartDashboard.putNumber("Right Drive Encoder Raw: ",
+		//DriveTrain.getDriveEnc());
 		// SmartDashboard.putNumber("Right Setpoint: ",
 		// rightDrivePID.getSetpoint());
 
