@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
 	final String autoBaseLine = "Auto Base Line";
 	final String visionAuto = "Vision Auto";
 	final String autoScale = "Auto Scale";
-	final String autoSwitchToScale = "Auto Switch to Scale";
+	final String autoSwitchOrScale = "Auto Switch or Scale";
 	final String autoTest = "Auto Test";
 	final String autoCalibrateDrive = "Auto Calibrate Drive";
 	String autoSelected;
@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject(autoSwitch, autoSwitch);
 		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
 		autoChooser.addObject(autoCenterSwitch, autoCenterSwitch);
+		autoChooser.addObject(autoSwitchOrScale, autoSwitchOrScale);
 		autoChooser.addObject(autoScale, autoScale);
 		autoChooser.addObject(autoTest, autoTest);
 
@@ -216,7 +217,7 @@ public class Robot extends TimedRobot {
 		case deleteSwerveCalibration:
 			Calibration.resetSwerveDriveCalibration();
 			break;
-		case autoSwitch:
+		case autoSwitchOrScale:
 			mAutoProgram = new AutoMainSwitchOrScale(robotPosition);
 			break;
 		case autoScale:
