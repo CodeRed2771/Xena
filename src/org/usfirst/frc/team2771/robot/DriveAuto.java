@@ -63,8 +63,14 @@ public class DriveAuto {
 
 		DriveTrain.setAllTurnOrientiation(-DriveTrain.angleToLoc(strafeAngle)); // angle at which the wheels turn
 
-		DriveTrain.setAllDrivePosition(DriveTrain.getDriveEnc() + convertToTicks(inches));
-	
+		DriveTrain.addToAllDrivePositions(convertToTicks(inches));
+		
+		try {
+			Thread.sleep(150);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void driveInches(double inches, double angle, double maxPower) {
@@ -173,7 +179,7 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-		return (Math.abs(DriveTrain.getDriveError()) < 100);
+		return (Math.abs(DriveTrain.getAverageDriveError()) < 100);
 	}
 
 	public static boolean turnCompleted() {
@@ -204,10 +210,13 @@ public class DriveAuto {
 		SmartDashboard.putNumber("Drive Encoder", DriveTrain.getDriveEnc());
 		
 		SmartDashboard.putNumber("Drive PID Error", DriveTrain.getDriveError());
+		SmartDashboard.putNumber("Drive Error", DriveTrain.getAverageDriveError());
 
 		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
 		SmartDashboard.putNumber("Gyro PID Setpoint", rotDrivePID.getSetpoint());
 		SmartDashboard.putNumber("Gyro PID error", round2(rotDrivePID.getError()));
+		
+		SmartDashboard.putBoolean("Has Arrived", hasArrived());
 
 		// SmartDashboard.putNumber("Left Drive Encoder Raw: ",
 		// -mainDrive.getLeftEncoderObject().get());

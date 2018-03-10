@@ -121,6 +121,15 @@ public class DriveTrain implements PIDOutput {
 		moduleC.setDrivePIDToSetPoint(modCPosition);
 		moduleD.setDrivePIDToSetPoint(modDPosition);
 	}
+	
+	public static void addToAllDrivePositions(int ticks) {
+		if (getInstance() == null) return;
+		
+		setDrivePosition(moduleA.getDriveEnc() + ticks, 
+				moduleB.getDriveEnc() + ticks, 
+				moduleC.getDriveEnc() + ticks, 
+				moduleD.getDriveEnc() + ticks);
+	}
 
 	public static int getDriveEnc() {
 		if (getInstance() == null) return 0;
@@ -261,13 +270,22 @@ public class DriveTrain implements PIDOutput {
 		moduleD.setBrakeMode(b);
 	}
 
-	public static double getAverageError() {
+	public static double getAverageTurnError() {
 		if (getInstance() == null) return 0.0;
 
-		return (Math.abs(moduleA.getError()) + 
-				Math.abs(moduleB.getError()) + 
-				Math.abs(moduleC.getError()) + 
-				Math.abs(moduleD.getError())) / 4d;
+		return (Math.abs(moduleA.getTurnError()) + 
+				Math.abs(moduleB.getTurnError()) + 
+				Math.abs(moduleC.getTurnError()) + 
+				Math.abs(moduleD.getTurnError())) / 4d;
+	}
+	
+	public static double getAverageDriveError() {
+		if (getInstance() == null) return 0.0;
+
+		return (Math.abs(moduleA.getDriveError()) + 
+				Math.abs(moduleB.getDriveError()) + 
+				Math.abs(moduleC.getDriveError()) + 
+				Math.abs(moduleD.getDriveError())) / 4d;
 	}
 	
 	public static double getDriveError() {

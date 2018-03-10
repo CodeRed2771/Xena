@@ -263,8 +263,6 @@ public class Robot extends TimedRobot {
 
 		DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto P:", 0),
 				SmartDashboard.getNumber("Drive I:", 0), SmartDashboard.getNumber("Auto D:", 0));
-		
-		SmartDashboard.putNumber("Drive Error", DriveTrain.getAverageError());
 	}
 
 	@Override

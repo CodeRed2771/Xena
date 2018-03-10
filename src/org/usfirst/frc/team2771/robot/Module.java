@@ -166,7 +166,7 @@ public class Module {
 	}
 	
 	
-	public double getError() {
+	public double getTurnError() {
 		return turn.getClosedLoopError(0);
 	}
 	
