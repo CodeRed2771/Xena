@@ -17,13 +17,13 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(3000);
-				if (isScaleLeft()) {
-					driveInches(80, -25, .1);
-				} else {
-					driveInches(80, 25, 1);
-				}
-				Lift.goSwitch(); 
+				Lift.goSwitch();
 				CubeClaw.setArmSwitchPosition();
+				if (isScaleLeft()) {
+					driveInches(105, -30, .1);
+				} else {
+					driveInches(105, 30, .1);
+				}
 				break;
 			case 1:
 				if (driveCompleted())
