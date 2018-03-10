@@ -249,11 +249,15 @@ public class Robot extends TimedRobot {
 
 		if (mAutoProgram != null) {
 			mAutoProgram.tick();
-			DriveAuto.tick();
-			DriveAuto.showEncoderValues();
 			SmartDashboard.putNumber("Elapsed Time TICK", System.currentTimeMillis());
 
 		}
+		
+		DriveAuto.tick();
+		CubeClaw.tick();
+		Lift.tick();
+		
+		DriveAuto.showEncoderValues();
 
 		SmartDashboard.putNumber("Elapsed Time PERIOD ", System.currentTimeMillis());
 
