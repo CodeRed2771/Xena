@@ -218,7 +218,7 @@ public class Robot extends TimedRobot {
 			Calibration.resetSwerveDriveCalibration();
 			break;
 		case autoSwitchOrScale:
-			mAutoProgram = new AutoMainSwitchOrScale(robotPosition);
+			mAutoProgram = new AutoStartToScale(robotPosition);
 			break;
 		case autoScale:
 			mAutoProgram = new AutoStartToScale(robotPosition);

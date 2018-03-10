@@ -6,6 +6,7 @@ public class AutoStartToScale extends AutoBaseClass {
 
 	public AutoStartToScale(int robotPosition) {
 		super(robotPosition);
+		System.out.println("AutoStartToScale started");
 	}
 
 	public void tick() {
@@ -14,13 +15,13 @@ public class AutoStartToScale extends AutoBaseClass {
 
 			switch (getCurrentStep()) {
 			case 0:
-				setTimerAndAdvanceStep(3000);
+				setTimerAndAdvanceStep(2000);
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
 				if (robotPosition() == 1) {
-					this.driveInches(48, 45, .4);
+					this.driveInches(48, 25, .4);
 				} else {
-					this.driveInches(48, -45, .4);
+					this.driveInches(48, -25, .4);
 				}
 				break;
 			case 1:
@@ -28,16 +29,17 @@ public class AutoStartToScale extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 2:
-				setTimerAndAdvanceStep(4000);
-				this.driveInches(100, 0, .3);
+				setTimerAndAdvanceStep(3000);
+				this.driveInches(130, 0, .3);
+				Lift.goHighScale();
 				break;
 			case 3:
 				if (driveCompleted())
 					advanceStep();
 				break;
 			case 4:
-				setTimerAndAdvanceStep(2000);
-				Lift.goHighScale();
+				setStep(6);
+//				Lift.goHighScale();
 				break;
 			case 5:
 				if (driveCompleted())
@@ -46,9 +48,9 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 6:
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 1) {
-					this.turnDegrees(90, .5);
-				} else {
 					this.turnDegrees(-90, .5);
+				} else {
+					this.turnDegrees(90, .5);
 				}
 				break;
 			case 7:
@@ -56,7 +58,7 @@ public class AutoStartToScale extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 8:
-				setTimerAndAdvanceStep(2000);
+				setTimerAndAdvanceStep(1000);
 				this.driveInches(12, 0, .5);
 				CubeClaw.setArmScalePosition();
 				break;
@@ -77,6 +79,7 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 13:
 				break;
 			case 14:
+				setTimerAndAdvanceStep(1000);
 				this.driveInches(-12, 0, .5);
 				break;
 			case 15:

@@ -6,6 +6,7 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 
 	public AutoCalibrateDrive(int robotPosition) {
 		super(robotPosition);
+		System.out.println("AutoCalibrateDrive started");
 		
 	}
 
@@ -17,7 +18,7 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(10000);
-				driveInches(180,0,1);
+				driveInches(100,0,1);
 				break;
 			case 1:
 				if (driveCompleted())
@@ -25,7 +26,7 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 				break;
 			case 2:
 				setTimerAndAdvanceStep(10000);
-				driveInches(-180,0,1);
+				driveInches(-100,0,1);
 				break;
 			case 3:
 				if (driveCompleted())

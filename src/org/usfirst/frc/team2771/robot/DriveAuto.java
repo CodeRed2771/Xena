@@ -102,6 +102,14 @@ public class DriveAuto {
 		rotDrivePID.setSetpoint(rotDrivePID.getSetpoint() + degrees);
 		rotDrivePID.enable();
 		setPowerOutput(curPowerSetting);
+		
+		try {
+			Thread.sleep(150);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public static void continuousTurn(double degrees, double maxPower) {
@@ -179,7 +187,9 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-		return (Math.abs(DriveTrain.getAverageDriveError()) < 100);
+		return false;
+		// we're checking to see if it's not equal to zero to avoid failed error calls.
+		//return ((DriveTrain.getAverageDriveError() < 100) && (DriveTrain.getAverageDriveError() != 0));
 	}
 
 	public static boolean turnCompleted() {

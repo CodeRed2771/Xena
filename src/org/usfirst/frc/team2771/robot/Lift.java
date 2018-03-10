@@ -92,25 +92,25 @@ public class Lift {
 	public static  void goLowScale() {
 		//The scale is the big one.
 		//The scale has three different positions, up, down, and level. It could be useful for autonomous.
-		liftMotor.set(ControlMode.MotionMagic, -40000); 
+		liftMotor.set(ControlMode.MotionMagic, -43000); 
 	}
 	public static void goHighScale() {
-		liftMotor.set(ControlMode.MotionMagic, -40000);
+		liftMotor.set(ControlMode.MotionMagic, -43000);
 	}
 	public static void goStartPosition(){
 		liftMotor.set(ControlMode.MotionMagic, 5);
 	}
 	public static void goPortalPosition() {
-		liftMotor.set(ControlMode.MotionMagic, -2000);
+		liftMotor.set(ControlMode.MotionMagic, -5000);
 	}
 	public static void goPickSecondCubePosition() {
-		liftMotor.set(ControlMode.MotionMagic, -6000);
+		liftMotor.set(ControlMode.MotionMagic, -8000);
 	}
 	public static void setLowGear() {
-		shifterSolenoid.set(DoubleSolenoid.Value.kForward);
+		shifterSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	public static void setHighGear() {
-		shifterSolenoid.set(DoubleSolenoid.Value.kReverse);
+		shifterSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 	public static void stop(){
 		liftMotor.set(ControlMode.PercentOutput, 0);	
