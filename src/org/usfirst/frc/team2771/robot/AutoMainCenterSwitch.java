@@ -17,12 +17,13 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(3000);
+				CubeClaw.holdCube(); // makes sure the cylinders are engaged
 				Lift.goSwitch();
 				CubeClaw.setArmSwitchPosition();
 				if (isScaleLeft()) {
-					driveInches(105, -30, .1);
+					driveInches(110, -30, .1);
 				} else {
-					driveInches(105, 30, .1);
+					driveInches(110, 30, .1);
 				}
 				break;
 			case 1:
@@ -31,12 +32,13 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				break;
 			case 2:
 				setTimerAndAdvanceStep(3000);
+				DriveAuto.stop();
 				CubeClaw.ejectCube();
 				break;
 			case 3:
 				break;
 			case 4:
-				CubeClaw.stopIntake();
+				CubeClaw.stopIntake(); // probably not needed - eject will stop after a brief time
 				CubeClaw.setArmTravelPosition();
 				break;
 			}
