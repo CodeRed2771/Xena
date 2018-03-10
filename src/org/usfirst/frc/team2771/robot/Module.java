@@ -34,6 +34,7 @@ public class Module {
 		drive.selectProfileSlot(0, 0);
 		
 		drive.configOpenloopRamp(.1, 0);
+		drive.configClosedloopRamp(.75, 0);
 		
 		turn = new WPI_TalonSRX(turnTalonID);
 	
@@ -162,7 +163,7 @@ public class Module {
 		return drive.getClosedLoopError(0);
 	}
 	
-	public void stopBoth() {
+	public void stopDriveAndTurnMotors() {
 		setDrivePower(0);
 		setTurnPower(0);
 	}
