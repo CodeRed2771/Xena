@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
 	final String autoSwitchOrScale = "Auto Switch or Scale";
 	final String autoTest = "Auto Test";
 	final String autoCalibrateDrive = "Auto Calibrate Drive";
+	final String autoSwitchAndScale = "Auto Switch and Scale";
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
 
@@ -56,6 +57,7 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject(autoSwitchOrScale, autoSwitchOrScale);
 		autoChooser.addObject(autoScale, autoScale);
 		autoChooser.addObject(autoTest, autoTest);
+		autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
 
 		SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
 		SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
