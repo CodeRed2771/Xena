@@ -59,41 +59,36 @@ public class AutoStartToScale extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 8:
-				setTimerAndAdvanceStep(10);
-//				this.driveInches(12, 0, .5);
-//				CubeClaw.setArmScalePosition();
-				break;
-			case 9:
 				if (driveCompleted())
 					advanceStep();
 				break;
-			case 10:
+			case 9:
 				setTimerAndAdvanceStep(1000);
 				CubeClaw.dropCube();
 				break;
-			case 11:
+			case 10:
 				setTimerAndAdvanceStep(2000);
 				this.driveInches(-12, 0, .5);
-			case 12:
+			case 11:
 				if(driveCompleted())
 					advanceStep();
-			case 13:
+			case 12:
 				break;
-			case 14:
+			case 13:
 				setTimerAndAdvanceStep(1000);
 				CubeClaw.setArmTravelPosition();
 				break;
-			case 15:
+			case 14:
 				break;
-			case 16:
+			case 15:
 				setTimerAndAdvanceStep(1000);
 				this.driveInches(-12, 0, .5);
 				break;
-			case 17:
+			case 16:
 				if (driveCompleted())
 					advanceStep();
 				break;
-			case 18:
+			case 17:
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 1) {
 					this.turnDegrees(-90, .5);
@@ -101,18 +96,18 @@ public class AutoStartToScale extends AutoBaseClass {
 					this.turnDegrees(90, .5);
 				}
 				break;
-			case 19:
+			case 18:
 				if (driveCompleted())
 					advanceStep();
 				break;
-			case 20:
+			case 19:
 				setTimerAndAdvanceStep(3000);
 				Lift.goStartPosition();
 				this.driveInches(36, 0, .5);
 				break;
-			case 21:
+			case 20:
 				break;
-			case 22:
+			case 21:
 				stop();
 				break;
 			}
