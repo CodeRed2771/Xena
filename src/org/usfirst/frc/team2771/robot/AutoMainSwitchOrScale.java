@@ -10,9 +10,6 @@ public class AutoMainSwitchOrScale extends AutoBaseClass {
 	}
 
 	public void tick() {
-		System.out.println("in auto main switch. pos = " + robotPosition());
-		SmartDashboard.putNumber("Auto Step", getCurrentStep());
-		
 		if (isRunning()) {
 
 			if (robotPosition() == 2) {
@@ -20,67 +17,108 @@ public class AutoMainSwitchOrScale extends AutoBaseClass {
 				case 0:
 					mAutoSubroutine = new AutoBaseLine(this.robotPosition());
 					mAutoSubroutine.start();
-					advanceStep();
 					break;
-				case 1:
+				case 3:
 					if (mAutoSubroutine.hasCompleted())
 						stop();
 					break;
-				case 2:
+				case 4:
 					break;
 				}
 			} else {
 				if (robotPosition() == 1) {
-					System.out.println("in auto main switch position = 1");
 					if (this.isSwitchRight()) {
-						System.out.println("switch is right step = " + getCurrentStep());
+						// Switch is ours, so go for it
 						switch (getCurrentStep()) {
 						case 0:
 							mAutoSubroutine = new AutoStartToSwitch(this.robotPosition());
 							mAutoSubroutine.start();
-							advanceStep();
 							break;
-						case 1:
+						case 3:
 							if (mAutoSubroutine.hasCompleted())
 								stop();
 							break;
-						case 2:
+						case 4:
 							break;
 						}
 					} else if (this.isScaleRight()) {
-						System.out.println("scale is right step = " + getCurrentStep());
+						// Scale is ours, but the switch wasn't, so go for the scale
 						switch (getCurrentStep()) {
 						case 0:
-							System.out.println("starting autostarttoscale");
 							mAutoSubroutine = new AutoStartToScale(this.robotPosition());
 							mAutoSubroutine.start();
-							advanceStep();
 							break;
-						case 1:
+						case 3:
 							if (mAutoSubroutine.hasCompleted())
 								stop();
 							break;
-						case 2:
+						case 4:
 							break;
 						}
 					} else {
+						// Neither switch or scale is ours - so just do baseline
 						switch (getCurrentStep()) {
 						case 0:
 							mAutoSubroutine = new AutoBaseLine(this.robotPosition());
 							mAutoSubroutine.start();
-							advanceStep();
 							break;
-						case 1:
+						case 3:
 							if (mAutoSubroutine.hasCompleted())
 								stop();
 							break;
-						case 2:
+						case 4:
 							break;
 						}
 					}
+				} else { /* Position 3 */
+					if (this.isSwitchRight()) {
+						// Switch is ours, so go for it
+						switch (getCurrentStep()) {
+						case 0:
+							mAutoSubroutine = new AutoStartToSwitch(this.robotPosition());
+							mAutoSubroutine.start();
+							break;
+						case 3:
+							if (mAutoSubroutine.hasCompleted())
+								stop();
+							break;
+						case 4:
+							break;
+						}
+					} else if (this.isScaleRight()) {
+						// Scale is ours, but the switch wasn't, so go for the scale
+						switch (getCurrentStep()) {	
+						case 0:
+							mAutoSubroutine = new AutoStartToScale(this.robotPosition());
+							mAutoSubroutine.start();
+							break;
+						case 3:
+							if (mAutoSubroutine.hasCompleted())
+								stop();
+							break;
+						case 4:
+							break;
+						}
+					} else {
+						// Neither switch or scale is ours - so just do baseline
+						switch (getCurrentStep()) {
+						case 0:
+							mAutoSubroutine = new AutoBaseLine(this.robotPosition());
+							mAutoSubroutine.start();
+							break;
+						case 3:
+							if (mAutoSubroutine.hasCompleted())
+								stop();
+							break;
+						case 4:
+							break;
+						}
+
+					}
+					SmartDashboard.putNumber("Auto Base Step", getCurrentStep());
 				}
-				
 			}
+
 		}
 
 	}

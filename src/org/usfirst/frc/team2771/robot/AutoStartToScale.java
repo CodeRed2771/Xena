@@ -48,19 +48,20 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 6:
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 1) {
-					this.turnDegrees(-90, .5);
+					this.driveInches(48, -45, .5);
 				} else {
-					this.turnDegrees(90, .5);
+					this.driveInches(48, 45, .5);
 				}
+				CubeClaw.setArmScalePosition();
 				break;
 			case 7:
 				if (driveCompleted())
 					advanceStep();
 				break;
 			case 8:
-				setTimerAndAdvanceStep(1000);
-				this.driveInches(12, 0, .5);
-				CubeClaw.setArmScalePosition();
+				setTimerAndAdvanceStep(10);
+//				this.driveInches(12, 0, .5);
+//				CubeClaw.setArmScalePosition();
 				break;
 			case 9:
 				if (driveCompleted())
@@ -68,25 +69,31 @@ public class AutoStartToScale extends AutoBaseClass {
 				break;
 			case 10:
 				setTimerAndAdvanceStep(1000);
-				CubeClaw.ejectCube();
+				CubeClaw.dropCube();
 				break;
 			case 11:
-				break;
+				setTimerAndAdvanceStep(2000);
+				this.driveInches(-12, 0, .5);
 			case 12:
-				setTimerAndAdvanceStep(1000);
-				CubeClaw.setArmTravelPosition();
-				break;
+				if(driveCompleted())
+					advanceStep();
 			case 13:
 				break;
 			case 14:
 				setTimerAndAdvanceStep(1000);
-				this.driveInches(-12, 0, .5);
+				CubeClaw.setArmTravelPosition();
 				break;
 			case 15:
+				break;
+			case 16:
+				setTimerAndAdvanceStep(1000);
+				this.driveInches(-12, 0, .5);
+				break;
+			case 17:
 				if (driveCompleted())
 					advanceStep();
 				break;
-			case 16:
+			case 18:
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 1) {
 					this.turnDegrees(-90, .5);
@@ -94,18 +101,18 @@ public class AutoStartToScale extends AutoBaseClass {
 					this.turnDegrees(90, .5);
 				}
 				break;
-			case 17:
+			case 19:
 				if (driveCompleted())
 					advanceStep();
 				break;
-			case 18:
+			case 20:
 				setTimerAndAdvanceStep(3000);
 				Lift.goStartPosition();
 				this.driveInches(36, 0, .5);
 				break;
-			case 19:
+			case 21:
 				break;
-			case 20:
+			case 22:
 				stop();
 				break;
 			}
