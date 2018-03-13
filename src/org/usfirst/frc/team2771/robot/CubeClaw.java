@@ -121,8 +121,8 @@ public class CubeClaw {
 		setArmHorizontalPosition();
 		holdingCube = false;
 		closeClaw();
-		leftRollers.set(ControlMode.PercentOutput, -.75);
-		rightRollers.set(ControlMode.PercentOutput, -.75);
+		leftRollers.set(ControlMode.PercentOutput, -1);
+		rightRollers.set(ControlMode.PercentOutput, -1);
 		resetIntakeStallDetector();
 		ejectEndTime = aDistantFutureTime();
 	}
