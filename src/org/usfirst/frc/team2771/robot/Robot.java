@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
 	AutoBaseClass mAutoProgram;
 
 	@Override
-	public void robotInit() {
+		public void robotInit() {
 		gamepad = new KeyMap();
 		RobotGyro.getInstance();
 		DriveTrain.getInstance();
