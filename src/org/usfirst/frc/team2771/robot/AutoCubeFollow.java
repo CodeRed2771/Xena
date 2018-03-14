@@ -8,7 +8,7 @@ public class AutoCubeFollow extends AutoBaseClass{
 	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 	private final double kP = 1.0;
 	
-	public AutoCubeFollow(int robotPosition) {
+	public AutoCubeFollow(char robotPosition) {
 		super(robotPosition);
 		table.getEntry("ledMode").forceSetNumber(1); // 0 - on, 1 = off, 2 - blink
 		table.getEntry("pipeline").forceSetNumber(1);

@@ -189,7 +189,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
-		int robotPosition = (int) SmartDashboard.getNumber("Robot Position", 1);
+		char robotPosition = SmartDashboard.getString("Robot Position", "C").toCharArray()[0];
 
 		RobotGyro.reset();
 

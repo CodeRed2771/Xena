@@ -3,7 +3,7 @@ package org.usfirst.frc.team2771.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoMainCenterSwitch extends AutoBaseClass {
-	public AutoMainCenterSwitch(int robotPosition) {
+	public AutoMainCenterSwitch(char robotPosition) {
 		super(robotPosition);
 	}
 
@@ -17,7 +17,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(1000);
-				DriveTrain.setAllTurnOrientiation(27);
+
 				break;
 			case 1:
 				break;
@@ -27,9 +27,9 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				Lift.goSwitch();
 				CubeClaw.setArmSwitchPosition();
 				if (isScaleLeft()) {
-					driveInches(114, 27, .1);
+					driveInches(110, -27, .1);
 				} else {
-					driveInches(114, -27, .1);
+					driveInches(110, 27, .1);
 				}
 				break;
 			case 3:
@@ -42,6 +42,8 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				CubeClaw.ejectCubeSlow();
 				break;
 			case 5:
+				break;
+			case 6:
 				CubeClaw.stopIntake();
 				CubeClaw.setArmTravelPosition();
 				break;

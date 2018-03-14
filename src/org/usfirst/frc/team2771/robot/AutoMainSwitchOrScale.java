@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AutoMainSwitchOrScale extends AutoBaseClass {
 	AutoBaseClass mAutoSubroutine;
 
-	public AutoMainSwitchOrScale(int robotPosition) {
+	public AutoMainSwitchOrScale(char robotPosition) {
 		super(robotPosition);
 	}
 
 	public void tick() {
 		if (isRunning()) {
 
-			if (robotPosition() == 2) {
+			if (robotPosition() == 'C') {
 				switch (getCurrentStep()) {
 				case 0:
 					mAutoSubroutine = new AutoBaseLine(this.robotPosition());
@@ -26,7 +26,7 @@ public class AutoMainSwitchOrScale extends AutoBaseClass {
 					break;
 				}
 			} else {
-				if (robotPosition() == 1) {
+				if (robotPosition() == 'R') {
 					if (this.isSwitchRight()) {
 						// Switch is ours, so go for it
 						switch (getCurrentStep()) {

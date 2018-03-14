@@ -3,7 +3,7 @@ package org.usfirst.frc.team2771.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoStartToSwitch extends AutoBaseClass {
-	public AutoStartToSwitch(int robotPosition) {
+	public AutoStartToSwitch(char robotPosition) {
 		super(robotPosition);
 	}
 

@@ -145,7 +145,7 @@ public class CubeClaw {
 		leftRollers.set(ControlMode.PercentOutput, .5);
 		rightRollers.set(ControlMode.PercentOutput, .5);
 		
-		ejectEndTime = System.currentTimeMillis() + 1000;  // give it one second to eject.
+		ejectEndTime = System.currentTimeMillis() + 750;  
 	}
 	
 	public static void ejectCubeSlow(){
@@ -153,6 +153,7 @@ public class CubeClaw {
 		resetIntakeStallDetector();
 		leftRollers.set(ControlMode.PercentOutput, .3);
 		rightRollers.set(ControlMode.PercentOutput, .3);
+		ejectEndTime = System.currentTimeMillis() + 750; 
 	}
 	
 	public static void stopIntake() {

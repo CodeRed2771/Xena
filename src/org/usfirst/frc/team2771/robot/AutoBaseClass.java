@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class AutoBaseClass {
 	private Timer mAutoTimer;		// note that the timer is ticked in isRunning() and hasCompleted()
-	private int mRobotPosition;
+	private char mRobotPosition;
 	private boolean mIsRunning = false;
 	
-	public AutoBaseClass(int robotPosition) {
+	public AutoBaseClass(char robotPosition) {
 		mRobotPosition = robotPosition;
 		mAutoTimer = new Timer();
 	}
@@ -98,7 +98,7 @@ public abstract class AutoBaseClass {
 		DriveAuto.continuousDrive(inches, maxPower);
 	}
 	
-	public int robotPosition() {
+	public char robotPosition() {
 		return mRobotPosition;
 	}
 

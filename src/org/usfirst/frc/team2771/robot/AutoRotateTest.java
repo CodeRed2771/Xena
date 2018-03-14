@@ -3,7 +3,7 @@ package org.usfirst.frc.team2771.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoRotateTest extends AutoBaseClass{
-	public AutoRotateTest(int robotPosition){
+	public AutoRotateTest(char robotPosition){
 		super(robotPosition);
 	}
 	

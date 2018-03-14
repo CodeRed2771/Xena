@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoCalibrateDrive extends AutoBaseClass {
 
-	public AutoCalibrateDrive(int robotPosition) {
+	public AutoCalibrateDrive(char robotPosition) {
 		super(robotPosition);
 		System.out.println("AutoCalibrateDrive started");
 		

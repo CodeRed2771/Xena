@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2771.robot;
 
 public class AutoMethods extends AutoBaseClass{
-	public AutoMethods(int mRobotPosition){
+	public AutoMethods(char mRobotPosition){
 	super(mRobotPosition);
 	}
 	

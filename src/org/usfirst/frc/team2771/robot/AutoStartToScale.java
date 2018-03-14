@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoStartToScale extends AutoBaseClass {
 
-	public AutoStartToScale(int robotPosition) {
+	public AutoStartToScale(char robotPosition) {
 		super(robotPosition);
 		System.out.println("AutoStartToScale started");
 	}
@@ -30,7 +30,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				break;
 			case 2:
 				setTimerAndAdvanceStep(3000);
-				this.driveInches(130, 0, .3);
+				this.driveInches(160, 0, .3);
 				Lift.goHighScale();
 				break;
 			case 3:
@@ -59,55 +59,44 @@ public class AutoStartToScale extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 8:
-				if (driveCompleted())
-					advanceStep();
+				setTimerAndAdvanceStep(500);
+				CubeClaw.dropCube();
+				CubeClaw.ejectCubeSlow();
 				break;
 			case 9:
-				setTimerAndAdvanceStep(1000);
-				CubeClaw.dropCube();
 				break;
 			case 10:
-				setTimerAndAdvanceStep(2000);
+				setTimerAndAdvanceStep(1000);
 				this.driveInches(-12, 0, .5);
 			case 11:
 				if(driveCompleted())
 					advanceStep();
 			case 12:
-				break;
-			case 13:
 				setTimerAndAdvanceStep(1000);
 				CubeClaw.setArmTravelPosition();
 				break;
+			case 13:
+				break;
 			case 14:
-				break;
-			case 15:
-				setTimerAndAdvanceStep(1000);
-				this.driveInches(-12, 0, .5);
-				break;
-			case 16:
-				if (driveCompleted())
-					advanceStep();
-				break;
-			case 17:
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 1) {
-					this.turnDegrees(-90, .5);
+					this.turnDegrees(-165, .5);
 				} else {
-					this.turnDegrees(90, .5);
+					this.turnDegrees(165, .5);
 				}
 				break;
-			case 18:
+			case 15:
 				if (driveCompleted())
 					advanceStep();
 				break;
-			case 19:
-				setTimerAndAdvanceStep(3000);
+			case 16:
+				setTimerAndAdvanceStep(2000);
 				Lift.goStartPosition();
 				this.driveInches(36, 0, .5);
 				break;
-			case 20:
+			case 17:
 				break;
-			case 21:
+			case 18:
 				stop();
 				break;
 			}

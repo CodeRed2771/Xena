@@ -5,7 +5,7 @@ package org.usfirst.frc.team2771.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoLineToScale extends AutoBaseClass {
-	public AutoLineToScale(int robotPosition) {
+	public AutoLineToScale(char robotPosition) {
 		super(robotPosition);
 	}
 

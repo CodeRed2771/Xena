@@ -5,7 +5,7 @@ package org.usfirst.frc.team2771.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoBaseLine extends AutoBaseClass {
-	public AutoBaseLine(int robotPosition) {
+	public AutoBaseLine(char robotPosition) {
 		super(robotPosition);
 	}
 

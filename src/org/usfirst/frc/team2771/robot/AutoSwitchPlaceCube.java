@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoSwitchPlaceCube extends AutoBaseClass {
 
-	public AutoSwitchPlaceCube(int robotPosition) {
+	public AutoSwitchPlaceCube(char robotPosition) {
 		super(robotPosition);
 	}
 
