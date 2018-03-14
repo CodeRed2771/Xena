@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
 	final String autoTest = "Auto Test";
 	final String autoCalibrateDrive = "Auto Calibrate Drive";
 	final String autoSwitchAndScale = "Auto Switch and Scale";
+	final String autoStartToSwitch = "Auto start to Switch";
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
 
@@ -58,6 +59,7 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject(autoScale, autoScale);
 		autoChooser.addObject(autoTest, autoTest);
 		autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
+		autoChooser.addObject(autoStartToSwitch, autoStartToSwitch);
 
 		SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
 		SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
@@ -186,6 +188,13 @@ public class Robot extends TimedRobot {
 
 	}
 
+	private char getSwitchPosition(String gameData) {
+		return gameData.toCharArray()[0];
+	}
+	private char getScalePosition(String gameData) {
+		return gameData.toCharArray()[1];
+	}
+	
 	@Override
 	public void autonomousInit() {
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -220,10 +229,32 @@ public class Robot extends TimedRobot {
 			Calibration.resetSwerveDriveCalibration();
 			break;
 		case autoSwitchOrScale:
-			mAutoProgram = new AutoStartToScale(robotPosition);
+			if (robotPosition == 'R') {
+				if (getSwitchPosition(gameData)=='R') {
+					mAutoProgram = new AutoStartToSwitch(robotPosition);
+				} else if (getScalePosition(gameData) == 'R') {
+					mAutoProgram = new AutoStartToScale(robotPosition);
+				} else {
+					mAutoProgram = new AutoBaseLine(robotPosition);
+				}
+			} else if(robotPosition == 'L') {
+				if (getSwitchPosition(gameData)=='L') {
+					mAutoProgram = new AutoStartToSwitch(robotPosition);
+				} else if (getScalePosition(gameData) == 'L') {
+					mAutoProgram = new AutoStartToScale(robotPosition);
+				} else {
+					mAutoProgram = new AutoBaseLine(robotPosition);
+				}
+			} else { 
+				mAutoProgram = new AutoBaseLine(robotPosition);
+			}
+
 			break;
 		case autoScale:
 			mAutoProgram = new AutoStartToScale(robotPosition);
+			break;
+		case autoStartToSwitch:
+			mAutoProgram = new AutoStartToSwitch(robotPosition);
 			break;
 		case autoCubeFollow:
 			mAutoProgram = new AutoCubeFollow(robotPosition);
