@@ -19,6 +19,8 @@ public class DriveAuto {
 
     private static double strafeAngle = 0;
     
+    public static enum DriveSpeed {LOW_SPEED, MED_SPEED, HIGH_SPEED};
+    
 	public static DriveAuto getInstance() {
 		if (instance == null)
 			instance = new DriveAuto();
@@ -48,8 +50,18 @@ public class DriveAuto {
 	
 	}
 
-	public static void setDriveVelocityPercentage(double adjustmentAmount) {
-		DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * adjustmentAmount));
+	public static void setDriveSpeed(DriveAuto.DriveSpeed ds) {
+		switch(ds){
+		  case LOW_SPEED: 
+			  DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .5));
+			  break;
+		  case MED_SPEED:
+			  DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .75));
+			  break;
+		  case HIGH_SPEED:
+			  DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY));
+			  break;
+		}
 	}
 	
 	public static void driveInches(double inches, double angle, double maxPower, double startPowerLevel) {
