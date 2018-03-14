@@ -20,6 +20,7 @@ public class KeyMap {
     
     private final HID.Button lowGearButton = LogitechF310.BACK;
     private final HID.Button highGearButton = LogitechF310.START;
+    private final HID.Button intakeReverse = LogitechF310.A;
    
     
     private final HID.Axis manualLiftAxis = LogitechF310.STICK_LEFT_Y;
@@ -62,6 +63,9 @@ public class KeyMap {
         }
     }
 
+    public boolean getIntakeReverse() {
+    	return getHID(gamepad1).button(intakeReverse);
+    }
     public double getSwerveXAxis() {
         return getHID(gamepad1).axis(swerveXAxis);
     }

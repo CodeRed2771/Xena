@@ -23,7 +23,9 @@ public class CubeClaw {
 	private static CurrentBreaker currentBreaker2;
 	
 	private static boolean holdingCube = false;
+	private static boolean intakeRunning = false;
 	private static double ejectEndTime;
+	private static double startReverseTime;
 	
 	public static CubeClaw getInstance() {
 		if (instance == null)
@@ -86,6 +88,7 @@ public class CubeClaw {
 		clawOpenCloseSolenoid = new DoubleSolenoid(Wiring.CLAW_PCM_PORTA, Wiring.CLAW_PCM_PORTB);
 		
 		ejectEndTime = aDistantFutureTime();
+		startReverseTime = aDistantFutureTime();
 
 	}
 	
@@ -113,6 +116,15 @@ public class CubeClaw {
 			stopIntake();
 			ejectEndTime = aDistantFutureTime();
 		}
+		
+		if (intakeRunning) {
+			if (System.currentTimeMillis() >= startReverseTime) {
+				reverseIntake();
+			} 
+			if (System.currentTimeMillis() >= (startReverseTime + 250)) {
+				intakeCube();
+			}
+		}
 	}
 	
 	// CONTROL METHODS ------------------------------------------------
@@ -121,12 +133,22 @@ public class CubeClaw {
 		setArmHorizontalPosition();
 		holdingCube = false;
 		closeClaw();
-		leftRollers.set(ControlMode.PercentOutput, -1);
-		rightRollers.set(ControlMode.PercentOutput, -1);
+		leftRollers.set(ControlMode.PercentOutput, -.6);
+		rightRollers.set(ControlMode.PercentOutput, -.6);
 		resetIntakeStallDetector();
 		ejectEndTime = aDistantFutureTime();
+		intakeRunning = true;
+		startReverseTime = System.currentTimeMillis() + 1000;
 	}
 
+	public static void reverseIntake() {
+		leftRollers.set(ControlMode.PercentOutput, .4);
+	}
+	
+	public static boolean isIntakeRunning() {
+		return intakeRunning;
+	}
+	
 	public static void holdCube() {
 		closeClaw(); // makes sure the claw is closed (esp in auto)
 		holdingCube = true;
@@ -137,6 +159,7 @@ public class CubeClaw {
 		holdingCube = false;
 		openClaw();	
 		resetIntakeStallDetector();
+		ejectCubeSlow();
 	}
 	
 	public static void ejectCube() {
@@ -151,8 +174,8 @@ public class CubeClaw {
 	public static void ejectCubeSlow(){
 		holdingCube = false;
 		resetIntakeStallDetector();
-		leftRollers.set(ControlMode.PercentOutput, .3);
-		rightRollers.set(ControlMode.PercentOutput, .3);
+		leftRollers.set(ControlMode.PercentOutput, .25);
+		rightRollers.set(ControlMode.PercentOutput, .25);
 		ejectEndTime = System.currentTimeMillis() + 750; 
 	}
 	
@@ -160,6 +183,7 @@ public class CubeClaw {
 		leftRollers.set(ControlMode.PercentOutput, 0);
 		rightRollers.set(ControlMode.PercentOutput, 0);
 		resetIntakeStallDetector();
+		intakeRunning = false;
 	}
 	
 	// CLAW PNEUMATICS ------------------------------------------------

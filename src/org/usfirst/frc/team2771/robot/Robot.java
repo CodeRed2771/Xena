@@ -113,6 +113,13 @@ public class Robot extends TimedRobot {
 			CubeClaw.dropCube();
 		}
 		
+//		if (CubeClaw.isIntakeRunning()) {
+//			if (gamepad.getIntakeReverse()) 
+//				CubeClaw.reverseIntake();
+//			else
+//				CubeClaw.intakeCube();
+//		}
+		
 		if (gamepad.armLiftModifier()) {
 			System.out.println("arm modifier pressed");
 		}

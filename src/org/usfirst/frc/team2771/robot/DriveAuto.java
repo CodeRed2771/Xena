@@ -43,8 +43,15 @@ public class DriveAuto {
 		SmartDashboard.putNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY);
 		SmartDashboard.putNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL);
 
+		DriveTrain.setDriveMMAccel(Calibration.DT_MM_ACCEL);
+		DriveTrain.setDriveMMVelocity(Calibration.DT_MM_VELOCITY);
+	
 	}
 
+	public static void setDriveVelocityPercentage(double adjustmentAmount) {
+		DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * adjustmentAmount));
+	}
+	
 	public static void driveInches(double inches, double angle, double maxPower, double startPowerLevel) {
         strafeAngle = angle;
 
@@ -164,12 +171,12 @@ public class DriveAuto {
 
 		// Sets the PID values based on input from the SmartDashboard
 		// This is only needed during tuning
-		rotDrivePID.setPID(SmartDashboard.getNumber("ROT P", Calibration.AUTO_ROT_P),
-				SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I),
-				SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
+//		rotDrivePID.setPID(SmartDashboard.getNumber("ROT P", Calibration.AUTO_ROT_P),
+//				SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I),
+//				SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
 		
 		DriveTrain.setDriveMMAccel((int) SmartDashboard.getNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL));
-		DriveTrain.setDriveMMVelocity((int) SmartDashboard.getNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY));
+//		DriveTrain.setDriveMMVelocity((int) SmartDashboard.getNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY));
 			
 	}
 

@@ -51,8 +51,8 @@ public class Lift {
 		liftMotor.config_kI(0, 0, 0);
 		liftMotor.config_kD(0, 0, 0);
 		
-		SmartDashboard.putNumber("MM Lift Velocity", 3000);
-		SmartDashboard.putNumber("MM Lift Acceleration", 1500);
+		SmartDashboard.putNumber("MM Lift Velocity", 4000);
+		SmartDashboard.putNumber("MM Lift Acceleration", 2000);
 		SmartDashboard.putNumber("Lift F", 1);
 		SmartDashboard.putNumber("Lift P", .6);
 		SmartDashboard.putNumber("Lift I", 0);
