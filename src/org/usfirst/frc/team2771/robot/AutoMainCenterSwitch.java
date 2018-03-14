@@ -17,7 +17,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(1000);
-				DriveAuto.setDriveVelocityPercentage(.6);
+				DriveAuto.setDriveSpeed(DriveAuto.DriveSpeed.LOW_SPEED);
 				break;
 			case 1:
 				break;
