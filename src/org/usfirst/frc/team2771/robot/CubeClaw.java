@@ -133,12 +133,12 @@ public class CubeClaw {
 		setArmHorizontalPosition();
 		holdingCube = false;
 		closeClaw();
-		leftRollers.set(ControlMode.PercentOutput, -.6);
-		rightRollers.set(ControlMode.PercentOutput, -.6);
+		leftRollers.set(ControlMode.PercentOutput, -.8);
+		rightRollers.set(ControlMode.PercentOutput, -.8);
 		resetIntakeStallDetector();
 		ejectEndTime = aDistantFutureTime();
 		intakeRunning = true;
-		startReverseTime = System.currentTimeMillis() + 1000;
+		startReverseTime = System.currentTimeMillis() + 900;
 	}
 
 	public static void reverseIntake() {
@@ -159,7 +159,7 @@ public class CubeClaw {
 		holdingCube = false;
 		openClaw();	
 		resetIntakeStallDetector();
-		ejectCubeSlow();
+		ejectCubeReallySlow();
 	}
 	
 	public static void ejectCube() {
@@ -179,6 +179,14 @@ public class CubeClaw {
 		ejectEndTime = System.currentTimeMillis() + 750; 
 	}
 	
+	public static void ejectCubeReallySlow(){
+		holdingCube = false;
+		resetIntakeStallDetector();
+		leftRollers.set(ControlMode.PercentOutput, .15);
+		rightRollers.set(ControlMode.PercentOutput, .15);
+		ejectEndTime = System.currentTimeMillis() + 1000; 
+	}
+
 	public static void stopIntake() {
 		leftRollers.set(ControlMode.PercentOutput, 0);
 		rightRollers.set(ControlMode.PercentOutput, 0);
