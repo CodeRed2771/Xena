@@ -9,6 +9,19 @@ public class AutoMainSwitchOrScale extends AutoBaseClass {
 		super(robotPosition);
 	}
 
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * THIS IS NOT USED
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 	public void tick() {
 		if (isRunning()) {
 
