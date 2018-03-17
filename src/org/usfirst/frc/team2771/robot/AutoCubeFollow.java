@@ -3,6 +3,14 @@ package org.usfirst.frc.team2771.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+/*
+ * This auto program is a test bed for vision
+ * code. The commented out lines will lock on
+ * and follow a cube with turning. The uncom-
+ * mented lines maintain a certain distance
+ * away from the cube.
+ */
+
 public class AutoCubeFollow extends AutoBaseClass{
 	
 	NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");

@@ -2,6 +2,14 @@ package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*
+ * This auto program is for the middle position, and will
+ * go to the right side of the switch and place a cube if
+ * the switch is ours on the right side, or go to the left
+ * side of the switch and place a cube of the switch is
+ * ours on the left side.
+ */
+
 public class AutoMainCenterSwitch extends AutoBaseClass {
 	public AutoMainCenterSwitch(char robotPosition) {
 		super(robotPosition);

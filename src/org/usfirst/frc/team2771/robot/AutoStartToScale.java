@@ -2,6 +2,13 @@ package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*
+ * This auto program starts from the left or right side
+ * and, if it is on the same side as the scale, will 
+ * drive and place a cube on the scale. Currently doesn't
+ * do anything if it is NOT on the same side as the scale.
+ */
+
 public class AutoStartToScale extends AutoBaseClass {
 
 	public AutoStartToScale(char robotPosition) {

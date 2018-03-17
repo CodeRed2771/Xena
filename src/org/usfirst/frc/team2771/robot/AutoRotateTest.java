@@ -2,6 +2,11 @@ package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*
+ * This auto program is a rotation
+ * calibration test.
+ */
+
 public class AutoRotateTest extends AutoBaseClass{
 	public AutoRotateTest(char robotPosition){
 		super(robotPosition);

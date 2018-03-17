@@ -2,6 +2,16 @@ package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*
+ * This auto program starts from the left or right side
+ * and, if it is on the same side as the switch, will 
+ * drive and place a cube on the switch. Currently doesn't
+ * do anything if it is NOT on the same side as the switch.
+ * 
+ * NOTE: Consider declaring this program OBSOLETE.
+ *  -The State
+ */
+
 public class AutoStartToSwitch extends AutoBaseClass {
 	public AutoStartToSwitch(char robotPosition) {
 		super(robotPosition);

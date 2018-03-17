@@ -4,6 +4,13 @@ package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*
+ * This program, under the authority of the state,
+ * has been officially declared OBSOLETE. It is
+ * scheduled for termination in the next 24 hours
+ * by the manner of execution in which it chooses.
+ */
+
 public class AutoLineToScale extends AutoBaseClass {
 	public AutoLineToScale(char robotPosition) {
 		super(robotPosition);

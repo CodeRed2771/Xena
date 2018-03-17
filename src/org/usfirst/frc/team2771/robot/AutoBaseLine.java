@@ -4,6 +4,11 @@ package org.usfirst.frc.team2771.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/*
+ * This auto program just drives forward across
+ * the baseline.
+ */
+
 public class AutoBaseLine extends AutoBaseClass {
 	public AutoBaseLine(char robotPosition) {
 		super(robotPosition);
