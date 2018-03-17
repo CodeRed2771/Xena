@@ -197,6 +197,7 @@ public class Robot extends TimedRobot {
 
 	}
 
+	
 	private char getSwitchPosition(String gameData) {
 		return gameData.toCharArray()[0];
 	}

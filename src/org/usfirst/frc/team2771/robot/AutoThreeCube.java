@@ -6,7 +6,7 @@ import edu.wpi.first.networktables.NetworkTable;
 public class AutoThreeCube extends AutoBaseClass{
 	NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
 	public AutoThreeCube(int robotPosition){
-		super(robotPosition);
+		super((char) robotPosition);
 		networkTable.getEntry("ledMode").forceSetNumber(1);
 		networkTable.getEntry("pipeline").forceSetNumber(1);
 	}
