@@ -117,7 +117,7 @@ public class Lift {
 	}
 	
 	public static boolean isOverTheTopHeight(){
-		return (liftMotor.getSensorCollection().getQuadraturePosition() < -38000);
+		return (liftMotor.getSensorCollection().getQuadraturePosition() < -37000);
 	}
 	
 	// returns true if the lift is high enough that we should reduce drving speed

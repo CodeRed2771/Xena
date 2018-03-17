@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Calibration {
 
 	/*
@@ -17,7 +19,7 @@ public class Calibration {
 	//Physical Module - A
 	public final static int DT_A_DRIVE_TALON_ID = 6;
 	public final static int DT_A_TURN_TALON_ID = 5;
-	private final static double DT_A_ABS_ZERO_INITIAL = .332; //Practice Robot Calibration
+	private final static double DT_A_ABS_ZERO_INITIAL = .692; //Practice Robot Calibration
 	//private final static double DT_A_ABS_ZERO_INITIAL = .388766788766;
 	private static double DT_A_ABS_ZERO = DT_A_ABS_ZERO_INITIAL;
 	public static double GET_DT_A_ABS_ZERO() { return DT_A_ABS_ZERO; }
@@ -80,10 +82,13 @@ public class Calibration {
 				DT_C_ABS_ZERO = Double.parseDouble(reader.readLine());
 				DT_D_ABS_ZERO = Double.parseDouble(reader.readLine());
 				reader.close();
+				SmartDashboard.putBoolean("Using File-based Swerve Calibration", true);
+				return;
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
+		SmartDashboard.putBoolean("Using File-based Swerve Calibration", false);
 	}
 	
 	public static void saveSwerveCalibration(double dt_a, double dt_b, double dt_c, double dt_d) {
