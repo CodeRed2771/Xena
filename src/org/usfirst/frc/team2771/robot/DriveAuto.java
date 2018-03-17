@@ -53,7 +53,7 @@ public class DriveAuto {
 	public static void setDriveSpeed(DriveAuto.DriveSpeed ds) {
 		switch(ds){
 		  case LOW_SPEED: 
-			  DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .7));
+			  DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .5));
 			  break;
 		  case MED_SPEED:
 			  DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .85));

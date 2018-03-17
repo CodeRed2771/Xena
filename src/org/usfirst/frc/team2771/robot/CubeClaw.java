@@ -157,7 +157,7 @@ public class CubeClaw {
 		resetIntakeStallDetector();
 		ejectEndTime = aDistantFutureTime();
 		intakeRunning = true;
-		startReverseTime = System.currentTimeMillis() + 900;
+		startReverseTime = System.currentTimeMillis() + 200;
 	}
 
 	public static void reverseIntake() {
