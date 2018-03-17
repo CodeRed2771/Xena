@@ -34,7 +34,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				CubeClaw.holdCube(); // makes sure the cylinders are engaged
 				Lift.goSwitch();
 				CubeClaw.setArmSwitchPosition();
-				if (isScaleLeft()) {
+				if (isSwitchLeft()) {
 					driveInches(110, -27, .1);
 				} else {
 					driveInches(110, 27, .1);

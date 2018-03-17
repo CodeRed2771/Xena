@@ -28,7 +28,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				setTimerAndAdvanceStep(2000);
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
-				if (robotPosition() == 1) {
+				if (robotPosition() == 'R') { // Might be 'L', not sure
 					this.driveInches(48, 25, .4);
 				} else {
 					this.driveInches(48, -25, .4);
