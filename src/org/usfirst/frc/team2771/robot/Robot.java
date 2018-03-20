@@ -15,55 +15,49 @@ public class Robot extends TimedRobot {
 	KeyMap gamepad;
 	Compressor compressor;
 	SendableChooser<String> autoChooser;
-	final String autoDriveDoubleDiamond = "Auto Drive Double Diamond";
+	final String autoBaseLine = "Auto Base Line";
 	final String autoCenterSwitch = "Auto Center Switch";
-	final String autoRotateTest = "Auto Rotate Test";
+	final String autoSwitchOrScale = "Auto Switch or Scale";
+
 	final String calibrateSwerveModules = "Calibrate Swerve Modules";
 	final String deleteSwerveCalibration = "Delete Swerve Calibration";
+
+	final String autoRotateTest = "Rotate Test";
+	final String autoCalibrateDrive = "Auto Calibrate Drive";
+
+	// not used (at least not yet)
 	final String autoSwitch = "Auto Switch";
 	final String autoCubeFollow = "Auto Cube Follow";
-	final String autoBaseLine = "Auto Base Line";
-	final String visionAuto = "Vision Auto";
 	final String autoScale = "Auto Scale";
-	final String autoSwitchOrScale = "Auto Switch or Scale";
-	final String autoTest = "Auto Test";
-	final String autoCalibrateDrive = "Auto Calibrate Drive";
 	final String autoSwitchAndScale = "Auto Switch and Scale";
 	final String autoStartToSwitch = "Auto start to Switch";
+	
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
 
 	@Override
-		public void robotInit() {
+	public void robotInit() {
 		gamepad = new KeyMap();
 		RobotGyro.getInstance();
 		DriveTrain.getInstance();
-      	DriveAuto.getInstance();
+		DriveAuto.getInstance();
 		CubeClaw.getInstance();
 		Lift.getInstance();
 
 		Calibration.loadSwerveCalibration();
 
-
 		autoChooser = new SendableChooser<String>();
 		autoChooser.addDefault(autoBaseLine, autoBaseLine);
 		autoChooser.addObject(calibrateSwerveModules, calibrateSwerveModules);
 		autoChooser.addObject(deleteSwerveCalibration, deleteSwerveCalibration);
-		autoChooser.addObject(autoDriveDoubleDiamond, autoDriveDoubleDiamond);
 		autoChooser.addObject(autoRotateTest, autoRotateTest);
-		// autoChooser.addObject(autoCubeFollow, autoCubeFollow);
-		autoChooser.addObject(autoSwitch, autoSwitch);
 		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
 		autoChooser.addObject(autoCenterSwitch, autoCenterSwitch);
 		autoChooser.addObject(autoSwitchOrScale, autoSwitchOrScale);
-		autoChooser.addObject(autoScale, autoScale);
-		autoChooser.addObject(autoTest, autoTest);
-		autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
-		autoChooser.addObject(autoStartToSwitch, autoStartToSwitch);
-
-		SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
-		SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
-		SmartDashboard.putNumber("Auto D:", Calibration.AUTO_DRIVE_D);
+//		autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
+//		autoChooser.addObject(autoScale, autoScale);
+//		autoChooser.addObject(autoStartToSwitch, autoStartToSwitch);
+//		autoChooser.addObject(autoCubeFollow, autoCubeFollow);
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 
@@ -73,9 +67,16 @@ public class Robot extends TimedRobot {
 		compressor.setClosedLoopControl(true);
 
 		CubeClaw.resetArmEncoder();
-		
+
+		DriveTrain.setDriveModulesPIDValues(Calibration.AUTO_DRIVE_P, Calibration.AUTO_DRIVE_I,
+				Calibration.AUTO_DRIVE_D);
+
 		RobotGyro.reset(); // this is also done in auto init in case it wasn't
-		// settled here yet
+							// settled here yet
+
+		// SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
+		// SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
+		// SmartDashboard.putNumber("Auto D:", Calibration.AUTO_DRIVE_D);
 
 	}
 
@@ -112,12 +113,11 @@ public class Robot extends TimedRobot {
 			CubeClaw.stopIntake();
 			CubeClaw.dropCube();
 		}
-		
-		
+
 		if (gamepad.armLiftModifier()) {
 			System.out.println("arm modifier pressed");
 		}
-		
+
 		if (gamepad.armLiftModifier() && gamepad.gotoLiftFloor()) {
 			System.out.println("pickup high cube position");
 			Lift.goPortalPosition();
@@ -142,8 +142,8 @@ public class Robot extends TimedRobot {
 			CubeClaw.setArmScalePosition();
 			Lift.goHighScale();
 		}
-		
-		if(gamepad.goToTravelPosition()){
+
+		if (gamepad.goToTravelPosition()) {
 			CubeClaw.holdCube();
 			CubeClaw.setArmTravelPosition();
 		}
@@ -192,14 +192,14 @@ public class Robot extends TimedRobot {
 
 	}
 
-	
 	private char getSwitchPosition(String gameData) {
 		return gameData.toCharArray()[0];
 	}
+
 	private char getScalePosition(String gameData) {
 		return gameData.toCharArray()[1];
 	}
-	
+
 	@Override
 	public void autonomousInit() {
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -214,11 +214,33 @@ public class Robot extends TimedRobot {
 		mAutoProgram = null;
 
 		switch (autoSelected) {
-		case autoDriveDoubleDiamond:
-			mAutoProgram = new AutoCalibrateDrive(robotPosition);
+		case autoBaseLine:
+			mAutoProgram = new AutoBaseLine(robotPosition);
 			break;
 		case autoCenterSwitch:
 			mAutoProgram = new AutoMainCenterSwitch(robotPosition);
+			break;
+		case autoSwitchOrScale:
+			if (robotPosition == 'R') {
+				if (getSwitchPosition(gameData) == 'R') {
+					mAutoProgram = new AutoStartToSwitch(robotPosition);
+				} else if (getScalePosition(gameData) == 'R') {
+					mAutoProgram = new AutoStartToScale(robotPosition);
+				} else {
+					mAutoProgram = new AutoBaseLine(robotPosition);
+				}
+			} else if (robotPosition == 'L') {
+				if (getSwitchPosition(gameData) == 'L') {
+					mAutoProgram = new AutoStartToSwitch(robotPosition);
+				} else if (getScalePosition(gameData) == 'L') {
+					mAutoProgram = new AutoStartToScale(robotPosition);
+				} else {
+					mAutoProgram = new AutoBaseLine(robotPosition);
+				}
+			} else {
+				mAutoProgram = new AutoBaseLine(robotPosition);
+			}
+
 			break;
 		case autoRotateTest:
 			mAutoProgram = new AutoRotateTest(robotPosition);
@@ -233,28 +255,6 @@ public class Robot extends TimedRobot {
 		case deleteSwerveCalibration:
 			Calibration.resetSwerveDriveCalibration();
 			break;
-		case autoSwitchOrScale:
-			if (robotPosition == 'R') {
-				if (getSwitchPosition(gameData)=='R') {
-					mAutoProgram = new AutoStartToSwitch(robotPosition);
-				} else if (getScalePosition(gameData) == 'R') {
-					mAutoProgram = new AutoStartToScale(robotPosition);
-				} else {
-					mAutoProgram = new AutoBaseLine(robotPosition);
-				}
-			} else if(robotPosition == 'L') {
-				if (getSwitchPosition(gameData)=='L') {
-					mAutoProgram = new AutoStartToSwitch(robotPosition);
-				} else if (getScalePosition(gameData) == 'L') {
-					mAutoProgram = new AutoStartToScale(robotPosition);
-				} else {
-					mAutoProgram = new AutoBaseLine(robotPosition);
-				}
-			} else { 
-				mAutoProgram = new AutoBaseLine(robotPosition);
-			}
-
-			break;
 		case autoScale:
 			mAutoProgram = new AutoStartToScale(robotPosition);
 			break;
@@ -264,12 +264,6 @@ public class Robot extends TimedRobot {
 		case autoCubeFollow:
 			mAutoProgram = new AutoCubeFollow(robotPosition);
 			break;
-		case autoBaseLine:
-			mAutoProgram = new AutoBaseLine(robotPosition);
-			break;
-		case autoTest:
-			mAutoProgram = new AutoCalibrateDrive(robotPosition);
-			break;
 		}
 
 		DriveAuto.reset();
@@ -277,10 +271,10 @@ public class Robot extends TimedRobot {
 
 		System.out.println("end of auto init");
 
-		 if (mAutoProgram != null) {
-		 mAutoProgram.start();
-		 } else
-		 System.out.println("No auto program started in switch statement");
+		if (mAutoProgram != null) {
+			mAutoProgram.start();
+		} else
+			System.out.println("No auto program started in switch statement");
 	}
 
 	@Override
@@ -291,17 +285,17 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Elapsed Time TICK", System.currentTimeMillis());
 
 		}
-		
+
 		DriveAuto.tick();
 		CubeClaw.tick();
 		Lift.tick();
-		
+
 		DriveAuto.showEncoderValues();
 
-		SmartDashboard.putNumber("Elapsed Time PERIOD ", System.currentTimeMillis());
-
-		DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto P:", 0),
-				SmartDashboard.getNumber("Drive I:", 0), SmartDashboard.getNumber("Auto D:", 0));
+		// DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto
+		// P:", 0),
+		// SmartDashboard.getNumber("Drive I:", 0),
+		// SmartDashboard.getNumber("Auto D:", 0));
 	}
 
 	@Override
