@@ -16,35 +16,41 @@ public class Calibration {
 	 * Drive Train
 	 */
 	
+	// PRACTICE
+	private final static double DT_B_ABS_ZERO_INITIAL = .903; //Practice Robot Calibration
+	private final static double DT_A_ABS_ZERO_INITIAL = .022; //Practice Robot Calibration
+	private final static double DT_C_ABS_ZERO_INITIAL =.380; //Practice Robot Calibration
+	private final static double DT_D_ABS_ZERO_INITIAL = .258; //Practice Robot Calibration
+	public static final double ARM_ABS_ZERO = 0.750;  // Absolute encoder value in horizontal position
+	
+	// COMPETIION
+//	private final static double DT_A_ABS_ZERO_INITIAL = .3897; // COMPEITION
+//	private final static double DT_B_ABS_ZERO_INITIAL = .2290;
+//	private final static double DT_C_ABS_ZERO_INITIAL = .461;
+//	private final static double DT_D_ABS_ZERO_INITIAL = .7609;
+//	public static final double ARM_ABS_ZERO = 0.0205;
+
 	//Physical Module - A
 	public final static int DT_A_DRIVE_TALON_ID = 6;
 	public final static int DT_A_TURN_TALON_ID = 5;
-	private final static double DT_A_ABS_ZERO_INITIAL = .643; //Practice Robot Calibration
-	//private final static double DT_A_ABS_ZERO_INITIAL = .388766788766;
 	private static double DT_A_ABS_ZERO = DT_A_ABS_ZERO_INITIAL;
 	public static double GET_DT_A_ABS_ZERO() { return DT_A_ABS_ZERO; }
 	
 	// Physical Module - B
 	public final static int DT_B_DRIVE_TALON_ID = 3;
 	public final static int DT_B_TURN_TALON_ID = 4;
-	private final static double DT_B_ABS_ZERO_INITIAL = .903; //Practice Robot Calibration
-	//private final static double DT_B_ABS_ZERO_INITIAL = .2295;
 	private static double DT_B_ABS_ZERO = DT_B_ABS_ZERO_INITIAL;
 	public static double GET_DT_B_ABS_ZERO() { return DT_B_ABS_ZERO; }
 	
 	// Physical Module - C
 	public final static int DT_C_DRIVE_TALON_ID = 7;
 	public final static int DT_C_TURN_TALON_ID = 8;
-	private final static double DT_C_ABS_ZERO_INITIAL =.380; //Practice Robot Calibration
-	//private final static double DT_C_ABS_ZERO_INITIAL = .455189255189;
 	private static double DT_C_ABS_ZERO = DT_C_ABS_ZERO_INITIAL;
 	public static double GET_DT_C_ABS_ZERO() { return DT_C_ABS_ZERO; }
 	
 	// Physical Module - D
 	public final static int DT_D_DRIVE_TALON_ID = 2;
 	public final static int DT_D_TURN_TALON_ID = 1;
-	private final static double DT_D_ABS_ZERO_INITIAL = .258; //Practice Robot Calibration
-	//private final static double DT_D_ABS_ZERO_INITIAL = 0.763369963369;
 	private static double DT_D_ABS_ZERO = DT_D_ABS_ZERO_INITIAL;
 	public static double GET_DT_D_ABS_ZERO() { return DT_D_ABS_ZERO; }
 	
@@ -54,7 +60,7 @@ public class Calibration {
 	public final static double DT_ROT_PID_D= .000;
 	public final static double DT_ROT_PID_IZONE = 18;
 
-	public final static int DT_MM_ACCEL = 500;
+	public final static int DT_MM_ACCEL = 600;
 	public final static int DT_MM_VELOCITY = 400;
 	
 	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 35.600; //2624 ticks in 80 inches, goes 2,427.2
@@ -70,7 +76,6 @@ public class Calibration {
 	
 	public static final double CLAW_MAX_CURRENT = 17;
 	
-	public static final double ARM_ABS_ZERO = 0.750;  // Absolute encoder value in horizontal position
 
 	public static void loadSwerveCalibration() {
 		File calibrationFile = new File("/home/lvuser/swerve.calibration");
