@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 
-		SmartDashboard.putNumber("Robot Position", 1);
+		SmartDashboard.putString("Robot Position", "C");
 
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
@@ -113,16 +113,11 @@ public class Robot extends TimedRobot {
 			CubeClaw.dropCube();
 		}
 		
-//		if (CubeClaw.isIntakeRunning()) {
-//			if (gamepad.getIntakeReverse()) 
-//				CubeClaw.reverseIntake();
-//			else
-//				CubeClaw.intakeCube();
-//		}
 		
 		if (gamepad.armLiftModifier()) {
 			System.out.println("arm modifier pressed");
 		}
+		
 		if (gamepad.armLiftModifier() && gamepad.gotoLiftFloor()) {
 			System.out.println("pickup high cube position");
 			Lift.goPortalPosition();
@@ -178,7 +173,7 @@ public class Robot extends TimedRobot {
 		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1) { // 2 -
 																		// left
 																		// stick
-			Lift.move(-gamepad.manualLift());
+			Lift.moveSetpoint(-gamepad.manualLift());
 		}
 
 		if (gamepad.ejectCube()) {
