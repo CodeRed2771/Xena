@@ -116,7 +116,7 @@ public class CubeClaw {
 		SmartDashboard.putNumber("Intake Current 1", currentBreaker1.getCurrent());
 		SmartDashboard.putNumber("Intake Current 2", currentBreaker2.getCurrent());
 
-		if ((currentBreaker1.getCurrent() > 15) || (currentBreaker2.getCurrent() > 15)) {
+		if ((currentBreaker1.getCurrent() > 7) || (currentBreaker2.getCurrent() > 7)) {
 			reverseAllowed = true;
 		} else
 			reverseAllowed = false;
@@ -186,8 +186,8 @@ public class CubeClaw {
 	public static void ejectCube() {
 		holdingCube = false;
 		resetIntakeStallDetector();
-		leftRollers.set(ControlMode.PercentOutput, .5);
-		rightRollers.set(ControlMode.PercentOutput, .5);
+		leftRollers.set(ControlMode.PercentOutput, .4);
+		rightRollers.set(ControlMode.PercentOutput, .4);
 
 		ejectEndTime = System.currentTimeMillis() + 750;
 	}
@@ -197,6 +197,7 @@ public class CubeClaw {
 		resetIntakeStallDetector();
 		leftRollers.set(ControlMode.PercentOutput, .25);
 		rightRollers.set(ControlMode.PercentOutput, .25);
+		
 		ejectEndTime = System.currentTimeMillis() + 750;
 	}
 
@@ -291,6 +292,7 @@ public class CubeClaw {
 		if (getInstance() == null)
 			return;
 
+		double posDiff = 0;
 		double offSet = 0;
 		int newArmEncoderValue = 0;
 
@@ -304,7 +306,14 @@ public class CubeClaw {
 		// calibration zero position
 		// to tell the encoder what the current relative position is (relative
 		// to the zero pos)
-		newArmEncoderValue = (int) (calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO) * 4095d);
+		posDiff = calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO);
+		if (posDiff > .7) {
+			// special case for encoder absolute position being past one rotation.
+			// if calib is .02 and abs pos = .95, it's not possible and we should just take the current position as the 
+			// calib position
+			posDiff = 0;
+		}
+		newArmEncoderValue = (int) (posDiff * 4095d);
 		setArmEncPos(newArmEncoderValue);
 		System.out.println("arm absolute " + offSet);
 		System.out.println("Setting arm encoder to " + newArmEncoderValue);
