@@ -25,13 +25,13 @@ public class AutoStartToSwitch extends AutoBaseClass {
 
 			switch (getCurrentStep()) {
 			case 0:
-				setTimerAndAdvanceStep(2000);
+				setTimerAndAdvanceStep(2500);
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
-				if (robotPosition() == 1) {
-					this.driveInches(48, 25, .4);
+				if (robotPosition() == 'R') {
+					this.driveInches(135, 10, .4);
 				} else {
-					this.driveInches(48, -25, .4);
+					this.driveInches(135, -10, .4);
 				}
 				break;
 			case 1:
@@ -40,10 +40,12 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				break;
 			case 2:
 				setTimerAndAdvanceStep(2000);
+				CubeClaw.setArmSwitchPosition();
+				Lift.goSwitch();
 				if(robotPosition() == 'R') {
-					this.turnDegrees(90, .5);
-				} else if(robotPosition() == 'L') {
 					this.turnDegrees(-90, .5);
+				} else if(robotPosition() == 'L') {
+					this.turnDegrees(90, .5);
 				}
 				break;
 			case 3:
@@ -52,7 +54,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				break;
 			case 4:
 				setTimerAndAdvanceStep(2000);
-				this.driveInches(24, 0, .5);
+				this.driveInches(36, 0, .5);
 				break;
 			case 5:
 				if(driveCompleted())
@@ -64,8 +66,13 @@ public class AutoStartToSwitch extends AutoBaseClass {
 			case 7:
 				break;
 			case 8:
-				setTimerAndAdvanceStep(2000);
-//				this.driveInches(, angle, maxPower);
+				setTimerAndAdvanceStep(1000);
+				this.driveInches(24, 0, 0.4);
+				break;
+			case 9:
+				if(driveCompleted())
+					advanceStep();
+				break;
 			case 20:
 				this.setStep(21);
 			case 21:
