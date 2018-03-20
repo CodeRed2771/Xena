@@ -98,13 +98,14 @@ public class DriveTrain implements PIDOutput {
 		moduleD.setTurnOrientation(modDPosition);
 
 		SmartDashboard.putNumber("TURN A RAW", moduleA.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN A POS", moduleA.getTurnRelativePosition());
 		SmartDashboard.putNumber("TURN B RAW", moduleB.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN B POS", moduleB.getTurnRelativePosition());
 		SmartDashboard.putNumber("TURN C RAW", moduleC.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN C POS", moduleC.getTurnRelativePosition());
 		SmartDashboard.putNumber("TURN D RAW", moduleD.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN D POS", moduleD.getTurnRelativePosition());
+		
+//		SmartDashboard.putNumber("TURN A POS", moduleA.getTurnRelativePosition());
+//		SmartDashboard.putNumber("TURN B POS", moduleB.getTurnRelativePosition());
+//		SmartDashboard.putNumber("TURN C POS", moduleC.getTurnRelativePosition());
+//		SmartDashboard.putNumber("TURN D POS", moduleD.getTurnRelativePosition());
 
 	}
 
@@ -345,14 +346,14 @@ public class DriveTrain implements PIDOutput {
 			ws4 /= max;
 		}
 
-		SmartDashboard.putNumber("swerve a", a);
-		SmartDashboard.putNumber("swerve b", b);
-		SmartDashboard.putNumber("swerve c", c);
-		SmartDashboard.putNumber("swerve d", d);
-		SmartDashboard.putNumber("swerve wa1", wa1);
-		SmartDashboard.putNumber("swerve wa2", wa2);
-		SmartDashboard.putNumber("swerve wa3", wa3);
-		SmartDashboard.putNumber("swerve wa4", wa4);
+//		SmartDashboard.putNumber("swerve a", a);
+//		SmartDashboard.putNumber("swerve b", b);
+//		SmartDashboard.putNumber("swerve c", c);
+//		SmartDashboard.putNumber("swerve d", d);
+//		SmartDashboard.putNumber("swerve wa1", wa1);
+//		SmartDashboard.putNumber("swerve wa2", wa2);
+//		SmartDashboard.putNumber("swerve wa3", wa3);
+//		SmartDashboard.putNumber("swerve wa4", wa4);
 
 		DriveTrain.setDrivePower(ws4, ws2, ws1, ws3);
 		DriveTrain.setTurnOrientation(angleToLoc(wa4), angleToLoc(wa2), angleToLoc(wa1), angleToLoc(wa3));

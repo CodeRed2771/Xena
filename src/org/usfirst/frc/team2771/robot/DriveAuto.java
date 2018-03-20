@@ -242,8 +242,8 @@ public class DriveAuto {
 		SmartDashboard.putNumber("Drive Error", DriveTrain.getAverageDriveError());
 
 		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
-		SmartDashboard.putNumber("Gyro PID Setpoint", rotDrivePID.getSetpoint());
-		SmartDashboard.putNumber("Gyro PID error", round2(rotDrivePID.getError()));
+//		SmartDashboard.putNumber("Gyro PID Setpoint", rotDrivePID.getSetpoint());
+//		SmartDashboard.putNumber("Gyro PID error", round2(rotDrivePID.getError()));
 		
 		SmartDashboard.putBoolean("Has Arrived", hasArrived());
 

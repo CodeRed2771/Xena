@@ -128,10 +128,12 @@ public class Module {
 	}
 	
 	public double getTurnOrientation() {
-		SmartDashboard.putNumber("module-a-" + this.hashCode(), turn.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("module-b-" + this.hashCode(), turn.getSelectedSensorPosition(0) % FULL_ROTATION);
-		SmartDashboard.putNumber("module-c-" + this.hashCode(), (turn.getSelectedSensorPosition(0) % FULL_ROTATION) / FULL_ROTATION);
 		return (turn.getSelectedSensorPosition(0) % FULL_ROTATION) / FULL_ROTATION;
+
+//		SmartDashboard.putNumber("module-a-" + this.hashCode(), turn.getSelectedSensorPosition(0));
+//		SmartDashboard.putNumber("module-b-" + this.hashCode(), turn.getSelectedSensorPosition(0) % FULL_ROTATION);
+//		SmartDashboard.putNumber("module-c-" + this.hashCode(), (turn.getSelectedSensorPosition(0) % FULL_ROTATION) / FULL_ROTATION);
+		
 	}
 	
 	public void setDrivePIDToSetPoint(double setpoint) {

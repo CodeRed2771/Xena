@@ -83,11 +83,11 @@ public class CubeClaw {
 		arm.config_kI(0, 0, 0);
 		arm.config_kD(0, 0, 0);
 
-		SmartDashboard.putNumber("MM Arm F", 5);
-		SmartDashboard.putNumber("MM Arm P", 5);
-
-		SmartDashboard.putNumber("MM Arm Velocity", 300);
-		SmartDashboard.putNumber("MM Arm Acceleration", 300);
+//		SmartDashboard.putNumber("MM Arm F", 5);
+//		SmartDashboard.putNumber("MM Arm P", 5);
+//
+//		SmartDashboard.putNumber("MM Arm Velocity", 300);
+//		SmartDashboard.putNumber("MM Arm Acceleration", 300);
 
 		arm.configMotionCruiseVelocity(300, 0);
 		arm.configMotionAcceleration(300, 0);
@@ -106,12 +106,12 @@ public class CubeClaw {
 	 */
 	public static void tick() {
 
-		arm.configMotionCruiseVelocity((int) SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
-		arm.configMotionAcceleration((int) SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
-		arm.config_kF(0, (int) SmartDashboard.getNumber("MM Arm F", 0), 0);
-		arm.config_kP(0, (int) SmartDashboard.getNumber("MM Arm P", 0), 0);
+//		arm.configMotionCruiseVelocity((int) SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
+//		arm.configMotionAcceleration((int) SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
+//		arm.config_kF(0, (int) SmartDashboard.getNumber("MM Arm F", 0), 0);
+//		arm.config_kP(0, (int) SmartDashboard.getNumber("MM Arm P", 0), 0);
 		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
-		SmartDashboard.putNumber("Arm Relative Encoder ", arm.getSensorCollection().getQuadraturePosition());
+//		SmartDashboard.putNumber("Arm Relative Encoder ", arm.getSensorCollection().getQuadraturePosition());
 
 		SmartDashboard.putNumber("Intake Current 1", currentBreaker1.getCurrent());
 		SmartDashboard.putNumber("Intake Current 2", currentBreaker2.getCurrent());

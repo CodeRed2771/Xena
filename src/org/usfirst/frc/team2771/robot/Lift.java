@@ -54,16 +54,16 @@ public class Lift {
 		liftMotor.config_kI(0, 0, 0);
 		liftMotor.config_kD(0, 0, 0);
 
-		SmartDashboard.putNumber("MM Lift Velocity", 4000);
-		SmartDashboard.putNumber("MM Lift Acceleration", 2000);
-		SmartDashboard.putNumber("Lift F", 1);
-		SmartDashboard.putNumber("Lift P", .6);
-		SmartDashboard.putNumber("Lift I", 0);
-		SmartDashboard.putNumber("Lif D", 0);
+//		SmartDashboard.putNumber("MM Lift Velocity", 4000);
+//		SmartDashboard.putNumber("MM Lift Acceleration", 2000);
+//		SmartDashboard.putNumber("Lift F", 1);
+//		SmartDashboard.putNumber("Lift P", .6);
+//		SmartDashboard.putNumber("Lift I", 0);
+//		SmartDashboard.putNumber("Lif D", 0);
 
 		/* set acceleration and vcruise velocity - see documentation */
-		liftMotor.configMotionCruiseVelocity(3000, 0);
-		liftMotor.configMotionAcceleration(1500, 0);
+		liftMotor.configMotionCruiseVelocity(4000, 0);
+		liftMotor.configMotionAcceleration(2000, 0);
 
 		/* zero the sensor */
 		liftMotor.setSelectedSensorPosition(0, 0, 0);
@@ -76,12 +76,12 @@ public class Lift {
 	 */
 	public static void tick() {
 
-		liftMotor.configMotionCruiseVelocity((int) SmartDashboard.getNumber("MM Lift Velocity", 0), 0);
-		liftMotor.configMotionAcceleration((int) SmartDashboard.getNumber("MM Lift Acceleration", 0), 0);
-		liftMotor.config_kF(0, SmartDashboard.getNumber("Lift F", 1.0), 0);
-		liftMotor.config_kP(0, SmartDashboard.getNumber("Lift P", 1.0), 0);
-		liftMotor.config_kI(0, SmartDashboard.getNumber("Lift I", 0), 0);
-		liftMotor.config_kD(0, SmartDashboard.getNumber("Lift D", 0), 0);
+//		liftMotor.configMotionCruiseVelocity((int) SmartDashboard.getNumber("MM Lift Velocity", 0), 0);
+//		liftMotor.configMotionAcceleration((int) SmartDashboard.getNumber("MM Lift Acceleration", 0), 0);
+//		liftMotor.config_kF(0, SmartDashboard.getNumber("Lift F", 1.0), 0);
+//		liftMotor.config_kP(0, SmartDashboard.getNumber("Lift P", 1.0), 0);
+//		liftMotor.config_kI(0, SmartDashboard.getNumber("Lift I", 0), 0);
+//		liftMotor.config_kD(0, SmartDashboard.getNumber("Lift D", 0), 0);
 		SmartDashboard.putNumber("Lift Motor Encoder", liftMotor.getSensorCollection().getQuadraturePosition());
 	}
 
