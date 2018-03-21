@@ -24,7 +24,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 			SmartDashboard.putNumber("Auto Step", getCurrentStep());
 
 			switch (getCurrentStep()) {
-			case 0:
+			case 0: // DRIVE FORWARD
 				setTimerAndAdvanceStep(2500);
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
@@ -38,7 +38,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				if (driveCompleted())
 					advanceStep();
 				break;
-			case 2:
+			case 2: // TURN TOWARDS SWITCH
 				setTimerAndAdvanceStep(2000);
 				CubeClaw.setArmSwitchPosition();
 				Lift.goSwitch();
@@ -52,7 +52,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				if(driveCompleted())
 					advanceStep();
 				break;
-			case 4:
+			case 4: // DRIVE TO SWITCH
 				setTimerAndAdvanceStep(2000);
 				this.driveInches(36, 0, .5);
 				break;
@@ -60,14 +60,15 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				if(driveCompleted())
 					advanceStep();
 				break;
-			case 6:
+			case 6: // DROP CUBE
 				setTimerAndAdvanceStep(700);
 				CubeClaw.ejectCube();
+				break;
 			case 7:
 				break;
 			case 8:
 				setTimerAndAdvanceStep(1000);
-				this.driveInches(24, 0, 0.4);
+				this.driveInches(-24, 0, 0.4);
 				break;
 			case 9:
 				if(driveCompleted())
