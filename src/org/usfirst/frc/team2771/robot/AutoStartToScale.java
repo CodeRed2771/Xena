@@ -87,12 +87,13 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 13:
 				break;
 			case 14: // TURN AROUND AND FACE SWITCH
-				setTimerAndAdvanceStep(2000);x
+				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 'R') {
 					this.turnDegrees(-165, .5);
 				} else {
 					this.turnDegrees(165, .5);
 				}
+				Lift.goStartPosition();
 				break;
 			case 15:
 				if (driveCompleted())
@@ -125,6 +126,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				} else {
 					this.turnDegrees(-165, .5);
 				}*/
+				this.setStep(21);
 				break;
 			case 21:
 				if(driveCompleted())
