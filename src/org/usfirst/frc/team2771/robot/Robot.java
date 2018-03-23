@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
 	final String autoScale = "Auto Scale";
 	final String autoSwitchAndScale = "Auto Switch and Scale";
 	final String autoStartToSwitch = "Auto start to Switch";
-	
+	final String autoDoNothing = "Z Run Compressor";
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
 
@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
 		autoChooser.addObject(autoCenterSwitch, autoCenterSwitch);
 		autoChooser.addObject(autoSwitchOrScale, autoSwitchOrScale);
+		autoChooser.addObject(autoDoNothing, autoDoNothing);
 //		autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
 //		autoChooser.addObject(autoScale, autoScale);
 //		autoChooser.addObject(autoStartToSwitch, autoStartToSwitch);
@@ -119,7 +120,6 @@ public class Robot extends TimedRobot {
 		}
 
 		if (gamepad.armLiftModifier() && gamepad.gotoLiftFloor()) {
-			System.out.println("pickup high cube position");
 			Lift.goPortalPosition();
 			CubeClaw.setArmHorizontalPosition();
 		} else if (gamepad.gotoLiftFloor()) { // 2 - A
@@ -264,12 +264,13 @@ public class Robot extends TimedRobot {
 		case autoCubeFollow:
 			mAutoProgram = new AutoCubeFollow(robotPosition);
 			break;
+		case autoDoNothing:
+			mAutoProgram = new AutoDoNothing(robotPosition);
+			break;
 		}
 
 		DriveAuto.reset();
 		DriveTrain.setAllTurnOrientiation(0);
-
-		System.out.println("end of auto init");
 
 		if (mAutoProgram != null) {
 			mAutoProgram.start();
