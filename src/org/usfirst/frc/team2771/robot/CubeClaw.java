@@ -301,6 +301,7 @@ public class CubeClaw {
 
 		// first find the current absolute position of the arm encoder
 		offSet = getArmAbsolutePosition();
+		System.out.println("arm current pos " + offSet);
 
 		// now use the difference between the current position and the
 		// calibration zero position
@@ -315,15 +316,21 @@ public class CubeClaw {
 			posDiff = 0;
 		}
 		System.out.println("posDiff adjusted " + posDiff);
+		
 		newArmEncoderValue = (int) (posDiff * 4095d);
 		setArmEncPos(newArmEncoderValue);
-		System.out.println("arm absolute " + offSet);
 		System.out.println("Setting arm encoder to " + newArmEncoderValue);
 
 	}
 
 	private static double calculatePositionDifference(double currentPosition, double calibrationZeroPosition) {
 		return currentPosition - calibrationZeroPosition;
+//		if (currentPosition - calibrationZeroPosition > 0) {
+//			return currentPosition - calibrationZeroPosition;
+//		} else {
+//			return (1 - calibrationZeroPosition) + currentPosition;
+//		}
+
 	}
 
 	private static double aDistantFutureTime() {
