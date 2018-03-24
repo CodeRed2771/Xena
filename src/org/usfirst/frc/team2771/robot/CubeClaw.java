@@ -307,12 +307,14 @@ public class CubeClaw {
 		// to tell the encoder what the current relative position is (relative
 		// to the zero pos)
 		posDiff = calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO);
+		System.out.println("posDiff " + posDiff);
 		if (posDiff > .7) {
 			// special case for encoder absolute position being past one rotation.
 			// if calib is .02 and abs pos = .95, it's not possible and we should just take the current position as the 
 			// calib position
 			posDiff = 0;
 		}
+		System.out.println("posDiff adjusted " + posDiff);
 		newArmEncoderValue = (int) (posDiff * 4095d);
 		setArmEncPos(newArmEncoderValue);
 		System.out.println("arm absolute " + offSet);
