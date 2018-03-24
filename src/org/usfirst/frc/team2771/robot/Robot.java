@@ -202,6 +202,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		Lift.setHighGear();
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		char robotPosition = SmartDashboard.getString("Robot Position", "C").toCharArray()[0];
 
