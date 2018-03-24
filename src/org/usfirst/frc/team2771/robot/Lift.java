@@ -93,12 +93,12 @@ public class Lift {
 		int newSetpoint;
 
 		if (direction > 0) {
-			newSetpoint = liftMotor.getSelectedSensorPosition(0) + 2000;
-			if (newSetpoint <= 0) {
+			newSetpoint = liftMotor.getSelectedSensorPosition(0) + 3000;
+			if (newSetpoint >= 0) {
 				newSetpoint = 0;
 			}
 		} else {
-			newSetpoint = liftMotor.getSelectedSensorPosition(0) - 1000;
+			newSetpoint = liftMotor.getSelectedSensorPosition(0) - 3000;
 			if (newSetpoint < -43000) {
 				newSetpoint = -43000;
 			}
