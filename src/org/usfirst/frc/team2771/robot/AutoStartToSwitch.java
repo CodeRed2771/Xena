@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * drive and place a cube on the switch. Currently doesn't
  * do anything if it is NOT on the same side as the switch.
  * 
- * NOTE: Consider declaring this program OBSOLETE.
- *  -The State
  */
 
 public class AutoStartToSwitch extends AutoBaseClass {
@@ -62,7 +60,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				break;
 			case 6: // DROP CUBE
 				setTimerAndAdvanceStep(700);
-				CubeClaw.ejectCube();
+				CubeClaw.dropCube();
 				break;
 			case 7:
 				break;

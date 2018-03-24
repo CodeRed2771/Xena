@@ -59,7 +59,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			case 6:
 				setTimerAndAdvanceStep(500);
 				DriveAuto.stop();
-				CubeClaw.ejectCubeSlow();
+				CubeClaw.dropCube();
 				break;
 			case 7:
 				break;
@@ -131,7 +131,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				break;
 			case 22:
 				setTimerAndAdvanceStep(2000);
-				CubeClaw.ejectCubeSlow();
+				CubeClaw.dropCube();
 				break;
 			case 23:
 				setTimerAndAdvanceStep(2000);
