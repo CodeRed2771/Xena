@@ -37,7 +37,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				if (isSwitchLeft()) {
 					driveInches(100, -30, .1);
 				} else {
-					driveInches(108, 24, .1);
+					driveInches(98, 24, .1);
 				}
 				break;
 			case 3:
@@ -94,7 +94,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 14:
-				setTimerAndAdvanceStep(500);
+				setTimerAndAdvanceStep(750);
 				break;
 			case 15:
 				break;
