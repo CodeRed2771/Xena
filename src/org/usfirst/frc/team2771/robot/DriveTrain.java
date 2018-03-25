@@ -49,6 +49,13 @@ public class DriveTrain implements PIDOutput {
 		LiveWindow.addActuator("DriveSystem", "RotateController", pidControllerRot);
 
 	}
+	
+	public static void setFollowerFix(boolean enable ) {
+		if (enable) 
+			moduleB.setFollower(Calibration.DT_D_DRIVE_TALON_ID);
+		else
+			moduleB.setFollower(0);
+	}
 
 	public static void setDrivePower(double modAPower, double modBPower, double modCPower, double modDPower) {
 		if (getInstance() == null)
