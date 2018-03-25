@@ -37,7 +37,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				if (isSwitchLeft()) {
 					driveInches(100, -30, .1);
 				} else {
-					driveInches(98, 24, .1);
+					driveInches(102, 24, .1);
 				}
 				break;
 			case 3:
