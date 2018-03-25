@@ -81,9 +81,9 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 14: // TURN AROUND AND FACE SWITCH
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 'R') {
-					this.turnDegrees(-165, .5);
+					this.turnDegrees(-165, 1);
 				} else {
-					this.turnDegrees(165, .5);
+					this.turnDegrees(165, 1);
 				}
 				Lift.goStartPosition();
 				break;

@@ -31,7 +31,7 @@ public class AutoBaseLine extends AutoBaseClass {
 				DriveAuto.setDriveSpeed(DriveSpeed.LOW_SPEED);
 				CubeClaw.setArmTravelPosition();
 				if (myRobotPosition == 'C') {
-					driveInches(80, 24, .1);
+					driveInches(95, 24, .1);
 				} else
 				{
 					driveInches(80, 0, .1);
