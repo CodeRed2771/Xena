@@ -116,11 +116,6 @@ public class CubeClaw {
 		SmartDashboard.putNumber("Intake Current 1", currentBreaker1.getCurrent());
 		SmartDashboard.putNumber("Intake Current 2", currentBreaker2.getCurrent());
 
-		if ((currentBreaker1.getCurrent() > 7) || (currentBreaker2.getCurrent() > 7)) {
-			reverseAllowed = true;
-		} else
-			reverseAllowed = false;
-
 		if (intakeStalled() && !holdingCube) {
 			System.out.println("Intake stalled - switching to hold mode");
 			holdCube();
@@ -136,11 +131,12 @@ public class CubeClaw {
 
 		if (intakeRunning) {
 			if (System.currentTimeMillis() >= startReverseTime) {
-				if (reverseAllowed)
+				if ((currentBreaker1.getCurrent() > 7) || (currentBreaker2.getCurrent() > 7)) {
 					reverseIntake();
-			}
-			if (System.currentTimeMillis() >= (startReverseTime + 200)) {
-				intakeCube();
+				}
+				if (System.currentTimeMillis() >= (startReverseTime + 200)) {
+					intakeCube();
+				}
 			}
 		}
 		
@@ -157,7 +153,7 @@ public class CubeClaw {
 		resetIntakeStallDetector();
 		ejectEndTime = aDistantFutureTime();
 		intakeRunning = true;
-		startReverseTime = System.currentTimeMillis() + 200;
+		startReverseTime = System.currentTimeMillis() + 500;
 	}
 
 	public static void reverseIntake() {
