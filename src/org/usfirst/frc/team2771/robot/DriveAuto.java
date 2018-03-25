@@ -159,6 +159,7 @@ public class DriveAuto {
         	}
     	}
 
+    	DriveTrain.showDriveEncodersOnDash();
 
 		// check for ramping up
 //		if (curPowerSetting < maxPowerAllowed) { // then increase power a notch

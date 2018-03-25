@@ -97,10 +97,12 @@ public class DriveTrain implements PIDOutput {
 		moduleC.setTurnOrientation(modCPosition);
 		moduleD.setTurnOrientation(modDPosition);
 
-		SmartDashboard.putNumber("TURN A RAW", moduleA.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN B RAW", moduleB.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN C RAW", moduleC.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN D RAW", moduleD.getTurnAbsolutePosition());
+		if (SmartDashboard.getBoolean("Show Turn Encoders", false)) {
+			SmartDashboard.putNumber("TURN A RAW", moduleA.getTurnAbsolutePosition());
+			SmartDashboard.putNumber("TURN B RAW", moduleB.getTurnAbsolutePosition());
+			SmartDashboard.putNumber("TURN C RAW", moduleC.getTurnAbsolutePosition());
+			SmartDashboard.putNumber("TURN D RAW", moduleD.getTurnAbsolutePosition());
+		}
 		
 //		SmartDashboard.putNumber("TURN A POS", moduleA.getTurnRelativePosition());
 //		SmartDashboard.putNumber("TURN B POS", moduleB.getTurnRelativePosition());
@@ -357,6 +359,14 @@ public class DriveTrain implements PIDOutput {
 
 		DriveTrain.setDrivePower(ws4, ws2, ws1, ws3);
 		DriveTrain.setTurnOrientation(angleToLoc(wa4), angleToLoc(wa2), angleToLoc(wa1), angleToLoc(wa3));
+	}
+	
+	public static void showDriveEncodersOnDash() {
+		SmartDashboard.putNumber("Mod A Drive Enc", moduleA.getDriveEnc());
+		SmartDashboard.putNumber("Mod B Drive Enc", moduleB.getDriveEnc());
+		SmartDashboard.putNumber("Mod C Drive Enc", moduleC.getDriveEnc());
+		SmartDashboard.putNumber("Mod D Drive Enc", moduleD.getDriveEnc());
+		
 	}
 
 	public static void humanDrive(double fwd, double str, double rot) {
