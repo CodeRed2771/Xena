@@ -57,6 +57,13 @@ public class Module {
 		
 	}
 	
+	public void setFollower(int talonToFollow) {
+		if (talonToFollow != 0) {
+			drive.set(ControlMode.Follower, talonToFollow);
+		} else
+			drive.set(ControlMode.Velocity, 0);
+	}
+	
 	public void setDriveMMAccel(int accel) {
 		drive.configMotionAcceleration(accel, 0);
 	}
