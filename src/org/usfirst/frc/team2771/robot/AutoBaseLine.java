@@ -2,6 +2,8 @@
 
 package org.usfirst.frc.team2771.robot;
 
+import org.usfirst.frc.team2771.robot.DriveAuto.DriveSpeed;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
@@ -10,8 +12,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 
 public class AutoBaseLine extends AutoBaseClass {
+	private char myRobotPosition;
+	
 	public AutoBaseLine(char robotPosition) {
 		super(robotPosition);
+		myRobotPosition = robotPosition;
 	}
 
 	public void tick() {
@@ -23,8 +28,14 @@ public class AutoBaseLine extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(6000);
-				driveInches(80, 0, .1);
-			
+				DriveAuto.setDriveSpeed(DriveSpeed.LOW_SPEED);
+				CubeClaw.setArmTravelPosition();
+				if (myRobotPosition == 'C') {
+					driveInches(80, 24, .1);
+				} else
+				{
+					driveInches(80, 0, .1);
+				}
 				break;
 			case 2:
 				stop();
