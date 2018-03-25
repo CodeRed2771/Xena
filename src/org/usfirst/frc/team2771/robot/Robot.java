@@ -212,10 +212,11 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		CubeClaw.resetArmEncoder();
 		Lift.setHighGear();
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		char robotPosition = SmartDashboard.getString("Robot Position", "C").toCharArray()[0];
-
+		
 		RobotGyro.reset();
 
 		autoSelected = (String) autoChooser.getSelected();
@@ -322,6 +323,7 @@ public class Robot extends TimedRobot {
 		CubeClaw.resetArmEncoder();
 		Lift.stop();
 		CubeClaw.setArmTravelPosition();
+		
 	}
 
 	@Override
@@ -337,6 +339,7 @@ public class Robot extends TimedRobot {
 											// reset once during disabled
 											// periodic
 		DriveTrain.resetDriveEncoders();
+
 	}
 
 	public void disabledPeriodic() {
@@ -350,6 +353,11 @@ public class Robot extends TimedRobot {
 
 		CubeClaw.tick();
 		Lift.tick();
+		
+
+		autoSelected = (String) autoChooser.getSelected();
+		SmartDashboard.putString("Auto Selected: ", autoSelected);
+
 	}
 
 	private double powerOf2PreserveSign(double v) {
