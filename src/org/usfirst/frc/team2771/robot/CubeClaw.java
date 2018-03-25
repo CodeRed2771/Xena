@@ -191,6 +191,16 @@ public class CubeClaw {
 
 		ejectEndTime = System.currentTimeMillis() + 750;
 	}
+	
+	public static void ejectCubeFast() {
+		holdingCube = false;
+		resetIntakeStallDetector();
+		leftRollers.set(ControlMode.PercentOutput, .8);
+		rightRollers.set(ControlMode.PercentOutput, .8);
+
+		ejectEndTime = System.currentTimeMillis() + 750;
+		
+	}
 
 	public static void ejectCubeSlow() {
 		holdingCube = false;
