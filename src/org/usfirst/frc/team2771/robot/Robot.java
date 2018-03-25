@@ -16,8 +16,8 @@ public class Robot extends TimedRobot {
 	Compressor compressor;
 	SendableChooser<String> autoChooser;
 	final String autoBaseLine = "Auto Base Line";
-	final String autoCenterSwitch = "Auto Center Switch";
-	final String autoSwitchOrScale = "Auto Switch or Scale";
+	final String autoCenterSwitch = "Auto CENTER Switch";
+	final String autoSwitchOrScale = "Auto SIDE Switch or Scale";
 
 	final String calibrateSwerveModules = "Calibrate Swerve Modules";
 	final String deleteSwerveCalibration = "Delete Swerve Calibration";
@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
 	final String autoDoNothing = "Z Run Compressor";
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
+	private boolean inExchangePosition = false;
 
 	@Override
 	public void robotInit() {
@@ -47,12 +48,12 @@ public class Robot extends TimedRobot {
 		Calibration.loadSwerveCalibration();
 
 		autoChooser = new SendableChooser<String>();
-		autoChooser.addDefault(autoBaseLine, autoBaseLine);
+		autoChooser.addObject(autoBaseLine, autoBaseLine);
 		autoChooser.addObject(calibrateSwerveModules, calibrateSwerveModules);
 		autoChooser.addObject(deleteSwerveCalibration, deleteSwerveCalibration);
 		autoChooser.addObject(autoRotateTest, autoRotateTest);
 		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
-		autoChooser.addObject(autoCenterSwitch, autoCenterSwitch);
+		autoChooser.addDefault(autoCenterSwitch, autoCenterSwitch);
 		autoChooser.addObject(autoSwitchOrScale, autoSwitchOrScale);
 		autoChooser.addObject(autoDoNothing, autoDoNothing);
 //		autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
@@ -75,6 +76,7 @@ public class Robot extends TimedRobot {
 		RobotGyro.reset(); // this is also done in auto init in case it wasn't
 							// settled here yet
 
+		SmartDashboard.putBoolean("Show Turn Encoders", false);
 		// SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
 		// SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
 		// SmartDashboard.putNumber("Auto D:", Calibration.AUTO_DRIVE_D);
@@ -122,25 +124,30 @@ public class Robot extends TimedRobot {
 		if (gamepad.armLiftModifier() && gamepad.gotoLiftFloor()) {
 			Lift.goPortalPosition();
 			CubeClaw.setArmHorizontalPosition();
+			inExchangePosition = true;
 		} else if (gamepad.gotoLiftFloor()) { // 2 - A
 			CubeClaw.stopIntake();
 			Lift.goStartPosition();
 			CubeClaw.setArmHorizontalPosition();
+			inExchangePosition = false;
 		}
 
 		if (gamepad.armLiftModifier() && gamepad.gotoLiftSwitch()) {
 			Lift.goPickSecondCubePosition();
 			CubeClaw.setArmHorizontalPosition();
+			inExchangePosition = false;
 		} else if (gamepad.gotoLiftSwitch()) { // 2 - B
 			CubeClaw.holdCube();
 			CubeClaw.setArmSwitchPosition();
 			Lift.goSwitch();
+			inExchangePosition = false;
 		}
 
 		if (gamepad.gotoLiftScale()) { // 2 - Y
 			CubeClaw.holdCube();
 			CubeClaw.setArmScalePosition();
 			Lift.goHighScale();
+			inExchangePosition = false;
 		}
 
 		if (gamepad.goToTravelPosition()) {
@@ -177,7 +184,10 @@ public class Robot extends TimedRobot {
 		}
 
 		if (gamepad.ejectCube()) {
-			CubeClaw.ejectCube();
+			if (inExchangePosition)
+				CubeClaw.ejectCubeFast();
+			else
+				CubeClaw.ejectCube();
 		}
 
 		if (gamepad.overTheTop() && Lift.isOverTheTopHeight()) {
@@ -224,21 +234,28 @@ public class Robot extends TimedRobot {
 		case autoSwitchOrScale:
 			if (robotPosition == 'R') {
 				if (getSwitchPosition(gameData) == 'R') {
+					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToSwitch R");
 					mAutoProgram = new AutoStartToSwitch(robotPosition);
 				} else if (getScalePosition(gameData) == 'R') {
+					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToScale R");
 					mAutoProgram = new AutoStartToScale(robotPosition);
 				} else {
+					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoBaseline R");
 					mAutoProgram = new AutoBaseLine(robotPosition);
 				}
 			} else if (robotPosition == 'L') {
 				if (getSwitchPosition(gameData) == 'L') {
+					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToSwitch L");
 					mAutoProgram = new AutoStartToSwitch(robotPosition);
 				} else if (getScalePosition(gameData) == 'L') {
+					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToScale L");
 					mAutoProgram = new AutoStartToScale(robotPosition);
 				} else {
+					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoBaseline L");
 					mAutoProgram = new AutoBaseLine(robotPosition);
 				}
 			} else {
+				SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoBaseline Default");
 				mAutoProgram = new AutoBaseLine(robotPosition);
 			}
 
@@ -327,7 +344,7 @@ public class Robot extends TimedRobot {
 										// prevents multiple calls
 		DriveTrain.disablePID();
 
-		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
+		//SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
 
 		// System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
 
