@@ -16,7 +16,7 @@ public class DriveAuto {
 	private static double curPowerSetting = 1;
 	private static boolean isDriveInchesRunning = false;
 	private static int heading = 0;
-
+	private static double motionStartTime = 0;
     private static double strafeAngle = 0;
     
     public static enum DriveSpeed {LOW_SPEED, MED_SPEED, HIGH_SPEED};
@@ -84,6 +84,8 @@ public class DriveAuto {
 
 		DriveTrain.addToAllDrivePositions(convertToTicks(inches));
 		
+		motionStartTime = System.currentTimeMillis();
+		
 		try {
 			Thread.sleep(150);
 		} catch (InterruptedException e) {
@@ -122,6 +124,8 @@ public class DriveAuto {
 		rotDrivePID.enable();
 		setPowerOutput(curPowerSetting);
 		
+		motionStartTime = System.currentTimeMillis();
+
 		try {
 			Thread.sleep(150);
 		} catch (InterruptedException e) {
@@ -132,12 +136,16 @@ public class DriveAuto {
 	}
 
 	public static void continuousTurn(double degrees, double maxPower) {
+		motionStartTime = System.currentTimeMillis();
+
 		rotDrivePID.setSetpoint(RobotGyro.getAngle() + degrees);
 		rotDrivePID.enable();
 		setPowerOutput(maxPower);
 	}
 
 	public static void continuousDrive(double inches, double maxPower) {
+		motionStartTime = System.currentTimeMillis();
+
 		setPowerOutput(maxPower);
 
 		DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(0), DriveTrain.angleToLoc(0), DriveTrain.angleToLoc(0),
@@ -207,9 +215,10 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-		return false;
-		// we're checking to see if it's not equal to zero to avoid failed error calls.
-		//return ((DriveTrain.getAverageDriveError() < 100) && (DriveTrain.getAverageDriveError() != 0));
+		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 200; // we've been moving for at least 200ms
+		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) == 0;
+		
+		return (startupDelayCompleted && driveTrainStopped);
 	}
 
 	public static boolean turnCompleted() {
