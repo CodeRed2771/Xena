@@ -217,10 +217,14 @@ public class Robot extends TimedRobot {
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		char robotPosition = SmartDashboard.getString("Robot Position", "C").toCharArray()[0];
 		
+		System.out.println("Robot position: " + robotPosition);
+		System.out.println("Robot received gamedata: " + gameData);
+
 		RobotGyro.reset();
 
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
+		System.out.println("Robot received gamedata: " + gameData);
 		SmartDashboard.putString("GameData", gameData);
 
 		mAutoProgram = null;
