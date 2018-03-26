@@ -72,6 +72,10 @@ public class Module {
 		drive.configMotionCruiseVelocity(velocity, 0);
 	}
 	
+	public int getDriveVelocity() {
+		return drive.getSelectedSensorVelocity(0);
+	}
+	
 	/**
 	 * Setting turn motor power
 	 * @param p value from -1 to 1

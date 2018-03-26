@@ -80,6 +80,10 @@ public class DriveTrain implements PIDOutput {
 		moduleC.setDriveMMVelocity(velocity);
 		moduleD.setDriveMMVelocity(velocity);
 	}
+	
+	public static int getDriveVelocity() {
+		return (moduleA.getDriveVelocity() + moduleB.getDriveVelocity() + moduleC.getDriveVelocity() + moduleD.getDriveVelocity()) / 4;
+	}
 
 	public static void setTurnPower(double modAPower, double modBPower, double modCPower, double modDPower) {
 		if (getInstance() == null)
