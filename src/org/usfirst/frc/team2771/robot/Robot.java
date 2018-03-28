@@ -315,6 +315,9 @@ public class Robot extends TimedRobot {
 		Lift.tick();
 
 		DriveAuto.showEncoderValues();
+		
+		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
+		SmartDashboard.putNumber("Gyro 2", round2(RobotGyro.pidGet()));
 
 		// DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto
 		// P:", 0),
@@ -324,6 +327,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		DriveAuto.stop();
 		CubeClaw.resetArmEncoder();
 		Lift.stop();
 		CubeClaw.setArmTravelPosition();
@@ -351,7 +355,8 @@ public class Robot extends TimedRobot {
 										// prevents multiple calls
 		DriveTrain.disablePID();
 
-		//SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
+		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
+		SmartDashboard.putNumber("Gyro 2", round2(RobotGyro.pidGet()));
 
 		// System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
 

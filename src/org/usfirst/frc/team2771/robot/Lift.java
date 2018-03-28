@@ -82,7 +82,7 @@ public class Lift {
 //		liftMotor.config_kP(0, SmartDashboard.getNumber("Lift P", 1.0), 0);
 //		liftMotor.config_kI(0, SmartDashboard.getNumber("Lift I", 0), 0);
 //		liftMotor.config_kD(0, SmartDashboard.getNumber("Lift D", 0), 0);
-		SmartDashboard.putNumber("Lift Motor Encoder", liftMotor.getSensorCollection().getQuadraturePosition());
+//		SmartDashboard.putNumber("Lift Motor Encoder", liftMotor.getSensorCollection().getQuadraturePosition());
 	}
 
 	public static void move(double speed) {

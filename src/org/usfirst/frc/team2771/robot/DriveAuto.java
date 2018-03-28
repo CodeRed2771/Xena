@@ -108,6 +108,7 @@ public class DriveAuto {
 		rotDrivePID.setSetpoint(rotDrivePID.get());
 		isDriveInchesRunning = false;
 		DriveTrain.stopDriveAndTurnMotors();
+		rotDrivePID.disable();
 	}
 
 	public static void turnDegrees(double degrees, double maxPower) {
@@ -120,6 +121,7 @@ public class DriveAuto {
 
 		maxPowerAllowed = maxPower;
 		curPowerSetting = maxPower;
+		SmartDashboard.putNumber("ROT SETPOINT", rotDrivePID.getSetpoint() + degrees);
 		rotDrivePID.setSetpoint(rotDrivePID.getSetpoint() + degrees);
 		rotDrivePID.enable();
 		setPowerOutput(curPowerSetting);
@@ -166,6 +168,8 @@ public class DriveAuto {
         					DriveTrain.angleToLoc((RobotGyro.pidGet()-heading)*.5), DriveTrain.angleToLoc(-(RobotGyro.pidGet()-heading)*.5));
         	}
     	}
+    	
+    	SmartDashboard.putNumber("ROT PID ERROR", rotDrivePID.getError());
 
     	DriveTrain.showDriveEncodersOnDash();
 
@@ -215,10 +219,11 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 200; // we've been moving for at least 200ms
-		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) == 0;
-		
-		return (startupDelayCompleted && driveTrainStopped);
+//		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 200; // we've been moving for at least 200ms
+//		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) == 0;
+//		
+//		return (startupDelayCompleted && driveTrainStopped);
+		return false;
 	}
 
 	public static boolean turnCompleted() {
