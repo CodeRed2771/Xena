@@ -108,6 +108,7 @@ public class DriveAuto {
 		rotDrivePID.setSetpoint(rotDrivePID.get());
 		isDriveInchesRunning = false;
 		DriveTrain.stopDriveAndTurnMotors();
+		rotDrivePID.disable();
 	}
 
 	public static void turnDegrees(double degrees, double maxPower) {
