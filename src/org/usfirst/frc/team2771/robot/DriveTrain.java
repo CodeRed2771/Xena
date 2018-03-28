@@ -40,13 +40,12 @@ public class DriveTrain implements PIDOutput {
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, 4.20, 0.01, 0, 200);
 
 		// PID is for PID drive not for the modules
+		// DVV - I don't believe we're using a mode that uses this
 		pidControllerRot = new PIDController(Calibration.DT_ROT_PID_P, Calibration.DT_ROT_PID_I,
 				Calibration.DT_ROT_PID_D, RobotGyro.getGyro(), this);
 		pidControllerRot.setInputRange(-180.0f, 180.0f);
 		pidControllerRot.setOutputRange(-1.0, 1.0);
 		pidControllerRot.setContinuous(true);
-
-		LiveWindow.addActuator("DriveSystem", "RotateController", pidControllerRot);
 
 	}
 	
@@ -360,6 +359,7 @@ public class DriveTrain implements PIDOutput {
 		}
 
 		SmartDashboard.putNumber("swerve rot", rot);
+		
 //		SmartDashboard.putNumber("swerve a", a);
 //		SmartDashboard.putNumber("swerve b", b);
 //		SmartDashboard.putNumber("swerve c", c);

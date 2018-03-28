@@ -114,14 +114,15 @@ public class DriveAuto {
 	public static void turnDegrees(double degrees, double maxPower) {
 		// Turns using the Gyro, relative to the current position
 		// Use "turnCompleted" method to determine when the turn is done
+		
 		isDriveInchesRunning = false;
-		heading += degrees;
+		heading += degrees;  // this is used later to help us drive straight after rotating
 
 		SmartDashboard.putNumber("TURN DEGREES CALL", degrees);
+		SmartDashboard.putNumber("ROT SETPOINT", rotDrivePID.getSetpoint() + degrees);
 
 		maxPowerAllowed = maxPower;
 		curPowerSetting = maxPower;
-		SmartDashboard.putNumber("ROT SETPOINT", rotDrivePID.getSetpoint() + degrees);
 		rotDrivePID.setSetpoint(rotDrivePID.getSetpoint() + degrees);
 		rotDrivePID.enable();
 		setPowerOutput(curPowerSetting);
@@ -129,7 +130,7 @@ public class DriveAuto {
 		motionStartTime = System.currentTimeMillis();
 
 		try {
-			Thread.sleep(150);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -316,6 +316,8 @@ public class Robot extends TimedRobot {
 
 		DriveAuto.showEncoderValues();
 		
+		SmartDashboard.putNumber("Gyro PID Get", round2(RobotGyro.pidGet()));
+		
 		// DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto
 		// P:", 0),
 		// SmartDashboard.getNumber("Drive I:", 0),
@@ -352,11 +354,7 @@ public class Robot extends TimedRobot {
 										// prevents multiple calls
 		DriveTrain.disablePID();
 
-		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
-<<<<<<< HEAD
-=======
-		SmartDashboard.putNumber("Gyro 2", round2(RobotGyro.pidGet()));
->>>>>>> origin/master
+		SmartDashboard.putNumber("Gyro PID Get", round2(RobotGyro.pidGet()));
 
 		// System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
 
@@ -366,7 +364,7 @@ public class Robot extends TimedRobot {
 
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
-
+		SmartDashboard.putString("Position Selected", SmartDashboard.getString("Robot Position", "C"));
 	}
 
 	private double powerOf2PreserveSign(double v) {
