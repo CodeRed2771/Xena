@@ -51,7 +51,7 @@ public class RobotGyro {
 	public static double pidGet() {
 		if (getInstance() == null) return 0.0;
 
-		return mGyro.pidGet();
+		return mGyro.getAngle();
 	}
 	
 	public static double getGyroAngleInRad() {

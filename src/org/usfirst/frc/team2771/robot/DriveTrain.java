@@ -359,6 +359,7 @@ public class DriveTrain implements PIDOutput {
 			ws4 /= max;
 		}
 
+		SmartDashboard.putNumber("swerve rot", rot);
 //		SmartDashboard.putNumber("swerve a", a);
 //		SmartDashboard.putNumber("swerve b", b);
 //		SmartDashboard.putNumber("swerve c", c);

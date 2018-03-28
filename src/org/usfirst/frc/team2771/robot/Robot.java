@@ -315,7 +315,7 @@ public class Robot extends TimedRobot {
 		Lift.tick();
 
 		DriveAuto.showEncoderValues();
-
+		
 		// DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto
 		// P:", 0),
 		// SmartDashboard.getNumber("Drive I:", 0),
@@ -353,6 +353,10 @@ public class Robot extends TimedRobot {
 		DriveTrain.disablePID();
 
 		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
+<<<<<<< HEAD
+=======
+		SmartDashboard.putNumber("Gyro 2", round2(RobotGyro.pidGet()));
+>>>>>>> origin/master
 
 		// System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
 
