@@ -194,7 +194,7 @@ public class Robot extends TimedRobot {
 			CubeClaw.setArmOverTheTopPosition();
 		}
 
-		SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
+		// SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
 		SmartDashboard.putNumber("Gyro Heading", RobotGyro.getAngle());
 
 		Lift.tick();

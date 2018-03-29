@@ -171,6 +171,7 @@ public class DriveAuto {
     	}
     	
     	SmartDashboard.putNumber("ROT PID ERROR", rotDrivePID.getError());
+    	SmartDashboard.putBoolean("Has Arrived Prototype", hasArrivedPrototype());
 
     	DriveTrain.showDriveEncodersOnDash();
 
@@ -225,6 +226,13 @@ public class DriveAuto {
 //		
 //		return (startupDelayCompleted && driveTrainStopped);
 		return false;
+	}
+	
+	public static boolean hasArrivedPrototype() {
+		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 400; // we've been moving for at least 400ms
+		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) == 0;
+		
+		return (startupDelayCompleted && driveTrainStopped);
 	}
 
 	public static boolean turnCompleted() {

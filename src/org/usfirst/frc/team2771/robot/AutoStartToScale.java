@@ -19,9 +19,9 @@ public class AutoStartToScale extends AutoBaseClass {
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
 				if (robotPosition() == 'R') {
-					this.driveInches(48, 25, .4); // remember to add two to three inches to this before competition
+					this.driveInches(36, 25, .4); // remember to add two to three inches to this before competition
 				} else {
-					this.driveInches(48, -25, .4); // this one too
+					this.driveInches(36, -25, .4); // this one too
 				}
 				break;
 			case 1:
@@ -30,7 +30,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				break;
 			case 2: // DRIVE TO SCALE PT. 2
 				setTimerAndAdvanceStep(3000);
-				this.driveInches(160, 0, .3);
+				this.driveInches(170, 0, .3);
 				Lift.goHighScale();
 				break;
 			case 3:
@@ -48,9 +48,9 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 6: // DRIVE TO SCALE PT. 3
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 'R') {
-					this.driveInches(48, -45, .5);
+					this.driveInches(44, -45, .5);
 				} else {
-					this.driveInches(48, 45, .5);
+					this.driveInches(44, 45, .5);
 				}
 				CubeClaw.setArmScalePosition();
 				break;
@@ -67,31 +67,30 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 10: // DRIVE BACK
 				setTimerAndAdvanceStep(2000);
 				this.driveInches(-24, 0, .5);
+				CubeClaw.setArmTravelPosition(); // RESET ARM
 				break;
 			case 11:
 				if(driveCompleted())
 					advanceStep();
 				break;
-			case 12: // RESET ARM
-				setTimerAndAdvanceStep(2000);
-				CubeClaw.setArmTravelPosition();
-				break;
-			case 13:
-				break;
-			case 14: // TURN AROUND AND FACE SWITCH
+			case 12: // TURN AROUND AND FACE SWITCH
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 'R') {
-					this.turnDegrees(-100, 1);
+					this.turnDegrees(-100, .4);
 				} else {
-					this.turnDegrees(100, 1);
+					this.turnDegrees(100, .4);
 				}
 				Lift.goStartPosition();
 				break;
-			case 15:
+			case 13:
 				if (driveCompleted())
 					advanceStep();
 				break;
-			case 16: // DRIVE TOWARDS AND GRAB 2ND CUBE
+			case 14: // DRIVE TOWARDS AND GRAB 2ND CUBE
+				
+				setStep(30);  // cancels the rest of the auto for now
+				
+				
 				setTimerAndAdvanceStep(2000);
 				CubeClaw.intakeCube();
 				this.driveInches(48, 0, .5);
