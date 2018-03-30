@@ -365,7 +365,7 @@ public class Robot extends TimedRobot {
 
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
-		SmartDashboard.putString("Position Selected", SmartDashboard.getString("Robot Position", "C"));
+		SmartDashboard.putString("Position Selected", SmartDashboard.getString("Robot Position",""));
 	}
 
 	private double powerOf2PreserveSign(double v) {

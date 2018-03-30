@@ -288,7 +288,7 @@ public class CubeClaw {
 
 	public static void showArmEncoderValue() {
 		SmartDashboard.putNumber("Arm Abs Encoder: ", round2(getArmAbsolutePosition()));
-
+		SmartDashboard.putNumber("Arm Position", arm.getSensorCollection().getQuadraturePosition());
 	}
 	/*
 	 * Resets the arm encoder value relative to what we've determined to be the

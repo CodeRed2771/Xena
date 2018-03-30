@@ -136,6 +136,7 @@ public class DriveTrain implements PIDOutput {
 	public static void setDrivePosition(int modAPosition, int modBPosition, int modCPosition, int modDPosition) {
 		if (getInstance() == null)
 			return;
+		SmartDashboard.putNumber("Drive A Setpoint", modAPosition);
 		moduleA.setDrivePIDToSetPoint(modAPosition);
 		moduleB.setDrivePIDToSetPoint(modBPosition);
 		moduleC.setDrivePIDToSetPoint(modCPosition);

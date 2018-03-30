@@ -88,7 +88,6 @@ public class DriveAuto {
 
 		DriveTrain.addToAllDrivePositions(convertToTicks(inches));
 		
-		motionStartTime = System.currentTimeMillis();
 		
 		try {
 			Thread.sleep(150);
@@ -96,6 +95,9 @@ public class DriveAuto {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		motionStartTime = System.currentTimeMillis();
+
 	}
 
 	public static void driveInches(double inches, double angle, double maxPower) {
@@ -131,7 +133,6 @@ public class DriveAuto {
 		rotDrivePID.enable();
 		setPowerOutput(curPowerSetting);
 		
-		motionStartTime = System.currentTimeMillis();
 
 		try {
 			Thread.sleep(100);
@@ -139,6 +140,8 @@ public class DriveAuto {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		motionStartTime = System.currentTimeMillis();
 
 	}
 
@@ -228,16 +231,16 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 400; // we've been moving for at least 200ms
-		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 1;
+		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 600; // we've been moving for at least 200ms
+		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 3;
 		
 		return (startupDelayCompleted && driveTrainStopped);
 //	return false;
 	}
 
 	public static boolean hasArrivedTEST() {
-		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 400; // we've been moving for at least 200ms
-		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 1;
+		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 600; // we've been moving for at least 200ms
+		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 3;
 		
 		return (startupDelayCompleted && driveTrainStopped);
 	}
@@ -270,13 +273,13 @@ public class DriveAuto {
 		SmartDashboard.putNumber("Drive Encoder", DriveTrain.getDriveEnc());
 		
 		SmartDashboard.putNumber("Drive PID Error", DriveTrain.getDriveError());
-		SmartDashboard.putNumber("Drive Error", DriveTrain.getAverageDriveError());
+		SmartDashboard.putNumber("Drive Avg Error", DriveTrain.getAverageDriveError());
 
 		SmartDashboard.putNumber("Gyro", round2(RobotGyro.getAngle()));
 //		SmartDashboard.putNumber("Gyro PID Setpoint", rotDrivePID.getSetpoint());
 //		SmartDashboard.putNumber("Gyro PID error", round2(rotDrivePID.getError()));
 		
-		SmartDashboard.putBoolean("Has Arrived", hasArrived());
+//		SmartDashboard.putBoolean("Has Arrived", hasArrived());
 
 		// SmartDashboard.putNumber("Left Drive Encoder Raw: ",
 		// -mainDrive.getLeftEncoderObject().get());

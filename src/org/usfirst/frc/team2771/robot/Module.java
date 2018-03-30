@@ -34,7 +34,7 @@ public class Module {
 		drive.selectProfileSlot(0, 0);
 		
 		drive.configOpenloopRamp(.1, 0);
-		drive.configClosedloopRamp(.1, 0);
+		drive.configClosedloopRamp(.05, 0);
 		
 		drive.configMotionCruiseVelocity(Calibration.DT_MM_VELOCITY, 0);
 		drive.configMotionAcceleration(Calibration.DT_MM_ACCEL, 0);
