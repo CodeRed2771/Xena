@@ -20,7 +20,7 @@ public class AutoRotateTest extends AutoBaseClass{
 			switch(getCurrentStep()){
 			case 0:
 				setTimerAndAdvanceStep(4000);
-				turnDegrees(165,.3);
+				turnDegrees(165,.45);
 				break;
 			case 1:
 				if(driveCompleted())
@@ -33,7 +33,7 @@ public class AutoRotateTest extends AutoBaseClass{
 				break;
 			case 4:
 				setTimerAndAdvanceStep(4000);
-				turnDegrees(-165, .3);
+				turnDegrees(-165, .45);
 				break;	
 			case 5:
 				if(driveCompleted())

@@ -48,6 +48,10 @@ public class DriveAuto {
 		DriveTrain.setDriveMMAccel(Calibration.DT_MM_ACCEL);
 		DriveTrain.setDriveMMVelocity(Calibration.DT_MM_VELOCITY);
 	
+		SmartDashboard.putNumber("ROT P", Calibration.AUTO_ROT_P);
+		SmartDashboard.putNumber("ROT I", Calibration.AUTO_ROT_I);
+		SmartDashboard.putNumber("ROT D", Calibration.AUTO_ROT_D);
+
 	}
 
 	public static void setDriveSpeed(DriveAuto.DriveSpeed ds) {
@@ -174,6 +178,7 @@ public class DriveAuto {
     	
     	SmartDashboard.putNumber("ROT PID ERROR", rotDrivePID.getError());
     	SmartDashboard.putNumber("Drive Train Velocity", DriveTrain.getDriveVelocity());
+    	SmartDashboard.putBoolean("HasArrivedTest: ", hasArrivedTEST());
     	
     	DriveTrain.showDriveEncodersOnDash();
 
@@ -200,9 +205,9 @@ public class DriveAuto {
 
 		// Sets the PID values based on input from the SmartDashboard
 		// This is only needed during tuning
-//		rotDrivePID.setPID(SmartDashboard.getNumber("ROT P", Calibration.AUTO_ROT_P),
-//				SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I),
-//				SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
+		rotDrivePID.setPID(SmartDashboard.getNumber("ROT P", Calibration.AUTO_ROT_P),
+				SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I),
+				SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
 		
 		DriveTrain.setDriveMMAccel((int) SmartDashboard.getNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL));
 //		DriveTrain.setDriveMMVelocity((int) SmartDashboard.getNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY));
@@ -223,16 +228,16 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-//		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 200; // we've been moving for at least 200ms
-//		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) == 0;
-//		
-//		return (startupDelayCompleted && driveTrainStopped);
-		return false;
+		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 400; // we've been moving for at least 200ms
+		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 1;
+		
+		return (startupDelayCompleted && driveTrainStopped);
+//	return false;
 	}
 
 	public static boolean hasArrivedTEST() {
 		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 400; // we've been moving for at least 200ms
-		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 2;
+		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 1;
 		
 		return (startupDelayCompleted && driveTrainStopped);
 	}

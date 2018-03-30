@@ -41,9 +41,9 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				CubeClaw.setArmSwitchPosition();
 				Lift.goSwitch();
 				if(robotPosition() == 'R') {
-					this.turnDegrees(-90, 1);
+					this.turnDegrees(-90, .5);
 				} else if(robotPosition() == 'L') {
-					this.turnDegrees(90, 1);
+					this.turnDegrees(90, .5);
 				}
 				break;
 			case 3:
