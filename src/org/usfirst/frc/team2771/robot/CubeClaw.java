@@ -110,7 +110,7 @@ public class CubeClaw {
 //		arm.configMotionAcceleration((int) SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
 //		arm.config_kF(0, (int) SmartDashboard.getNumber("MM Arm F", 0), 0);
 //		arm.config_kP(0, (int) SmartDashboard.getNumber("MM Arm P", 0), 0);
-		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
+//		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
 //		SmartDashboard.putNumber("Arm Relative Encoder ", arm.getSensorCollection().getQuadraturePosition());
 
 		SmartDashboard.putNumber("Intake Current 1", currentBreaker1.getCurrent());
@@ -282,6 +282,10 @@ public class CubeClaw {
 		arm.getSensorCollection().setQuadraturePosition(d, 500);
 	}
 
+	public static void showArmEncoderValue() {
+		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
+
+	}
 	/*
 	 * Resets the arm encoder value relative to what we've determined to be the
 	 * "zero" position. (the calibration values). This is so the rest of the

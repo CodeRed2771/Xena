@@ -14,7 +14,9 @@ public class Robot extends TimedRobot {
 
 	KeyMap gamepad;
 	Compressor compressor;
+	RobotGyro gyro;
 	SendableChooser<String> autoChooser;
+	
 	final String autoBaseLine = "Auto Base Line";
 	final String autoCenterSwitch = "Auto CENTER Switch";
 	final String autoSwitchOrScale = "Auto SIDE Switch or Scale";
@@ -39,7 +41,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		gamepad = new KeyMap();
-		RobotGyro.getInstance();
+		gyro = new RobotGyro();
 		DriveTrain.getInstance();
 		DriveAuto.getInstance();
 		CubeClaw.getInstance();
@@ -73,7 +75,7 @@ public class Robot extends TimedRobot {
 		DriveTrain.setDriveModulesPIDValues(Calibration.AUTO_DRIVE_P, Calibration.AUTO_DRIVE_I,
 				Calibration.AUTO_DRIVE_D);
 
-		RobotGyro.reset(); // this is also done in auto init in case it wasn't
+		gyro.reset(); // this is also done in auto init in case it wasn't
 							// settled here yet
 
 		SmartDashboard.putBoolean("Show Turn Encoders", false);
@@ -194,8 +196,8 @@ public class Robot extends TimedRobot {
 			CubeClaw.setArmOverTheTopPosition();
 		}
 
-		// SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
-		SmartDashboard.putNumber("Gyro Heading", RobotGyro.getAngle());
+		SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
+		SmartDashboard.putNumber("Gyro Heading", gyro.getAngle());
 
 		Lift.tick();
 		CubeClaw.tick();
@@ -220,7 +222,7 @@ public class Robot extends TimedRobot {
 		System.out.println("Robot position: " + robotPosition);
 		System.out.println("Robot received gamedata: " + gameData);
 
-		RobotGyro.reset();
+		gyro.reset();
 
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
@@ -238,23 +240,23 @@ public class Robot extends TimedRobot {
 			break;
 		case autoSwitchOrScale:
 			if (robotPosition == 'R') {
-				if (getSwitchPosition(gameData) == 'R') {
-					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToSwitch R");
-					mAutoProgram = new AutoStartToSwitch(robotPosition);
-				} else if (getScalePosition(gameData) == 'R') {
+				if (getScalePosition(gameData) == 'R') {
 					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToScale R");
 					mAutoProgram = new AutoStartToScale(robotPosition);
+				} else if (getSwitchPosition(gameData) == 'R') {
+					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToSwitch R");
+					mAutoProgram = new AutoStartToSwitch(robotPosition);
 				} else {
 					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoBaseline R");
 					mAutoProgram = new AutoBaseLine(robotPosition);
 				}
 			} else if (robotPosition == 'L') {
-				if (getSwitchPosition(gameData) == 'L') {
-					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToSwitch L");
-					mAutoProgram = new AutoStartToSwitch(robotPosition);
-				} else if (getScalePosition(gameData) == 'L') {
+				if (getScalePosition(gameData) == 'L') {
 					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToScale L");
 					mAutoProgram = new AutoStartToScale(robotPosition);
+				} else if (getSwitchPosition(gameData) == 'L') {
+					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToSwitch L");
+					mAutoProgram = new AutoStartToSwitch(robotPosition);
 				} else {
 					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoBaseline L");
 					mAutoProgram = new AutoBaseLine(robotPosition);
@@ -316,7 +318,7 @@ public class Robot extends TimedRobot {
 
 		DriveAuto.showEncoderValues();
 		
-		SmartDashboard.putNumber("Gyro PID Get", round2(RobotGyro.pidGet()));
+		SmartDashboard.putNumber("Gyro PID Get", round2(gyro.pidGet()));
 		
 		// DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto
 		// P:", 0),
@@ -354,13 +356,13 @@ public class Robot extends TimedRobot {
 										// prevents multiple calls
 		DriveTrain.disablePID();
 
-		SmartDashboard.putNumber("Gyro PID Get", round2(RobotGyro.pidGet()));
+		SmartDashboard.putNumber("Gyro PID Get", round2(gyro.pidGet()));
 
 		// System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
 
 		CubeClaw.tick();
 		Lift.tick();
-		
+		CubeClaw.showArmEncoderValue();
 
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
