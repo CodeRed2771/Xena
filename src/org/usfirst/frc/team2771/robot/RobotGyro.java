@@ -2,10 +2,11 @@ package org.usfirst.frc.team2771.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
-
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 
-public class RobotGyro {
+public class RobotGyro implements PIDSource  {
 	private static RobotGyro instance;
 	private static AHRS mGyro;
     
@@ -48,12 +49,6 @@ public class RobotGyro {
 		mGyro.reset();
 	}
 	
-	public static double pidGet() {
-		if (getInstance() == null) return 0.0;
-
-		return mGyro.pidGet();
-	}
-	
 	public static double getGyroAngleInRad() {
 		if (getInstance() == null) return 0.0;
 
@@ -62,6 +57,20 @@ public class RobotGyro {
 			adjustedAngle = -(360-adjustedAngle);
 		
 		return adjustedAngle * (Math.PI / 180d);
+	}
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		mGyro.setPIDSourceType(pidSource);
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return mGyro.getPIDSourceType();
+	}
+
+	public double pidGet() {
+		return mGyro.getAngle();
 	}
 	
 
