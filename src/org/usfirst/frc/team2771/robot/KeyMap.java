@@ -21,6 +21,7 @@ public class KeyMap {
     private final HID.Button lowGearButton = LogitechF310.BACK;
     private final HID.Button highGearButton = LogitechF310.START;
     private final HID.Button intakeReverse = LogitechF310.A;
+    private final HID.Button armKillButton = LogitechF310.X;
    
     
     private final HID.Axis manualLiftAxis = LogitechF310.STICK_LEFT_Y;
@@ -88,6 +89,10 @@ public class KeyMap {
     
     public boolean gotoLiftFloor(){
     	return getHID(gamepad2).button(gotoLiftFloor);
+    }
+    
+    public boolean getArmKillButton() {
+    	return getHID(gamepad1).button(armKillButton);
     }
     
     public boolean gotoLiftSwitch(){

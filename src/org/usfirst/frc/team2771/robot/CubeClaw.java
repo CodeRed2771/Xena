@@ -31,6 +31,7 @@ public class CubeClaw {
 	private static double ejectEndTime;
 	private static double startReverseTime;
 	private static boolean reverseAllowed = false;
+	private static boolean armHasBeenCalibrated = false;
 
 	public static CubeClaw getInstance() {
 		if (instance == null)
@@ -268,6 +269,10 @@ public class CubeClaw {
 
 	// UTILITY METHODS ---------------------------------------------------------
 
+	public static boolean armHasBeenCalibrated() {
+		return armHasBeenCalibrated;
+	}
+	
 	public static boolean intakeStalled() {
 		return (currentBreaker1.tripped() || currentBreaker2.tripped());
 	}
@@ -334,6 +339,8 @@ public class CubeClaw {
 		newArmEncoderValue = (int) (posDiff * 4095d);
 		setArmEncPos(newArmEncoderValue);
 		System.out.println("Setting arm encoder to " + newArmEncoderValue);
+		
+		armHasBeenCalibrated = true;
 
 	}
 

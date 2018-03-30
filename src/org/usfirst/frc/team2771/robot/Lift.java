@@ -62,13 +62,13 @@ public class Lift {
 //		SmartDashboard.putNumber("Lif D", 0);
 
 		/* set acceleration and vcruise velocity - see documentation */
-		liftMotor.configMotionCruiseVelocity(6000, 0);// was 4000 3/30
-		liftMotor.configMotionAcceleration(2000, 0);
+		liftMotor.configMotionCruiseVelocity(6000, 0);// was 4000 3/30 no impact seen
+		liftMotor.configMotionAcceleration(3000, 0);   // was 2000 3/30
 
 		/* zero the sensor */
 		liftMotor.setSelectedSensorPosition(0, 0, 0);
 
-		setLowGear();
+		setHighGear();  // make sure we're in high speed mode
 	}
 
 	/*

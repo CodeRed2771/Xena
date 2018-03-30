@@ -73,7 +73,7 @@ public class AutoStartToScale extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 12: // RESET ARM
-				setTimerAndAdvanceStep(2000);
+				setTimerAndAdvanceStep(500);
 				CubeClaw.setArmTravelPosition();
 				break;
 			case 13:
@@ -81,9 +81,9 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 14: // TURN AROUND AND FACE SWITCH. we should take this out. Just sayin
 				setTimerAndAdvanceStep(1200);
 				if (robotPosition() == 'R') {
-					this.turnDegrees(-100, .5);
+					this.turnDegrees(-165, .5);
 				} else {
-					this.turnDegrees(100, .5);
+					this.turnDegrees(165, .5);
 				}
 				Lift.goStartPosition();
 				break;
@@ -92,12 +92,9 @@ public class AutoStartToScale extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 16: // DRIVE TOWARDS AND GRAB 2ND CUBE
-				setStep(99);
-				
-				
 				setTimerAndAdvanceStep(2000);
 				CubeClaw.intakeCube();
-				this.driveInches(48, 0, .5);
+				this.driveInches(30, 0, .5);
 				break;
 			case 17:
 				if(driveCompleted())
@@ -108,6 +105,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				//this.driveInches(24, 0, .1);
 				setTimerAndAdvanceStep(1000);
 				this.driveInches(-24, 0, .1);
+				CubeClaw.setArmScalePosition();
 				Lift.goHighScale();
 				break;
 			case 19:
@@ -121,19 +119,28 @@ public class AutoStartToScale extends AutoBaseClass {
 				} else {
 					this.turnDegrees(-165, .5);
 				}*/
-				this.setStep(21);
+				
+				
+				//  THIS ABORTS THE REST OF THE AUTO
+				this.setStep(30);
 				break;
 			case 21:
 				if(driveCompleted())
 					advanceStep();
 			case 22:
+				setTimerAndAdvanceStep(1000);
 				CubeClaw.setArmOverTheTopPosition();
 			case 23:
 				break;
 			case 24:
+				setTimerAndAdvanceStep(500);
 				CubeClaw.dropCube();
 			case 25:
+				break;
+			case 26:
+				CubeClaw.setArmTravelPosition();
 				this.setStep(30);
+				break;
 			case 30:
 				stop();
 				break;

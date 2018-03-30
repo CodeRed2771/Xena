@@ -15,7 +15,7 @@ public class Robot extends TimedRobot {
 	KeyMap gamepad;
 	Compressor compressor;
 	SendableChooser<String> autoChooser;
-	
+
 	final String autoBaseLine = "Auto Base Line";
 	final String autoCenterSwitch = "Auto CENTER Switch";
 	final String autoSwitchOrScale = "Auto SIDE Switch or Scale";
@@ -57,10 +57,10 @@ public class Robot extends TimedRobot {
 		autoChooser.addDefault(autoCenterSwitch, autoCenterSwitch);
 		autoChooser.addObject(autoSwitchOrScale, autoSwitchOrScale);
 		autoChooser.addObject(autoDoNothing, autoDoNothing);
-//		autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
-//		autoChooser.addObject(autoScale, autoScale);
-//		autoChooser.addObject(autoStartToSwitch, autoStartToSwitch);
-//		autoChooser.addObject(autoCubeFollow, autoCubeFollow);
+		// autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
+		// autoChooser.addObject(autoScale, autoScale);
+		// autoChooser.addObject(autoStartToSwitch, autoStartToSwitch);
+		// autoChooser.addObject(autoCubeFollow, autoCubeFollow);
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 
@@ -178,6 +178,10 @@ public class Robot extends TimedRobot {
 
 		}
 
+		if (gamepad.getArmKillButton()) { // 2 - X
+			CubeClaw.armMove(0);
+		}
+
 		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1) { // 2 -
 																		// left
 																		// stick
@@ -195,7 +199,7 @@ public class Robot extends TimedRobot {
 			CubeClaw.setArmOverTheTopPosition();
 		}
 
-		//SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
+		// SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
 		SmartDashboard.putNumber("Gyro Heading", RobotGyro.getAngle());
 
 		Lift.tick();
@@ -217,7 +221,7 @@ public class Robot extends TimedRobot {
 		Lift.setHighGear();
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		char robotPosition = SmartDashboard.getString("Robot Position", "C").toCharArray()[0];
-		
+
 		System.out.println("Robot position: " + robotPosition);
 		System.out.println("Robot received gamedata: " + gameData);
 
@@ -316,9 +320,9 @@ public class Robot extends TimedRobot {
 		Lift.tick();
 
 		DriveAuto.showEncoderValues();
-		
+
 		SmartDashboard.putNumber("Gyro PID Get", round0(RobotGyro.getInstance().pidGet()));
-		
+
 		// DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto
 		// P:", 0),
 		// SmartDashboard.getNumber("Drive I:", 0),
@@ -328,10 +332,12 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		DriveAuto.stop();
-		CubeClaw.resetArmEncoder();
+		if (!CubeClaw.armHasBeenCalibrated()) {
+			CubeClaw.resetArmEncoder();
+		}
 		Lift.stop();
 		CubeClaw.setArmTravelPosition();
-		
+
 	}
 
 	@Override
@@ -365,7 +371,7 @@ public class Robot extends TimedRobot {
 
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
-		SmartDashboard.putString("Position Selected", SmartDashboard.getString("Robot Position",""));
+		SmartDashboard.putString("Position Selected", SmartDashboard.getString("Robot Position", ""));
 	}
 
 	private double powerOf2PreserveSign(double v) {
@@ -376,6 +382,7 @@ public class Robot extends TimedRobot {
 		// added this back in on 1/15/18
 		return new BigDecimal(val.toString()).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
+
 	private static Double round0(Double val) {
 		// added this back in on 1/15/18
 		return new BigDecimal(val.toString()).setScale(0, RoundingMode.HALF_UP).doubleValue();
