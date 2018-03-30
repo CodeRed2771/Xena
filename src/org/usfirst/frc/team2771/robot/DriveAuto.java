@@ -173,7 +173,8 @@ public class DriveAuto {
     	}
     	
     	SmartDashboard.putNumber("ROT PID ERROR", rotDrivePID.getError());
-
+    	SmartDashboard.putNumber("Drive Train Velocity", DriveTrain.getDriveVelocity());
+    	
     	DriveTrain.showDriveEncodersOnDash();
 
 		// check for ramping up
@@ -229,6 +230,13 @@ public class DriveAuto {
 		return false;
 	}
 
+	public static boolean hasArrivedTEST() {
+		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 400; // we've been moving for at least 200ms
+		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 2;
+		
+		return (startupDelayCompleted && driveTrainStopped);
+	}
+	
 	public static boolean turnCompleted() {
 		return hasArrived();
 	}

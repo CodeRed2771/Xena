@@ -14,7 +14,6 @@ public class Robot extends TimedRobot {
 
 	KeyMap gamepad;
 	Compressor compressor;
-	RobotGyro gyro;
 	SendableChooser<String> autoChooser;
 	
 	final String autoBaseLine = "Auto Base Line";
@@ -41,7 +40,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		gamepad = new KeyMap();
-		gyro = new RobotGyro();
+		RobotGyro.getInstance();
 		DriveTrain.getInstance();
 		DriveAuto.getInstance();
 		CubeClaw.getInstance();
@@ -75,7 +74,7 @@ public class Robot extends TimedRobot {
 		DriveTrain.setDriveModulesPIDValues(Calibration.AUTO_DRIVE_P, Calibration.AUTO_DRIVE_I,
 				Calibration.AUTO_DRIVE_D);
 
-		gyro.reset(); // this is also done in auto init in case it wasn't
+		RobotGyro.reset(); // this is also done in auto init in case it wasn't
 							// settled here yet
 
 		SmartDashboard.putBoolean("Show Turn Encoders", false);
@@ -196,8 +195,8 @@ public class Robot extends TimedRobot {
 			CubeClaw.setArmOverTheTopPosition();
 		}
 
-		SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
-		SmartDashboard.putNumber("Gyro Heading", gyro.getAngle());
+		//SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
+		SmartDashboard.putNumber("Gyro Heading", RobotGyro.getAngle());
 
 		Lift.tick();
 		CubeClaw.tick();
@@ -222,7 +221,7 @@ public class Robot extends TimedRobot {
 		System.out.println("Robot position: " + robotPosition);
 		System.out.println("Robot received gamedata: " + gameData);
 
-		gyro.reset();
+		RobotGyro.reset();
 
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
@@ -318,7 +317,7 @@ public class Robot extends TimedRobot {
 
 		DriveAuto.showEncoderValues();
 		
-		SmartDashboard.putNumber("Gyro PID Get", round2(gyro.pidGet()));
+		SmartDashboard.putNumber("Gyro PID Get", round0(RobotGyro.getInstance().pidGet()));
 		
 		// DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto
 		// P:", 0),
@@ -356,7 +355,7 @@ public class Robot extends TimedRobot {
 										// prevents multiple calls
 		DriveTrain.disablePID();
 
-		SmartDashboard.putNumber("Gyro PID Get", round2(gyro.pidGet()));
+		SmartDashboard.putNumber("Gyro PID Get", round0(RobotGyro.getInstance().pidGet()));
 
 		// System.out.println("arm abs " + CubeClaw.getArmAbsolutePosition());
 
@@ -376,5 +375,9 @@ public class Robot extends TimedRobot {
 	private static Double round2(Double val) {
 		// added this back in on 1/15/18
 		return new BigDecimal(val.toString()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+	private static Double round0(Double val) {
+		// added this back in on 1/15/18
+		return new BigDecimal(val.toString()).setScale(0, RoundingMode.HALF_UP).doubleValue();
 	}
 }

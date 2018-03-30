@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2771.robot;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.usfirst.frc.team2771.libs.CurrentBreaker;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -112,9 +115,11 @@ public class CubeClaw {
 //		arm.config_kP(0, (int) SmartDashboard.getNumber("MM Arm P", 0), 0);
 //		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
 //		SmartDashboard.putNumber("Arm Relative Encoder ", arm.getSensorCollection().getQuadraturePosition());
-
-		SmartDashboard.putNumber("Intake Current 1", currentBreaker1.getCurrent());
-		SmartDashboard.putNumber("Intake Current 2", currentBreaker2.getCurrent());
+		
+		showArmEncoderValue();
+		
+		SmartDashboard.putNumber("Intake Current 1", round0(currentBreaker1.getCurrent()));
+		SmartDashboard.putNumber("Intake Current 2", round0(currentBreaker2.getCurrent()));
 
 		if (intakeStalled() && !holdingCube) {
 			System.out.println("Intake stalled - switching to hold mode");
@@ -124,7 +129,6 @@ public class CubeClaw {
 
 		// this turns off the claw after starting an eject
 		if (System.currentTimeMillis() > ejectEndTime) {
-			System.out.println("Stopped ejecting");
 			stopIntake();
 			ejectEndTime = aDistantFutureTime();
 		}
@@ -283,7 +287,7 @@ public class CubeClaw {
 	}
 
 	public static void showArmEncoderValue() {
-		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
+		SmartDashboard.putNumber("Arm Abs Encoder: ", round2(getArmAbsolutePosition()));
 
 	}
 	/*
@@ -366,4 +370,11 @@ public class CubeClaw {
 		rightRollers.set(ControlMode.PercentOutput, -speed);
 	}
 
+	private static Double round2(Double val) {
+		return new BigDecimal(val.toString()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+	}
+	private static Double round0(Double val) {
+		// added this back in on 1/15/18
+		return new BigDecimal(val.toString()).setScale(0, RoundingMode.HALF_UP).doubleValue();
+	}
 }
