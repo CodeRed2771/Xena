@@ -31,7 +31,7 @@ public class DriveAuto {
 		DriveTrain.getInstance();
 
 		rotDrivePID = new PIDController(Calibration.AUTO_ROT_P, Calibration.AUTO_ROT_I, Calibration.AUTO_ROT_D,
-				RobotGyro.getGyro(), rot -> DriveTrain.autoSetRot(rot));
+				RobotGyro.getInstance(), rot -> DriveTrain.autoSetRot(rot));
 
 		rotDrivePID.setAbsoluteTolerance(1.5); // degrees off
 
@@ -161,17 +161,18 @@ public class DriveAuto {
 
     	if(strafeAngle == 0) { // currently this routine only works when driving straight forward.
         	if (isDriveInchesRunning){
+        		double rawGyroPidGet = RobotGyro.getGyro().pidGet(); // this gets a -180 to 180 value i believe
+        		
         		if (DriveTrain.getDriveError() > 0)  // directional difference
-        			DriveTrain.setTurnOrientation(DriveTrain.angleToLoc((RobotGyro.pidGet()-heading)*.5), DriveTrain.angleToLoc(-(RobotGyro.pidGet()-heading)*.5),
-        					DriveTrain.angleToLoc(-(RobotGyro.pidGet()-heading)*.5), DriveTrain.angleToLoc((RobotGyro.pidGet()-heading)*.5));
+        			DriveTrain.setTurnOrientation(DriveTrain.angleToLoc((rawGyroPidGet-heading)*.5), DriveTrain.angleToLoc(-(rawGyroPidGet-heading)*.5),
+        					DriveTrain.angleToLoc(-(rawGyroPidGet-heading)*.5), DriveTrain.angleToLoc((rawGyroPidGet-heading)*.5));
         		else
-        			DriveTrain.setTurnOrientation(strafeAngle + DriveTrain.angleToLoc(-(RobotGyro.pidGet()-heading)*.5), DriveTrain.angleToLoc((RobotGyro.pidGet()-heading)*.5),
-        					DriveTrain.angleToLoc((RobotGyro.pidGet()-heading)*.5), DriveTrain.angleToLoc(-(RobotGyro.pidGet()-heading)*.5));
+        			DriveTrain.setTurnOrientation(strafeAngle + DriveTrain.angleToLoc(-(rawGyroPidGet-heading)*.5), DriveTrain.angleToLoc((rawGyroPidGet-heading)*.5),
+        					DriveTrain.angleToLoc((rawGyroPidGet-heading)*.5), DriveTrain.angleToLoc(-(rawGyroPidGet-heading)*.5));
         	}
     	}
     	
     	SmartDashboard.putNumber("ROT PID ERROR", rotDrivePID.getError());
-    	SmartDashboard.putBoolean("Has Arrived Prototype", hasArrivedPrototype());
 
     	DriveTrain.showDriveEncodersOnDash();
 
@@ -226,13 +227,6 @@ public class DriveAuto {
 //		
 //		return (startupDelayCompleted && driveTrainStopped);
 		return false;
-	}
-	
-	public static boolean hasArrivedPrototype() {
-		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 400; // we've been moving for at least 400ms
-		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) == 0;
-		
-		return (startupDelayCompleted && driveTrainStopped);
 	}
 
 	public static boolean turnCompleted() {
