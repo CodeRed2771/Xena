@@ -72,11 +72,11 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 10:
-				setTimerAndAdvanceStep(900);
+				setTimerAndAdvanceStep(1200);
 				if (isSwitchLeft()) {
-					this.turnDegrees(45, 1);
+					this.turnDegrees(45, .7);
 				} else {
-					this.turnDegrees(-45, 1);
+					this.turnDegrees(-45, .7);
 				}
 				break;
 			case 11:
