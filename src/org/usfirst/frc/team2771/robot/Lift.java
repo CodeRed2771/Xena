@@ -63,26 +63,26 @@ public class Lift {
 
 		/* set acceleration and vcruise velocity - see documentation */
 		liftMotor.configMotionCruiseVelocity(6000, 0);// was 4000 3/30 no impact seen
-		liftMotor.configMotionAcceleration(3000, 0);   // was 2000 3/30
+		liftMotor.configMotionAcceleration(4000, 0);   // was 2000 3/30
 
 		/* zero the sensor */
 		liftMotor.setSelectedSensorPosition(0, 0, 0);
 
-		setHighGear();  // make sure we're in high speed mode
+		setHighGear();  // make sure we're in high speed mode (not sure this works cuz the robot would be disabled at this point)
 	}
 
 	/*
 	 * TICK ***********************************
 	 */
 	public static void tick() {
-
+		SmartDashboard.putNumber("Lift Motor Velocity", liftMotor.getSelectedSensorVelocity(0));
+		SmartDashboard.putNumber("Lift Motor Position", liftMotor.getSensorCollection().getQuadraturePosition());
 //		liftMotor.configMotionCruiseVelocity((int) SmartDashboard.getNumber("MM Lift Velocity", 0), 0);
 //		liftMotor.configMotionAcceleration((int) SmartDashboard.getNumber("MM Lift Acceleration", 0), 0);
 //		liftMotor.config_kF(0, SmartDashboard.getNumber("Lift F", 1.0), 0);
 //		liftMotor.config_kP(0, SmartDashboard.getNumber("Lift P", 1.0), 0);
 //		liftMotor.config_kI(0, SmartDashboard.getNumber("Lift I", 0), 0);
 //		liftMotor.config_kD(0, SmartDashboard.getNumber("Lift D", 0), 0);
-//		SmartDashboard.putNumber("Lift Motor Encoder", liftMotor.getSensorCollection().getQuadraturePosition());
 	}
 
 	public static void move(double speed) {
