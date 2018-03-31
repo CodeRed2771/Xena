@@ -41,6 +41,7 @@ public class KeyMap {
     private final HID.Button overTheTop = LogitechF310.X;
     private final HID.Button goToTravelPosition = LogitechF310.START;
     private final HID.Button armLiftModifier = LogitechF310.DPAD_LEFT;
+    private final HID.Axis forceHoldClaw = LogitechF310.TRIGGER_RIGHT_AXIS;
     		
     //private final HID.Button clawCloseButton = LogitechF310.X;
     
@@ -134,5 +135,8 @@ public class KeyMap {
     }
     public boolean armLiftModifier() {
     	return getHID(gamepad2).button(armLiftModifier);
+    }
+    public double forceHoldClaw(){
+    	return getHID(gamepad2).axis(forceHoldClaw);
     }
 }
