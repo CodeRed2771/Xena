@@ -15,6 +15,7 @@ public class Robot extends TimedRobot {
 	KeyMap gamepad;
 	Compressor compressor;
 	SendableChooser<String> autoChooser;
+	SendableChooser<String> positionChooser;
 
 	final String autoBaseLine = "Auto Base Line";
 	final String autoCenterSwitch = "Auto CENTER Switch";
@@ -48,6 +49,12 @@ public class Robot extends TimedRobot {
 
 		Calibration.loadSwerveCalibration();
 
+		positionChooser = new SendableChooser<String>();
+		positionChooser.addObject("Left", "L");
+		positionChooser.addDefault("Center", "C");
+		positionChooser.addObject("Right", "R");
+		SmartDashboard.putData("Position", positionChooser);
+
 		autoChooser = new SendableChooser<String>();
 		autoChooser.addObject(autoBaseLine, autoBaseLine);
 		autoChooser.addObject(calibrateSwerveModules, calibrateSwerveModules);
@@ -64,7 +71,7 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putData("Auto choices", autoChooser);
 
-		SmartDashboard.putString("Robot Position", "C");
+		// SmartDashboard.putString("Robot Position", "C");
 
 		compressor = new Compressor(0);
 		compressor.setClosedLoopControl(true);
@@ -175,11 +182,10 @@ public class Robot extends TimedRobot {
 
 		if (gamepad.goHighGear()) { // 2 - start
 			Lift.setHighGear();
-
 		}
 
 		if (gamepad.getArmKillButton()) { // 2 - X
-			CubeClaw.armMove(0);
+			CubeClaw.armMove(-.3);
 		}
 
 		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1) { // 2 -
@@ -197,6 +203,15 @@ public class Robot extends TimedRobot {
 
 		if (gamepad.overTheTop() && Lift.isOverTheTopHeight()) {
 			CubeClaw.setArmOverTheTopPosition();
+		}
+
+		// check for opening intake wide for open field pickup
+		if (CubeClaw.isIntakeRunning()) {
+			if (gamepad.forceHoldClaw() > .2) {
+				CubeClaw.openClaw();
+			} else {
+				CubeClaw.closeClaw();
+			}
 		}
 
 		// SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
@@ -220,10 +235,17 @@ public class Robot extends TimedRobot {
 		CubeClaw.resetArmEncoder();
 		Lift.setHighGear();
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
-		char robotPosition = SmartDashboard.getString("Robot Position", "C").toCharArray()[0];
+		// char robotPosition = SmartDashboard.getString("Robot Position",
+		// "C").toCharArray()[0];
+
+		String selectedPos = positionChooser.getSelected();
+		SmartDashboard.putString("Position Chooser Selected", selectedPos);
+		char robotPosition = selectedPos.toCharArray()[0];
 
 		System.out.println("Robot position: " + robotPosition);
 		System.out.println("Robot received gamedata: " + gameData);
+
+		// System.out.println("Chooser Position: " + newPos);
 
 		RobotGyro.reset();
 
@@ -371,7 +393,11 @@ public class Robot extends TimedRobot {
 
 		autoSelected = (String) autoChooser.getSelected();
 		SmartDashboard.putString("Auto Selected: ", autoSelected);
-		SmartDashboard.putString("Position Selected", SmartDashboard.getString("Robot Position", ""));
+		// SmartDashboard.putString("Position Selected",
+		// SmartDashboard.getString("Robot Position", ""));
+
+		SmartDashboard.putString("Position Chooser Selected", positionChooser.getSelected());
+
 	}
 
 	private double powerOf2PreserveSign(double v) {
