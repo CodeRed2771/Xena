@@ -34,7 +34,7 @@ public class AutoBaseLine extends AutoBaseClass {
 					driveInches(95, 24, .1);
 				} else
 				{
-					driveInches(80, 0, .1);
+					driveInches(86, 0, .1);
 				}
 				break;
 			case 2:
