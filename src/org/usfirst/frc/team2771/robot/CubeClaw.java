@@ -232,11 +232,11 @@ public class CubeClaw {
 		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kOff);
 	}
 
-	private static void openClaw() {
+	public static void openClaw() {
 		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
-	private static void closeClaw() {
+	public static void closeClaw() {
 		clawOpenCloseSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
