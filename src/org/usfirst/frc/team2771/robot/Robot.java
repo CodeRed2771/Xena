@@ -20,6 +20,7 @@ public class Robot extends TimedRobot {
 	final String autoBaseLine = "Auto Base Line";
 	final String autoCenterSwitch = "Auto CENTER Switch";
 	final String autoSwitchOrScale = "Auto SIDE Switch or Scale";
+	final String autoSideScaleOnly = "Auto SIDE SCALE ONLY";
 
 	final String calibrateSwerveModules = "Calibrate Swerve Modules";
 	final String deleteSwerveCalibration = "Delete Swerve Calibration";
@@ -63,6 +64,7 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject(autoCalibrateDrive, autoCalibrateDrive);
 		autoChooser.addDefault(autoCenterSwitch, autoCenterSwitch);
 		autoChooser.addObject(autoSwitchOrScale, autoSwitchOrScale);
+		autoChooser.addObject(autoSideScaleOnly, autoSideScaleOnly);
 		autoChooser.addObject(autoDoNothing, autoDoNothing);
 		// autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
 		// autoChooser.addObject(autoScale, autoScale);
@@ -291,6 +293,15 @@ public class Robot extends TimedRobot {
 				mAutoProgram = new AutoBaseLine(robotPosition);
 			}
 
+			break;
+		case autoSideScaleOnly:
+			if (robotPosition == 'R' || robotPosition == 'L') {
+				SmartDashboard.putString("Auto Scale Sub Running: ", "Main R or L");
+				mAutoProgram = new AutoScaleRightAndLeft(robotPosition);
+			} else {
+				SmartDashboard.putString("Auto Scale Sub Running: ", "AutoBaseline C");
+				mAutoProgram = new AutoBaseLine(robotPosition);
+			}
 			break;
 		case autoRotateTest:
 			mAutoProgram = new AutoRotateTest(robotPosition);
