@@ -69,6 +69,9 @@ public class DriveAuto {
 	}
 	
 	public static void driveInches(double inches, double angle, double maxPower, double startPowerLevel) {
+		// NOTE: maxPower and startPower are no longer used since implementing Motion Magic
+		//		 they should be removed at some point
+		
         strafeAngle = angle;
 
 		maxPowerAllowed = maxPower;
@@ -80,7 +83,6 @@ public class DriveAuto {
 		SmartDashboard.putNumber("DRIVE INCHES", inches);
 
 		setPowerOutput(curPowerSetting); //not used
-		SmartDashboard.putNumber("Speed Called For", curPowerSetting);
 
 		rotDrivePID.disable();
 
@@ -166,6 +168,8 @@ public class DriveAuto {
 	public static void tick() {
 		// this is called roughly 50 times per second
 
+		// Use the gyro to try to drive straight.  This only works if we're not strafing because it turns the modules a little bit to keep the robot straight.
+		// The "heading" reflects any rotation we may have done to the "straight" driving will be at the angle that the robot has been rotated to.
     	if(strafeAngle == 0) { // currently this routine only works when driving straight forward.
         	if (isDriveInchesRunning){
         		double rawGyroPidGet = RobotGyro.getGyro().pidGet(); // this gets a -180 to 180 value i believe
