@@ -184,6 +184,9 @@ public class Module {
 	}
 	
 	public double getDriveError(){
+		// note that when using Motion Magic, the error is not what you'd expect
+		// MM sets intermediate set points, so the error is just the error to 
+		// that set point, not to the final setpoint.
 		return drive.getClosedLoopError(0);
 	}
 	
@@ -201,9 +204,9 @@ public class Module {
 	}
 	
 	public void setDrivePIDValues(double p, double i, double d){
-		drive.config_kP(0, p, 500);
-		drive.config_kI(0, i, 500);
-		drive.config_kD(0, d, 500);
+		drive.config_kP(0, p, 0);
+		drive.config_kI(0, i, 0);
+		drive.config_kD(0, d, 0);
 	}
 	
 	

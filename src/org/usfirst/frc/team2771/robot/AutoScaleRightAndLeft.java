@@ -25,7 +25,7 @@ public class AutoScaleRightAndLeft extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(100);
-				DriveAuto.setDriveSpeed(DriveAuto.DriveSpeed.LOW_SPEED);
+				//DriveAuto.setDriveSpeed(DriveAuto.DriveSpeed.LOW_SPEED);
 				break;
 			case 1:
 				break;

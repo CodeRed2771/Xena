@@ -18,7 +18,7 @@ public class Calibration {
 	
 	// PRACTICE
 	
-//	private final static double DT_A_ABS_ZERO_INITIAL = .975; //Practice Robot Calibration
+//	private final static double DT_A_ABS_ZERO_INITIAL = .550; //Practice Robot Calibration
 //	private final static double DT_B_ABS_ZERO_INITIAL = .903; //Practice Robot Calibration
 //	private final static double DT_C_ABS_ZERO_INITIAL =.380; //Practice Robot Calibration
 //	private final static double DT_D_ABS_ZERO_INITIAL = .258; //Practice Robot Calibration`
@@ -61,18 +61,18 @@ public class Calibration {
 	public final static double DT_ROT_PID_D= .000;
 	public final static double DT_ROT_PID_IZONE = 18;
 
-	public final static int DT_MM_ACCEL = 600;
+	public final static int DT_MM_ACCEL = 300;
 	public final static int DT_MM_VELOCITY = 400;
 	
 	public static final double DRIVE_DISTANCE_TICKS_PER_INCH = 35.600; //2624 ticks in 80 inches, goes 2,427.2
 	
 	public static final double AUTO_ROT_P = 0.03; // increased from .022 on 3/20/17 dvv
 	public static final double AUTO_ROT_I = 0;
-	public static final double AUTO_ROT_D = 0.067;
+	public static final double AUTO_ROT_D = 0.1;  // was 067
 
-	public static final double AUTO_DRIVE_P = .5;
+	public static final double AUTO_DRIVE_P = 2.5;  // was .5
 	public static final double AUTO_DRIVE_I = 0.0;
-	public static final double AUTO_DRIVE_D = 0.0;
+	public static final double AUTO_DRIVE_D = 500.0;  // was 0
 	public static final int AUTO_DRIVE_IZONE = 50;
 	
 	public static final double CLAW_MAX_CURRENT = 17;

@@ -27,6 +27,7 @@ public class Robot extends TimedRobot {
 
 	final String autoRotateTest = "Rotate Test";
 	final String autoCalibrateDrive = "Auto Calibrate Drive";
+	final String autoDrivePIDTune = "Drive PID Tune";
 
 	// not used (at least not yet)
 	final String autoSwitch = "Auto Switch";
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
 	String autoSelected;
 	AutoBaseClass mAutoProgram;
 	private boolean inExchangePosition = false;
+	private int lowGearRequestCount = 0;
 
 	@Override
 	public void robotInit() {
@@ -66,6 +68,7 @@ public class Robot extends TimedRobot {
 		autoChooser.addObject(autoSwitchOrScale, autoSwitchOrScale);
 		autoChooser.addObject(autoSideScaleOnly, autoSideScaleOnly);
 		autoChooser.addObject(autoDoNothing, autoDoNothing);
+		autoChooser.addObject(autoDrivePIDTune, autoDrivePIDTune);
 		// autoChooser.addObject(autoSwitchAndScale, autoSwitchAndScale);
 		// autoChooser.addObject(autoScale, autoScale);
 		// autoChooser.addObject(autoStartToSwitch, autoStartToSwitch);
@@ -178,9 +181,13 @@ public class Robot extends TimedRobot {
 			CubeClaw.armMove(gamepad.getArmAxis());
 		}
 
-		if (gamepad.goLowGear()) { // 2 - Back
-			Lift.setLowGear();
-		}
+		if (gamepad.goLowGear()) { // 2 - Back  - hold it down to activate
+			lowGearRequestCount++;
+			if (lowGearRequestCount > 30) {
+				Lift.setLowGear();
+			}
+		} else
+			lowGearRequestCount = 0;
 
 		if (gamepad.goHighGear()) { // 2 - start
 			Lift.setHighGear();
@@ -259,6 +266,10 @@ public class Robot extends TimedRobot {
 		mAutoProgram = null;
 
 		switch (autoSelected) {
+		case autoDrivePIDTune:
+			SmartDashboard.putNumber("Drive To Setpoint", 0);
+			mAutoProgram = new AutoDrivePIDTune(robotPosition);
+			break;
 		case autoBaseLine:
 			mAutoProgram = new AutoBaseLine(robotPosition);
 			break;
@@ -297,7 +308,7 @@ public class Robot extends TimedRobot {
 		case autoSideScaleOnly:
 			if (robotPosition == 'R' || robotPosition == 'L') {
 				SmartDashboard.putString("Auto Scale Sub Running: ", "Main R or L");
-				mAutoProgram = new AutoScaleRightAndLeft(robotPosition);
+				mAutoProgram = new AutoScaleRLStraight(robotPosition);
 			} else {
 				SmartDashboard.putString("Auto Scale Sub Running: ", "AutoBaseline C");
 				mAutoProgram = new AutoBaseLine(robotPosition);
@@ -356,10 +367,6 @@ public class Robot extends TimedRobot {
 
 		SmartDashboard.putNumber("Gyro PID Get", round0(RobotGyro.getInstance().pidGet()));
 
-		// DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("Auto
-		// P:", 0),
-		// SmartDashboard.getNumber("Drive I:", 0),
-		// SmartDashboard.getNumber("Auto D:", 0));
 	}
 
 	@Override

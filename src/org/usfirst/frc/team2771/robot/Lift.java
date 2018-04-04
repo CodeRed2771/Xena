@@ -152,7 +152,7 @@ public class Lift {
 		return (liftMotor.getSensorCollection().getQuadraturePosition() < -37000);
 	}
 
-	// returns true if the lift is high enough that we should reduce drving
+	// returns true if the lift is high enough that we should reduce driving
 	// speed
 	public static boolean driveCautionNeeded() {
 		return Math.abs(liftMotor.getSensorCollection().getPulseWidthPosition()) > 25000;
