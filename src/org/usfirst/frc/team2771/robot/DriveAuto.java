@@ -119,6 +119,7 @@ public class DriveAuto {
 		DriveTrain.resetDriveEncoders();
 		rotDrivePID.reset();
 		rotDrivePID.setSetpoint(0);
+		heading = 0;
 	}
 
 	public static void stop() {
