@@ -195,7 +195,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				setTimerAndAdvanceStep(2500);
 				Lift.goHighScale();
 				CubeClaw.setArmSwitchPosition();
-				this.driveInches(46, 0, .5); // drive up to switch
+				this.driveInches(36, 0, .5); // drive up to scale
 
 				break;
 			case 55:
