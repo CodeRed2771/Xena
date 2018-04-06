@@ -88,6 +88,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				setTimerAndAdvanceStep(2000);
 				Lift.goPickSecondCubePosition();
 				CubeClaw.intakeCube();
+				CubeClaw.openClaw();
 				if (isSwitchLeft()) {
 					this.driveInches(50, 0, .1);
 				} else {
@@ -101,6 +102,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				break;
 			case 14:
 				setTimerAndAdvanceStep(750);
+				CubeClaw.closeClaw();
 				break;
 			case 15:
 				break;
