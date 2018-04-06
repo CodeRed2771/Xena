@@ -49,21 +49,21 @@ public class Lift {
 
 		/* set closed loop gains in slot0 - see documentation */
 		liftMotor.selectProfileSlot(0, 0);
-		liftMotor.config_kF(0, 1, 0);
-		liftMotor.config_kP(0, .6, 0);
+		liftMotor.config_kF(0, 0, 0);
+		liftMotor.config_kP(0, .5, 0);
 		liftMotor.config_kI(0, 0, 0);
-		liftMotor.config_kD(0, 0, 0);
+		liftMotor.config_kD(0, 50, 0);
 
 //		SmartDashboard.putNumber("MM Lift Velocity", 4000);
 //		SmartDashboard.putNumber("MM Lift Acceleration", 2000);
-//		SmartDashboard.putNumber("Lift F", 1);
-//		SmartDashboard.putNumber("Lift P", .6);
+//		SmartDashboard.putNumber("Lift F", 0);
+//		SmartDashboard.putNumber("Lift P", .5);
 //		SmartDashboard.putNumber("Lift I", 0);
-//		SmartDashboard.putNumber("Lif D", 0);
+//		SmartDashboard.putNumber("Lif D", 50);
 
 		/* set acceleration and vcruise velocity - see documentation */
-		liftMotor.configMotionCruiseVelocity(6000, 0);// was 4000 3/30 no impact seen
-		liftMotor.configMotionAcceleration(4000, 0);   // was 2000 3/30
+		liftMotor.configMotionCruiseVelocity(5000, 0);// was 4000 3/30 no impact seen
+		liftMotor.configMotionAcceleration(4800, 0);   // was 2000 3/30
 
 		/* zero the sensor */
 		liftMotor.setSelectedSensorPosition(0, 0, 0);
@@ -75,8 +75,8 @@ public class Lift {
 	 * TICK ***********************************
 	 */
 	public static void tick() {
-		SmartDashboard.putNumber("Lift Motor Velocity", liftMotor.getSelectedSensorVelocity(0));
-		SmartDashboard.putNumber("Lift Motor Position", liftMotor.getSensorCollection().getQuadraturePosition());
+//		SmartDashboard.putNumber("Lift Motor Velocity", liftMotor.getSelectedSensorVelocity(0));
+//		SmartDashboard.putNumber("Lift Motor Position", liftMotor.getSensorCollection().getQuadraturePosition());
 //		liftMotor.configMotionCruiseVelocity((int) SmartDashboard.getNumber("MM Lift Velocity", 0), 0);
 //		liftMotor.configMotionAcceleration((int) SmartDashboard.getNumber("MM Lift Acceleration", 0), 0);
 //		liftMotor.config_kF(0, SmartDashboard.getNumber("Lift F", 1.0), 0);
@@ -93,12 +93,12 @@ public class Lift {
 		int newSetpoint;
 
 		if (direction > 0) {
-			newSetpoint = liftMotor.getSelectedSensorPosition(0) + 3000;
+			newSetpoint = liftMotor.getSelectedSensorPosition(0) + 4000;
 			if (newSetpoint >= 0) {
 				newSetpoint = 0;
 			}
 		} else {
-			newSetpoint = liftMotor.getSelectedSensorPosition(0) - 3000;
+			newSetpoint = liftMotor.getSelectedSensorPosition(0) - 4000;
 			if (newSetpoint < -43000) {
 				newSetpoint = -43000;
 			}
@@ -155,6 +155,6 @@ public class Lift {
 	// returns true if the lift is high enough that we should reduce driving
 	// speed
 	public static boolean driveCautionNeeded() {
-		return Math.abs(liftMotor.getSensorCollection().getPulseWidthPosition()) > 25000;
+		return Math.abs(liftMotor.getSensorCollection().getQuadraturePosition()) > 25000;
 	}
 }
