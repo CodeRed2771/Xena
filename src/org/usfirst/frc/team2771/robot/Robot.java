@@ -108,11 +108,11 @@ public class Robot extends TimedRobot {
 
 		if (Lift.driveCautionNeeded()) {
 			// limit the Y axis input to slow driving down
-			if (Math.abs(driveYAxisAmount) > .25) {
+			if (Math.abs(driveYAxisAmount) > .40) {
 				if (driveYAxisAmount < 0)
-					driveYAxisAmount = -.25;
+					driveYAxisAmount = -.40;
 				else
-					driveYAxisAmount = .25;
+					driveYAxisAmount = .40;
 			}
 		}
 
