@@ -162,7 +162,7 @@ public class CubeClaw {
 	}
 
 	public static void reverseIntake() {
-		leftRollers.set(ControlMode.PercentOutput, .4);
+		leftRollers.set(ControlMode.PercentOutput, .5);
 	}
 
 	public static boolean isIntakeRunning() {
