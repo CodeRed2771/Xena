@@ -121,7 +121,7 @@ public class Lift {
 	}
 
 	public static void goHighScale() {
-		liftMotor.set(ControlMode.MotionMagic, -43000);
+		liftMotor.set(ControlMode.MotionMagic, -37000);
 	}
 
 	public static void goStartPosition() {
