@@ -367,6 +367,24 @@ public class CubeClaw {
 		arm.set(ControlMode.PercentOutput, speed);
 	}
 
+	public static void moveSetpoint(double direction) {
+		int newSetpoint;
+
+		if (direction < 0) {
+			newSetpoint = arm.getSelectedSensorPosition(0) + 140;
+			if (newSetpoint >= 0) {
+				newSetpoint = 0;
+			}
+		} else {
+			newSetpoint = arm.getSelectedSensorPosition(0) - 140;
+			if (newSetpoint < -2000) {
+				newSetpoint = -2000;
+			}
+		}
+
+		arm.set(ControlMode.MotionMagic, newSetpoint);
+	}
+
 	public static void testIntakeCube(double speed) {
 		leftRollers.set(ControlMode.PercentOutput, speed);
 		rightRollers.set(ControlMode.PercentOutput, speed);
