@@ -117,11 +117,11 @@ public class Lift {
 		// The scale is the big one.
 		// The scale has three different positions, up, down, and level. It
 		// could be useful for autonomous.
-		liftMotor.set(ControlMode.MotionMagic, -43000);
+		liftMotor.set(ControlMode.MotionMagic, -37000);
 	}
 
 	public static void goHighScale() {
-		liftMotor.set(ControlMode.MotionMagic, -37000);
+		liftMotor.set(ControlMode.MotionMagic, -43000);
 	}
 
 	public static void goStartPosition() {

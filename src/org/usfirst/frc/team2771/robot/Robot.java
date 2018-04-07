@@ -159,7 +159,7 @@ public class Robot extends TimedRobot {
 		if (gamepad.gotoLiftScale()) { // 2 - Y
 			CubeClaw.holdCube();
 			CubeClaw.setArmScalePosition();
-			Lift.goHighScale();
+			Lift.goLowScale();
 			inExchangePosition = false;
 		}
 
@@ -178,7 +178,8 @@ public class Robot extends TimedRobot {
 		}
 
 		if (gamepad.getArmAxis() > .1 || gamepad.getArmAxis() < -.1) {
-			CubeClaw.armMove(gamepad.getArmAxis());
+//			CubeClaw.armMove(gamepad.getArmAxis());
+			CubeClaw.moveSetpoint(gamepad.getArmAxis());
 		}
 
 		if (gamepad.goLowGear()) { // 2 - Back  - hold it down to activate
