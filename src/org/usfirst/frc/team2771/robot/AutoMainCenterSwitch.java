@@ -101,7 +101,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 14:
-				setTimerAndAdvanceStep(750);
+				setTimerAndAdvanceStep(1000);
 				CubeClaw.closeClaw();
 				break;
 			case 15:
