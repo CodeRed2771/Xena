@@ -223,6 +223,15 @@ public class Robot extends TimedRobot {
 				CubeClaw.closeClaw();
 			}
 		}
+		if(gamepad.liftScaleModifier() && gamepad.gotoLiftFloor()) {
+			Lift.goToScaleLow();
+		}
+		if(gamepad.liftScaleModifier() && gamepad.gotoLiftSwitch()) {
+			Lift.goToScaleMed();
+		}
+		if(gamepad.liftScaleModifier() && gamepad.gotoLiftScale()) {
+			Lift.goToScaleHigh();
+		}
 
 		// SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
 		SmartDashboard.putNumber("Gyro Heading", RobotGyro.getAngle());

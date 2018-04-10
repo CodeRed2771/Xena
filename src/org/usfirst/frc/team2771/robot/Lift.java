@@ -151,6 +151,18 @@ public class Lift {
 	public static boolean isOverTheTopHeight() {
 		return (liftMotor.getSensorCollection().getQuadraturePosition() < -37000);
 	}
+	
+	public static void goToScaleLow() {
+		liftMotor.set(ControlMode.MotionMagic, -26000);
+	}
+	
+	public static void goToScaleMed() {
+		liftMotor.set(ControlMode.MotionMagic, -36000);
+	}
+	
+	public static void goToScaleHigh() {
+		liftMotor.set(ControlMode.MotionMagic, -42000);
+	}
 
 	// returns true if the lift is high enough that we should reduce driving
 	// speed
