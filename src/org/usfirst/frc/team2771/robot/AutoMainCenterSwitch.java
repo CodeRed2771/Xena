@@ -79,6 +79,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				} else {
 					this.turnDegrees(-45, .5);
 				}
+				CubeClaw.intakeCube();
 				break;
 			case 11:
 				if(driveCompleted())
@@ -87,7 +88,6 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			case 12:
 				setTimerAndAdvanceStep(2000);
 				Lift.goPickSecondCubePosition();
-				CubeClaw.intakeCube();
 				CubeClaw.openClaw();
 				if (isSwitchLeft()) {
 					this.driveInches(50, 0, .1);
