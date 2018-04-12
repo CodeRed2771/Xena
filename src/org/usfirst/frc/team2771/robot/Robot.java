@@ -123,6 +123,7 @@ public class Robot extends TimedRobot {
 			CubeClaw.setArmHorizontalPosition();
 			CubeClaw.intakeCube(); // this will transition to a "hold" when the
 									// current breaker is tripped
+			CubeClaw.closeClaw();
 		}
 
 		if (gamepad.dropCube()) { // 2 - left bumper
@@ -351,8 +352,8 @@ public class Robot extends TimedRobot {
 			break;
 		}
 
-		DriveAuto.reset();
 		DriveTrain.setAllTurnOrientiation(0);
+		DriveAuto.reset();
 
 		if (mAutoProgram != null) {
 			mAutoProgram.start();
