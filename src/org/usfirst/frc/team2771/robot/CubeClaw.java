@@ -136,7 +136,7 @@ public class CubeClaw {
 
 		if (intakeRunning) {
 			if (System.currentTimeMillis() >= startReverseTime) {
-				if ((currentBreaker1.getCurrent() > 7) || (currentBreaker2.getCurrent() > 7)) {
+				if ((currentBreaker1.getCurrent() > 5) || (currentBreaker2.getCurrent() > 5)) {
 					reverseIntake();
 				}
 				if (System.currentTimeMillis() >= (startReverseTime + 200)) {
@@ -152,7 +152,7 @@ public class CubeClaw {
 	public static void intakeCube() {
 		setArmHorizontalPosition();
 		holdingCube = false;
-		closeClaw();
+//		closeClaw();
 		leftRollers.set(ControlMode.PercentOutput, -.8);
 		rightRollers.set(ControlMode.PercentOutput, -.8);
 		resetIntakeStallDetector();
