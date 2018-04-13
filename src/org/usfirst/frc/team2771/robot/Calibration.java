@@ -28,7 +28,7 @@ public class Calibration {
 	private final static double DT_A_ABS_ZERO_INITIAL = .3897; // COMPEITION
 	private final static double DT_B_ABS_ZERO_INITIAL = .2290;
 	private final static double DT_C_ABS_ZERO_INITIAL = .461;
-	private final static double DT_D_ABS_ZERO_INITIAL = .816;
+	private final static double DT_D_ABS_ZERO_INITIAL = .821;
 	public static final double ARM_ABS_ZERO = 0.9999;
 
 	//Physical Module - A
