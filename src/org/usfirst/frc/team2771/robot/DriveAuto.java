@@ -9,11 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveAuto {
 	private static DriveAuto instance;
 	private static PIDController rotDrivePID;
-
-	private static double minDriveStartPower = .1;
-
-	private static double maxPowerAllowed = 1;
-	private static double curPowerSetting = 1;
 	private static boolean isDriveInchesRunning = false;
 	private static int heading = 0;
 	private static double motionStartTime = 0;
@@ -55,49 +50,39 @@ public class DriveAuto {
 
 	}
 
-	public static void setDriveSpeed(DriveAuto.DriveSpeed ds) {
-		switch (ds) {
-		case VERY_LOW_SPEED:
-			DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .15));
-			break;
-		case LOW_SPEED:
-			DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .35));
-			break;
-		case MED_SPEED:
-			DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .60));
-			break;
-		case HIGH_SPEED:
-			DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY));
-			break;
-		}
-	}
+//	public static void setDriveSpeed(DriveAuto.DriveSpeed ds) {
+//		switch (ds) {
+//		case VERY_LOW_SPEED:
+//			DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .15));
+//			break;
+//		case LOW_SPEED:
+//			DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .35));
+//			break;
+//		case MED_SPEED:
+//			DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * .60));
+//			break;
+//		case HIGH_SPEED:
+//			DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY));
+//			break;
+//		}
+//	}
 
-	public static void driveInches(double inches, double angle, double maxPower, double startPowerLevel) {
-		// NOTE: maxPower and startPower are no longer used since implementing
-		// Motion Magic
-		// they should be removed at some point
-
-		strafeAngle = angle;
-
-		maxPowerAllowed = maxPower;
-		curPowerSetting = maxPower; // not using the ramping here anymore
-		// curPowerSetting = startPowerLevel; // the minimum power required to
-		// start moving. (Untested)
-		isDriveInchesRunning = true;
+	public static void driveInches(double inches, double angle, double speedFactor) {
 
 		SmartDashboard.putNumber("DRIVE INCHES", inches);
 
-		setPowerOutput(curPowerSetting); // not used
+		strafeAngle = angle;
 
+		isDriveInchesRunning = true;
+
+		DriveTrain.setDriveMMVelocity((int) (Calibration.DT_MM_VELOCITY * speedFactor));
+		
 		rotDrivePID.disable();
 
-		DriveTrain.setAllTurnOrientiation(-DriveTrain.angleToLoc(strafeAngle)); // angle
-																				// at
-																				// which
-																				// the
-																				// wheels
-																				// turn
+		// angle at which the wheel modules should be turned
+		DriveTrain.setAllTurnOrientiation(-DriveTrain.angleToLoc(strafeAngle)); 
 
+		// set the new drive distance setpoint
 		DriveTrain.addToAllDrivePositions(convertToTicks(inches));
 
 		try {
@@ -109,10 +94,6 @@ public class DriveAuto {
 
 		motionStartTime = System.currentTimeMillis();
 
-	}
-
-	public static void driveInches(double inches, double angle, double maxPower) {
-		driveInches(inches, angle, maxPower, minDriveStartPower);
 	}
 
 	public static void reset() {
@@ -129,7 +110,7 @@ public class DriveAuto {
 		rotDrivePID.disable();
 	}
 
-	public static void turnDegrees(double degrees, double maxPower) {
+	public static void turnDegrees(double degrees, double turnSpeedFactor) {
 		// Turns using the Gyro, relative to the current position
 		// Use "turnCompleted" method to determine when the turn is done
 
@@ -140,11 +121,9 @@ public class DriveAuto {
 		SmartDashboard.putNumber("TURN DEGREES CALL", degrees);
 		SmartDashboard.putNumber("ROT SETPOINT", rotDrivePID.getSetpoint() + degrees);
 
-		maxPowerAllowed = maxPower;
-		curPowerSetting = maxPower;
 		rotDrivePID.setSetpoint(rotDrivePID.getSetpoint() + degrees);
 		rotDrivePID.enable();
-		setPowerOutput(curPowerSetting);
+		setRotationalPowerOutput(turnSpeedFactor);
 
 		try {
 			Thread.sleep(100);
@@ -162,13 +141,13 @@ public class DriveAuto {
 
 		rotDrivePID.setSetpoint(RobotGyro.getAngle() + degrees);
 		rotDrivePID.enable();
-		setPowerOutput(maxPower);
+		setRotationalPowerOutput(maxPower);
 	}
 
 	public static void continuousDrive(double inches, double maxPower) {
 		motionStartTime = System.currentTimeMillis();
 
-		setPowerOutput(maxPower);
+		setRotationalPowerOutput(maxPower);
 
 		DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(0), DriveTrain.angleToLoc(0), DriveTrain.angleToLoc(0),
 				DriveTrain.angleToLoc(0));
@@ -251,8 +230,8 @@ public class DriveAuto {
 				SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I),
 				SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
 
-		DriveTrain.setDriveMMAccel((int) SmartDashboard.getNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL));
-		DriveTrain.setDriveMMVelocity((int) SmartDashboard.getNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY));
+//		DriveTrain.setDriveMMAccel((int) SmartDashboard.getNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL));
+//		DriveTrain.setDriveMMVelocity((int) SmartDashboard.getNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY));
 
 		// check for ramping up
 		// if (curPowerSetting < maxPowerAllowed) { // then increase power a
@@ -278,13 +257,8 @@ public class DriveAuto {
 
 	}
 
-	private static void setPowerOutput(double powerLevel) {
+	private static void setRotationalPowerOutput(double powerLevel) {
 		rotDrivePID.setOutputRange(-powerLevel, powerLevel);
-	}
-
-	public static void setMaxPowerOutput(double maxPower) {
-		maxPowerAllowed = maxPower;
-		// "tick" will take care of implementing this power level
 	}
 
 	public static double getDistanceTravelled() {
@@ -292,13 +266,10 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 600; // we've
-																							// been
-																							// moving
-																							// for
-																							// at
-																							// least
-																							// 200ms
+		// check to see if we've been moving for a little while (> 600 ms) and if the
+		// velocity is nearing zero.....if so, then we have arrived at our endpoint.
+		
+		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 600; 
 		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 3;
 
 		return (startupDelayCompleted && driveTrainStopped);

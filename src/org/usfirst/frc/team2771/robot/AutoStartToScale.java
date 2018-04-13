@@ -19,9 +19,9 @@ public class AutoStartToScale extends AutoBaseClass {
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
 				if (robotPosition() == 'R') {
-					this.driveInches(48, 25, .4); // remember to add two to three inches to this before competition
+					this.driveInches(48, 25, .4); 
 				} else {
-					this.driveInches(48, -25, .4); // this one too
+					this.driveInches(48, -25, .4);
 				}
 				break;
 			case 1:
@@ -48,9 +48,9 @@ public class AutoStartToScale extends AutoBaseClass {
 			case 6: // DRIVE TO SCALE PT. 3
 				setTimerAndAdvanceStep(2000);
 				if (robotPosition() == 'R') {
-					this.driveInches(48, -45, .5);
+					this.driveInches(48, -45, .3);
 				} else {
-					this.driveInches(48, 45, .5);
+					this.driveInches(48, 45, .25);
 				}
 				CubeClaw.setArmScalePosition();
 				break;
@@ -66,7 +66,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				break;
 			case 10: // DRIVE BACK
 				setTimerAndAdvanceStep(2000);
-				this.driveInches(-48, 0, .5);
+				this.driveInches(-48, 0, .25);
 				break;
 			case 11:
 				if(driveCompleted())
@@ -140,10 +140,10 @@ public class AutoStartToScale extends AutoBaseClass {
 //				CubeClaw.dropCube();
 //			case 25:
 //				break;
-			case 26:
-				CubeClaw.setArmTravelPosition();
-				this.setStep(30);
-				break;
+//			case 26:
+//				CubeClaw.setArmTravelPosition();
+//				this.setStep(30);
+//				break;
 			case 30:
 				stop();
 				break;

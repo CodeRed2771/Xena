@@ -17,7 +17,7 @@ public class AutoDrivePIDTune extends AutoBaseClass {
 
 			int sdPosition = (int)SmartDashboard.getNumber("Drive To Setpoint", 0);
 			if (sdPosition != lastPosition && Math.abs(sdPosition) < 250) {
-				DriveAuto.driveInches(sdPosition, 0, 0);
+				DriveAuto.driveInches(sdPosition, 0, .4);
 				lastPosition = sdPosition;
 			}
 		}

@@ -22,8 +22,8 @@ public class AutoDoNothing extends AutoBaseClass {
 
 			switch (getCurrentStep()) {
 			case 0:
-				this.setTimerAndAdvanceStep(10000);
-				DriveAuto.driveInches(500, 45, 1);
+//				this.setTimerAndAdvanceStep(10000);
+//				DriveAuto.driveInches(500, 45, 1);
 				break;
 			case 1:
 				break;
