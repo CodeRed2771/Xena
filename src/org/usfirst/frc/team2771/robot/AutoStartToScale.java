@@ -30,7 +30,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				break;
 			case 2: // DRIVE TO SCALE PT. 2
 				setTimerAndAdvanceStep(3000);
-				this.driveInches(160, 0, .3);
+				this.driveInches(172, 0, .3);
 				Lift.goHighScale();
 				break;
 			case 3:
