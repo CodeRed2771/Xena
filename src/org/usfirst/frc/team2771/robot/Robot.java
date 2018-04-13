@@ -104,6 +104,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 
+		SmartDashboard.putNumber("Teleop Time", DriverStation.getInstance().getMatchTime());
+		
 		double driveYAxisAmount = gamepad.getSwerveYAxis();
 
 		if (Lift.driveCautionNeeded()) {
