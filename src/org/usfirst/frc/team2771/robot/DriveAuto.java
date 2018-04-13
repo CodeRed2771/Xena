@@ -184,8 +184,10 @@ public class DriveAuto {
 		// The "heading" reflects any rotation we may have done to the
 		// "straight" driving will be at the angle that the robot has been
 		// rotated to.
+
 		if (strafeAngle == 0) { // currently this routine only works when
-								// driving straight forward.
+//		if (Math.abs(strafeAngle) < 60) { // currently this routine only works when
+			// driving straight forward.
 			if (isDriveInchesRunning) {
 				double rawGyroPidGet = RobotGyro.getGyro().pidGet(); // this
 																		// gets
@@ -197,6 +199,27 @@ public class DriveAuto {
 																		// i
 																		// believe
 
+				// NEW 
+				// take out strafeAngle == 0
+//				
+//				double adjust = (rawGyroPidGet - heading) * .5;
+//				
+//				if (DriveTrain.getDriveError() > 0)  // directional difference
+//					DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle - adjust),
+//							-DriveTrain.angleToLoc(strafeAngle + adjust),
+//							-DriveTrain.angleToLoc(strafeAngle + adjust),
+//							-DriveTrain.angleToLoc(strafeAngle - adjust));
+//				else
+//					DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle + adjust),
+//							-DriveTrain.angleToLoc((strafeAngle - adjust)),
+//							-DriveTrain.angleToLoc((strafeAngle - adjust)),
+//							-DriveTrain.angleToLoc(strafeAngle + adjust));
+//					
+//				SmartDashboard.putNumber("Angle Adjustment", adjust);
+//				SmartDashboard.putNumber("Adjusted Angle", strafeAngle - adjust);
+				
+				// ORIGINAL 
+				// Also include the strafeAngle == 0
 				if (DriveTrain.getDriveError() > 0) // directional difference
 					DriveTrain.setTurnOrientation(DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
 							DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
@@ -213,9 +236,9 @@ public class DriveAuto {
 		SmartDashboard.putNumber("ROT PID ERROR", rotDrivePID.getError());
 		SmartDashboard.putNumber("Drive Train Velocity", DriveTrain.getDriveVelocity());
 		SmartDashboard.putBoolean("HasArrived", hasArrived());
-		
+
 		SmartDashboard.putNumber("Drive PID Error", DriveTrain.getDriveError());
-		
+
 		DriveTrain.showDriveEncodersOnDash();
 
 		// Sets the PID values based on input from the SmartDashboard
@@ -227,7 +250,7 @@ public class DriveAuto {
 		DriveTrain.setDriveModulesPIDValues(SmartDashboard.getNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P),
 				SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I),
 				SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
-		
+
 		DriveTrain.setDriveMMAccel((int) SmartDashboard.getNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL));
 		DriveTrain.setDriveMMVelocity((int) SmartDashboard.getNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY));
 
