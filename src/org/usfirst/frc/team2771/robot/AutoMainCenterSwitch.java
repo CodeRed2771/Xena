@@ -37,7 +37,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				if (isSwitchLeft()) {
 					driveInches(110, -30, .1);
 				} else {
-					driveInches(102, 24, .1);
+					driveInches(106, 24, .1);
 				}
 				break;
 			case 3:
@@ -66,7 +66,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				break;
 			case 8:
 				setTimerAndAdvanceStep(2000);
-				this.driveInches(-48, 0, .1);
+				this.driveInches(-50, 0, .1);
 				break;
 			case 9:
 				if(driveCompleted())
@@ -138,7 +138,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				if (isSwitchLeft()) {
 					this.driveInches(65, 0, .1);
 				} else
-					this.driveInches(60, 0, .1);
+					this.driveInches(66, 0, .1);
 				break;
 			case 21:
 				if(driveCompleted())
