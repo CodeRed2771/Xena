@@ -226,7 +226,7 @@ public class DriveAuto {
 							DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
 							DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5));
 				else
-					DriveTrain.setTurnOrientation(strafeAngle + DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
+					DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
 							DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
 							DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
 							DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5));
