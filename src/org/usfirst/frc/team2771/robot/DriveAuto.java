@@ -11,7 +11,8 @@ public class DriveAuto {
 	private static PIDController rotDrivePID;
 	private static boolean isDriveInchesRunning = false;
 	private static int heading = 0;
-	private static double motionStartTime = 0;
+	// private static double motionStartTime = 0;
+	private static boolean hasStartedMoving = false;
 	private static double strafeAngle = 0;
 
 	public static enum DriveSpeed {
@@ -33,7 +34,9 @@ public class DriveAuto {
 		rotDrivePID.setAbsoluteTolerance(1.5); // degrees off
 		// rotDrivePID.setToleranceBuffer(3);
 
-		// These are applied to the PID in the tick method
+		DriveTrain.setDriveMMAccel(Calibration.DT_MM_ACCEL);
+		DriveTrain.setDriveMMVelocity(Calibration.DT_MM_VELOCITY);
+
 		SmartDashboard.putNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P);
 		SmartDashboard.putNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I);
 		SmartDashboard.putNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D);
@@ -44,9 +47,6 @@ public class DriveAuto {
 
 		SmartDashboard.putNumber("DRIVE MM VELOCITY", Calibration.DT_MM_VELOCITY);
 		SmartDashboard.putNumber("DRIVE MM ACCEL", Calibration.DT_MM_ACCEL);
-
-		DriveTrain.setDriveMMAccel(Calibration.DT_MM_ACCEL);
-		DriveTrain.setDriveMMVelocity(Calibration.DT_MM_VELOCITY);
 
 		SmartDashboard.putNumber("ROT P", Calibration.AUTO_ROT_P);
 		SmartDashboard.putNumber("ROT I", Calibration.AUTO_ROT_I);
@@ -69,9 +69,10 @@ public class DriveAuto {
 		// angle at which the wheel modules should be turned
 		DriveTrain.setAllTurnOrientiation(-DriveTrain.angleToLoc(strafeAngle));
 
-		// set the new drive distance setpoint
-		DriveTrain.addToAllDrivePositions(convertToTicks(inches));
-
+		// give it just a little time to get the modules turned to position
+		// before starting the drive
+		// this helps to get accurate encoder readings too since the drive
+		// encoder values are affected by turning the modules
 		try {
 			Thread.sleep(150);
 		} catch (InterruptedException e) {
@@ -79,7 +80,11 @@ public class DriveAuto {
 			e.printStackTrace();
 		}
 
-		motionStartTime = System.currentTimeMillis();
+		// set the new drive distance setpoint
+		DriveTrain.addToAllDrivePositions(convertToTicks(inches));
+
+		// motionStartTime = System.currentTimeMillis();
+		hasStartedMoving = false;
 
 	}
 
@@ -100,6 +105,8 @@ public class DriveAuto {
 	public static void turnDegrees(double degrees, double turnSpeedFactor) {
 		// Turns using the Gyro, relative to the current position
 		// Use "turnCompleted" method to determine when the turn is done
+		// The PID controller for this sends a rotational value to the
+		// standard swerve drive method to make the bot rotate
 
 		isDriveInchesRunning = false;
 		heading += degrees; // this is used later to help us drive straight
@@ -119,20 +126,22 @@ public class DriveAuto {
 			e.printStackTrace();
 		}
 
-		motionStartTime = System.currentTimeMillis();
+		// motionStartTime = System.currentTimeMillis();
+		hasStartedMoving = false;
 
 	}
 
-	public static void continuousTurn(double degrees, double maxPower) {
-		motionStartTime = System.currentTimeMillis();
-
-		rotDrivePID.setSetpoint(RobotGyro.getAngle() + degrees);
-		rotDrivePID.enable();
-		setRotationalPowerOutput(maxPower);
-	}
-
+	// public static void continuousTurn(double degrees, double maxPower) {
+	// motionStartTime = System.currentTimeMillis();
+	//
+	// rotDrivePID.setSetpoint(RobotGyro.getAngle() + degrees);
+	// rotDrivePID.enable();
+	// setRotationalPowerOutput(maxPower);
+	// }
+	//
 	public static void continuousDrive(double inches, double maxPower) {
-		motionStartTime = System.currentTimeMillis();
+		// motionStartTime = System.currentTimeMillis();
+		hasStartedMoving = false;
 
 		setRotationalPowerOutput(maxPower);
 
@@ -152,75 +161,44 @@ public class DriveAuto {
 		// rotated to.
 
 		// if (strafeAngle == 0) { // currently this routine only works when
-			if (Math.abs(strafeAngle) < 60) { // currently this routine only
-												// works
-												// when
-				// driving straight forward.
-				if (isDriveInchesRunning) {
-					double rawGyroPidGet = RobotGyro.getGyro().pidGet(); // this
-																			// gets
-																			// a
-																			// -180
-																			// to
-																			// 180
-																			// value
-																			// i
-																			// believe
+		if (Math.abs(strafeAngle) < 60) { // not effective for high strafe angles
+			if (isDriveInchesRunning) {
+//				 this gets a -180 to 180 value i believe
+				double rawGyroPidGet = RobotGyro.getGyro().pidGet(); 
 
-					// NEW
-					// take out strafeAngle == 0
+				double adjust = (rawGyroPidGet - heading) * .5;
 
-					double adjust = (rawGyroPidGet - heading) * .5;
+				// THIS IS THE GYRO CORRECTION I WANT TO TRY
+				if (DriveTrain.getDriveVelocity() > 0) // driving forward or backward
+					DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle - adjust),
+							-DriveTrain.angleToLoc(strafeAngle + adjust), 
+							-DriveTrain.angleToLoc(strafeAngle + adjust),
+							-DriveTrain.angleToLoc(strafeAngle - adjust));
+				else
+					DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle + adjust),
+							-DriveTrain.angleToLoc((strafeAngle - adjust)),
+							-DriveTrain.angleToLoc((strafeAngle - adjust)),
+							-DriveTrain.angleToLoc(strafeAngle + adjust));
 
-					// I THINK THIS IS WRONG
-					// if (DriveTrain.getDriveError() > 0) // directional
-					// difference
-					// DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle
-					// - adjust),
-					// -DriveTrain.angleToLoc(strafeAngle + adjust),
-					// -DriveTrain.angleToLoc(strafeAngle + adjust),
-					// -DriveTrain.angleToLoc(strafeAngle - adjust));
-					// else
-					// DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle
-					// + adjust),
-					// -DriveTrain.angleToLoc((strafeAngle - adjust)),
-					// -DriveTrain.angleToLoc((strafeAngle - adjust)),
-					// -DriveTrain.angleToLoc(strafeAngle + adjust));
-
-					// THIS IS THE GYRO CORRECTION I WANT TO TRY
-					if (DriveTrain.getDriveError() > 0) // directional
-														// difference
-						DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle - adjust),
-								-DriveTrain.angleToLoc(strafeAngle + adjust),
-								-DriveTrain.angleToLoc(strafeAngle + adjust),
-								-DriveTrain.angleToLoc(strafeAngle - adjust));
-					else
-						DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle + adjust),
-								-DriveTrain.angleToLoc((strafeAngle - adjust)),
-								-DriveTrain.angleToLoc((strafeAngle - adjust)),
-								-DriveTrain.angleToLoc(strafeAngle + adjust));
-
-					SmartDashboard.putNumber("Angle Adjustment", adjust);
-					SmartDashboard.putNumber("Adjusted Angle", strafeAngle - adjust);
-					// ORIGINAL
-					// Also include the strafeAngle == 0
-					// if (DriveTrain.getDriveError() > 0) // directional
-					// difference
-					// DriveTrain.setTurnOrientation(DriveTrain.angleToLoc((rawGyroPidGet
-					// - heading) * .5),
-					// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
-					// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
-					// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5));
-					// else
-					// DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(-(rawGyroPidGet
-					// - heading) * .5),
-					// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
-					// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
-					// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5));
-				}
+				SmartDashboard.putNumber("Angle Adjustment", adjust);
+				SmartDashboard.putNumber("Adjusted Angle", strafeAngle - adjust);
+				// ORIGINAL
+				// Also include the strafeAngle == 0
+				// if (DriveTrain.getDriveError() > 0) // directional
+				// difference
+				// DriveTrain.setTurnOrientation(DriveTrain.angleToLoc((rawGyroPidGet
+				// - heading) * .5),
+				// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
+				// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
+				// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5));
+				// else
+				// DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(-(rawGyroPidGet
+				// - heading) * .5),
+				// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
+				// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
+				// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5));
 			}
-
-		
+		}
 
 		SmartDashboard.putNumber("ROT PID ERROR", rotDrivePID.getError());
 		SmartDashboard.putNumber("Drive Train Velocity", DriveTrain.getDriveVelocity());
@@ -235,17 +213,20 @@ public class DriveAuto {
 
 		// Sets the PID values based on input from the SmartDashboard
 		// This is only needed during tuning
-//		rotDrivePID.setPID(SmartDashboard.getNumber("ROT P", Calibration.AUTO_ROT_P),
-//				SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I),
-//				SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
-//
-//		DriveTrain.setDrivePIDValues(SmartDashboard.getNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P),
-//				SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I),
-//				SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
-//
-//		DriveTrain.setTurnPIDValues(SmartDashboard.getNumber("TURN P", Calibration.TURN_P),
-//				SmartDashboard.getNumber("TURN I", Calibration.TURN_I),
-//				SmartDashboard.getNumber("TURN D", Calibration.TURN_D));
+		// rotDrivePID.setPID(SmartDashboard.getNumber("ROT P",
+		// Calibration.AUTO_ROT_P),
+		// SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I),
+		// SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
+		//
+		// DriveTrain.setDrivePIDValues(SmartDashboard.getNumber("AUTO DRIVE P",
+		// Calibration.AUTO_DRIVE_P),
+		// SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I),
+		// SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
+		//
+		// DriveTrain.setTurnPIDValues(SmartDashboard.getNumber("TURN P",
+		// Calibration.TURN_P),
+		// SmartDashboard.getNumber("TURN I", Calibration.TURN_I),
+		// SmartDashboard.getNumber("TURN D", Calibration.TURN_D));
 
 		// DriveTrain.setDriveMMAccel((int) SmartDashboard.getNumber("DRIVE MM
 		// ACCEL", Calibration.DT_MM_ACCEL));
@@ -267,11 +248,24 @@ public class DriveAuto {
 		// if the
 		// velocity is nearing zero.....if so, then we have arrived at our
 		// endpoint.
+		boolean driveTrainStopped = false;
 
-		boolean startupDelayCompleted = System.currentTimeMillis() > motionStartTime + 600;
-		boolean driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 3;
+		// boolean startupDelayCompleted = System.currentTimeMillis() >
+		// motionStartTime + 600;
+		// driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 3;
 
-		return (startupDelayCompleted && driveTrainStopped);
+		// new way of determining
+		if (hasStartedMoving) {
+			driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 3;
+		} else { // see if we've started moving now
+			driveTrainStopped = false;
+			if (Math.abs(DriveTrain.getDriveVelocity()) > 3) {
+				hasStartedMoving = true;
+			}
+		}
+
+		// return (startupDelayCompleted && driveTrainStopped);
+		return (driveTrainStopped);
 	}
 
 	public static boolean turnCompleted() {
