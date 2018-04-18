@@ -1,5 +1,8 @@
 package org.usfirst.frc.team2771.robot;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.*;
@@ -33,16 +36,16 @@ public class DriveTrain implements PIDOutput {
 
 		moduleA = new Module(Calibration.DT_A_DRIVE_TALON_ID, Calibration.DT_A_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
-				Calibration.TURN_I, Calibration.TURN_D, 200); // Bot right
+				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_A_ABS_ZERO()); // Bot right
 		moduleB = new Module(Calibration.DT_B_DRIVE_TALON_ID, Calibration.DT_B_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
-				Calibration.TURN_I, Calibration.TURN_D, 200); // Top left
+				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_B_ABS_ZERO()); // Top left
 		moduleC = new Module(Calibration.DT_C_DRIVE_TALON_ID, Calibration.DT_C_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
-				Calibration.TURN_I, Calibration.TURN_D, 200); // Top right
+				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_C_ABS_ZERO()); // Top right
 		moduleD = new Module(Calibration.DT_D_DRIVE_TALON_ID, Calibration.DT_D_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
-				Calibration.TURN_I, Calibration.TURN_D, 200); // Bot left
+				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_D_ABS_ZERO()); // Bot left
 
 		// PID is for PID drive not for the modules
 		// DVV - I don't believe we're using a mode that uses this
@@ -381,15 +384,20 @@ public class DriveTrain implements PIDOutput {
 	}
 
 	public static void showTurnEncodersOnDash() {
-		SmartDashboard.putNumber("TURN A RAW", moduleA.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN B RAW", moduleB.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN C RAW", moduleC.getTurnAbsolutePosition());
-		SmartDashboard.putNumber("TURN D RAW", moduleD.getTurnAbsolutePosition());
+		SmartDashboard.putNumber("TURN A RAW", round4(moduleA.getTurnAbsolutePosition()));
+		SmartDashboard.putNumber("TURN B RAW", round4(moduleB.getTurnAbsolutePosition()));
+		SmartDashboard.putNumber("TURN C RAW", round4(moduleC.getTurnAbsolutePosition()));
+		SmartDashboard.putNumber("TURN D RAW", round4(moduleD.getTurnAbsolutePosition()));
 
-		SmartDashboard.putNumber("TURN A REL", moduleA.getTurnRelativePosition());
-		SmartDashboard.putNumber("TURN B REL", moduleB.getTurnRelativePosition());
-		SmartDashboard.putNumber("TURN C REL", moduleC.getTurnRelativePosition());
-		SmartDashboard.putNumber("TURN D REL", moduleD.getTurnRelativePosition());
+		SmartDashboard.putNumber("TURN A POS", round4(moduleA.getTurnPosition()));
+		SmartDashboard.putNumber("TURN B POS", round4(moduleB.getTurnPosition()));
+		SmartDashboard.putNumber("TURN C POS", round4(moduleC.getTurnPosition()));
+		SmartDashboard.putNumber("TURN D POS", round4(moduleD.getTurnPosition()));
+
+		SmartDashboard.putNumber("TURN A ANGLE", round4(moduleA.getTurnAngle()));
+		SmartDashboard.putNumber("TURN B ANGLE", round4(moduleB.getTurnAngle()));
+		SmartDashboard.putNumber("TURN C ANGLE", round4(moduleC.getTurnAngle()));
+		SmartDashboard.putNumber("TURN D ANGLE", round4(moduleD.getTurnAngle()));
 
 		SmartDashboard.putNumber("TURN A ERR", moduleA.getTurnError());
 		SmartDashboard.putNumber("TURN B ERR", moduleB.getTurnError());
@@ -508,4 +516,9 @@ public class DriveTrain implements PIDOutput {
 	}
 
 	private static volatile double pidFWD = 0, pidSTR = 0;
+	
+	private static Double round4(Double val) {
+		return new BigDecimal(val.toString()).setScale(4, RoundingMode.HALF_UP).doubleValue();
+	}
+
 }

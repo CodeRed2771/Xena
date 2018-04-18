@@ -24,7 +24,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 
 			switch (getCurrentStep()) {
 			case 0:
-				setTimerAndAdvanceStep(100);
+				setTimerAndAdvanceStep(100); // gives us an extra 100 ms to get the gamedata correctly
 				break;
 			case 1:
 				break;
@@ -45,17 +45,9 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 					advanceStep();
 				break;
 			case 4:
-				if (isSwitchLeft()){
-//					setTimerAndAdvanceStep(2000);
-//					driveInches(18, 0, 0.1);
-					setStep(6);
-				} else
-					this.setStep(6);
+				setStep(6);
 				break;
 			case 5:
-				if (driveCompleted())
-					advanceStep();
-
 				break;
 			case 6:
 				setTimerAndAdvanceStep(500);

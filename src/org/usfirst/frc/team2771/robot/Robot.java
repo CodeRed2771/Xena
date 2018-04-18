@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		SmartDashboard.putNumber("Teleop Time", DriverStation.getInstance().getMatchTime());
+		SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 		
 		double driveYAxisAmount = gamepad.getSwerveYAxis();
 
@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
 		}
 
 		DriveTrain.fieldCentricDrive(driveYAxisAmount, -gamepad.getSwerveXAxis(),
-				powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
+				powerOf3PreserveSign(gamepad.getSwerveRotAxis()));
 
 		if (gamepad.activateIntake()) { // 2 - right bumper
 			CubeClaw.setArmHorizontalPosition();
@@ -377,9 +377,9 @@ public class Robot extends TimedRobot {
 
 		if (mAutoProgram != null) {
 			mAutoProgram.tick();
-			SmartDashboard.putNumber("Elapsed Time TICK", System.currentTimeMillis());
-
 		}
+
+		SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 
 		DriveAuto.tick();
 		CubeClaw.tick();
@@ -447,6 +447,10 @@ public class Robot extends TimedRobot {
 
 	private double powerOf2PreserveSign(double v) {
 		return (v > 0) ? Math.pow(v, 2) : -Math.pow(v, 2);
+	}
+
+	private double powerOf3PreserveSign(double v) {
+		return Math.pow(v, 3);
 	}
 
 	private static Double round2(Double val) {

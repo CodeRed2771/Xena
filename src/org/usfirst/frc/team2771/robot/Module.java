@@ -9,6 +9,7 @@ public class Module {
 	private WPI_TalonSRX drive, turn;
 	private final double FULL_ROTATION = 4096d, TURN_P, TURN_I, TURN_D, DRIVE_P, DRIVE_I, DRIVE_D;
 	private final int TURN_IZONE, DRIVE_IZONE;
+	private double turnZeroPos = 0;
 	
 	/**
 	 * Lets make a new module :)
@@ -19,7 +20,7 @@ public class Module {
 	 * @param tD I probably need to know the D constant for the turning PID
 	 * @param tIZone I might not need to know the I Zone value for the turning PID
 	 */
-	public Module(int driveTalonID, int turnTalonID, double dP, double dI, double dD, int dIZone, double tP, double tI, double tD, int tIZone) {
+	public Module(int driveTalonID, int turnTalonID, double dP, double dI, double dD, int dIZone, double tP, double tI, double tD, int tIZone, double tZeroPos) {
 		drive = new WPI_TalonSRX(driveTalonID);
 		drive.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0); // ?? don't know if zeros are right
 		DRIVE_P = dP;
@@ -40,7 +41,8 @@ public class Module {
 		drive.configMotionAcceleration(Calibration.DT_MM_ACCEL, 0);
 		
 		turn = new WPI_TalonSRX(turnTalonID);
-	
+		turnZeroPos = tZeroPos;
+		
 		turn.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,0,0); // ?? don't know if zeros are right
 		TURN_P = tP;
 		TURN_I = tI;
@@ -108,7 +110,29 @@ public class Module {
 	public double getTurnAbsolutePosition() {
 		return (turn.getSensorCollection().getPulseWidthPosition() & 0xFFF)/4095d;
 	}
+	
+	public double getTurnPosition() {
+		// returns the 0 to 1 value of the turn position
+		// uses the calibration value and the actual position 
+		// to determine the relative turn position
 
+		double currentPos = getTurnAbsolutePosition();
+		if (currentPos - turnZeroPos > 0) {
+			return currentPos - turnZeroPos;
+		} else {
+			return (1 - turnZeroPos) + currentPos;
+		}
+	}
+	
+	public double getTurnAngle() {
+		// returns the angle in -180 to 180 range
+		double turnPos = getTurnPosition();
+		if (turnPos > .5) {
+			return (360 - (turnPos * 360));
+		} else
+		return turnPos * 360;
+	}
+	
 	public void resetTurnEnc() {
 		this.turn.getSensorCollection().setQuadraturePosition(0,0); 
 	}
