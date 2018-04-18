@@ -83,13 +83,14 @@ public class Robot extends TimedRobot {
 
 		CubeClaw.resetArmEncoder();
 
-		DriveTrain.setDriveModulesPIDValues(Calibration.AUTO_DRIVE_P, Calibration.AUTO_DRIVE_I,
+		DriveTrain.setDrivePIDValues(Calibration.AUTO_DRIVE_P, Calibration.AUTO_DRIVE_I,
 				Calibration.AUTO_DRIVE_D);
 
 		RobotGyro.reset(); // this is also done in auto init in case it wasn't
 							// settled here yet
 
-		SmartDashboard.putBoolean("Show Turn Encoders", false);
+		SmartDashboard.putBoolean("Show Turn Encoders", true);
+		
 		// SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
 		// SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
 		// SmartDashboard.putNumber("Auto D:", Calibration.AUTO_DRIVE_D);
@@ -241,6 +242,14 @@ public class Robot extends TimedRobot {
 
 		Lift.tick();
 		CubeClaw.tick();
+
+		if (SmartDashboard.getBoolean("Show Turn Encoders", false)) {
+			DriveTrain.showTurnEncodersOnDash();
+		}
+		
+		DriveTrain.setTurnPIDValues(SmartDashboard.getNumber("TURN P", Calibration.TURN_P),
+				SmartDashboard.getNumber("TURN I", Calibration.TURN_I),
+				SmartDashboard.getNumber("TURN D", Calibration.TURN_D));
 
 	}
 
@@ -428,6 +437,11 @@ public class Robot extends TimedRobot {
 		// SmartDashboard.getString("Robot Position", ""));
 
 		SmartDashboard.putString("Position Chooser Selected", positionChooser.getSelected());
+		
+		if (SmartDashboard.getBoolean("Show Turn Encoders", false)) {
+			DriveTrain.showTurnEncodersOnDash();
+		}
+
 
 	}
 

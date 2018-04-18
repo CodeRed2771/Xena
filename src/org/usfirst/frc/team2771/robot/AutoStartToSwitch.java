@@ -27,9 +27,9 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
 				if (robotPosition() == 'R') {
-					this.driveInches(140, 10, .3);
+					this.driveInches(140, 10, .5);
 				} else {
-					this.driveInches(140, -10, .3);
+					this.driveInches(140, -10, .5);
 				}
 				break;
 			case 1:
@@ -52,7 +52,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				break;
 			case 4: // DRIVE TO SWITCH
 				setTimerAndAdvanceStep(2000);
-				this.driveInches(36, 0, .3);
+				this.driveInches(36, 0, .5);
 				break;
 			case 5:
 				if(driveCompleted())
@@ -66,7 +66,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				break;
 			case 8:
 				setTimerAndAdvanceStep(2000);
-				this.driveInches(-24, 0, 0.3);
+				this.driveInches(-24, 0, 0.5);
 				break;
 			case 9:
 				if(driveCompleted())

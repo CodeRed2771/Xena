@@ -30,14 +30,19 @@ public class DriveTrain implements PIDOutput {
 	private static final double l = 22, w = 21, r = Math.sqrt((l * l) + (w * w));
 
 	private DriveTrain() {
+
 		moduleA = new Module(Calibration.DT_A_DRIVE_TALON_ID, Calibration.DT_A_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
-				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, 4.20, 0.01, 0, 200);
+				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
+				Calibration.TURN_I, Calibration.TURN_D, 200); // Bot right
 		moduleB = new Module(Calibration.DT_B_DRIVE_TALON_ID, Calibration.DT_B_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
-				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, 4.20, 0.01, 0, 200);
+				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
+				Calibration.TURN_I, Calibration.TURN_D, 200); // Top left
 		moduleC = new Module(Calibration.DT_C_DRIVE_TALON_ID, Calibration.DT_C_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
-				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, 4.20, 0.01, 0, 200);
+				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
+				Calibration.TURN_I, Calibration.TURN_D, 200); // Top right
 		moduleD = new Module(Calibration.DT_D_DRIVE_TALON_ID, Calibration.DT_D_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
-				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, 4.20, 0.01, 0, 200);
+				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
+				Calibration.TURN_I, Calibration.TURN_D, 200); // Bot left
 
 		// PID is for PID drive not for the modules
 		// DVV - I don't believe we're using a mode that uses this
@@ -48,9 +53,9 @@ public class DriveTrain implements PIDOutput {
 		pidControllerRot.setContinuous(true);
 
 	}
-	
-	public static void setFollowerFix(boolean enable ) {
-		if (enable) 
+
+	public static void setFollowerFix(boolean enable) {
+		if (enable)
 			moduleB.setFollower(Calibration.DT_D_DRIVE_TALON_ID);
 		else
 			moduleB.setFollower(0);
@@ -79,9 +84,10 @@ public class DriveTrain implements PIDOutput {
 		moduleC.setDriveMMVelocity(velocity);
 		moduleD.setDriveMMVelocity(velocity);
 	}
-	
+
 	public static int getDriveVelocity() {
-		return (moduleA.getDriveVelocity() + moduleB.getDriveVelocity() + moduleC.getDriveVelocity() + moduleD.getDriveVelocity()) / 4;
+		return (moduleA.getDriveVelocity() + moduleB.getDriveVelocity() + moduleC.getDriveVelocity()
+				+ moduleD.getDriveVelocity()) / 4;
 	}
 
 	public static void setTurnPower(double modAPower, double modBPower, double modCPower, double modDPower) {
@@ -106,18 +112,6 @@ public class DriveTrain implements PIDOutput {
 		moduleB.setTurnOrientation(modBPosition);
 		moduleC.setTurnOrientation(modCPosition);
 		moduleD.setTurnOrientation(modDPosition);
-
-		if (SmartDashboard.getBoolean("Show Turn Encoders", false)) {
-			SmartDashboard.putNumber("TURN A RAW", moduleA.getTurnAbsolutePosition());
-			SmartDashboard.putNumber("TURN B RAW", moduleB.getTurnAbsolutePosition());
-			SmartDashboard.putNumber("TURN C RAW", moduleC.getTurnAbsolutePosition());
-			SmartDashboard.putNumber("TURN D RAW", moduleD.getTurnAbsolutePosition());
-		}
-		
-//		SmartDashboard.putNumber("TURN A POS", moduleA.getTurnRelativePosition());
-//		SmartDashboard.putNumber("TURN B POS", moduleB.getTurnRelativePosition());
-//		SmartDashboard.putNumber("TURN C POS", moduleC.getTurnRelativePosition());
-//		SmartDashboard.putNumber("TURN D POS", moduleD.getTurnRelativePosition());
 
 	}
 
@@ -244,13 +238,14 @@ public class DriveTrain implements PIDOutput {
 	}
 
 	/*
-	 * Resets the turn encoder values relative to what we've determined to be the
-	 * "zero" position. (the calibration values). This is so the rest of the program
-	 * can just treat the turn encoder as if zero is the straight position. We don't
-	 * have to always calculate based off the calibrated zero position. e.g. if the
-	 * calibrated zero position is .25 and our current absolute position is .40 then
-	 * we reset the encoder value to be .15 * 4095, so we know were .15 away from
-	 * the zero position. The 4095 converts the position back to ticks.
+	 * Resets the turn encoder values relative to what we've determined to be
+	 * the "zero" position. (the calibration values). This is so the rest of the
+	 * program can just treat the turn encoder as if zero is the straight
+	 * position. We don't have to always calculate based off the calibrated zero
+	 * position. e.g. if the calibrated zero position is .25 and our current
+	 * absolute position is .40 then we reset the encoder value to be .15 *
+	 * 4095, so we know were .15 away from the zero position. The 4095 converts
+	 * the position back to ticks.
 	 * 
 	 * Bottom line is that this is what applies the turn calibration values.
 	 */
@@ -272,9 +267,11 @@ public class DriveTrain implements PIDOutput {
 			modCOff = DriveTrain.moduleC.getTurnAbsolutePosition();
 			modDOff = DriveTrain.moduleD.getTurnAbsolutePosition();
 
-			// now use the difference between the current position and the calibration zero
+			// now use the difference between the current position and the
+			// calibration zero
 			// position
-			// to tell the encoder what the current relative position is (relative to the
+			// to tell the encoder what the current relative position is
+			// (relative to the
 			// zero pos)
 			moduleA.setEncPos((int) (calculatePositionDifference(modAOff, Calibration.GET_DT_A_ABS_ZERO()) * 4095d));
 			moduleB.setEncPos((int) (calculatePositionDifference(modBOff, Calibration.GET_DT_B_ABS_ZERO()) * 4095d));
@@ -338,7 +335,8 @@ public class DriveTrain implements PIDOutput {
 		double c = fwd - (rot * (w / r));
 		double d = fwd + (rot * (w / r));
 
-		double ws1 = Math.sqrt((b * b) + (c * c)); // front_right (CHECK THESE AGAINST OUR BOT)
+		double ws1 = Math.sqrt((b * b) + (c * c)); // front_right (CHECK THESE
+													// AGAINST OUR BOT)
 		double ws2 = Math.sqrt((b * b) + (d * d)); // front_left
 		double ws3 = Math.sqrt((a * a) + (d * d)); // rear_left
 		double ws4 = Math.sqrt((a * a) + (c * c)); // rear_right
@@ -360,26 +358,43 @@ public class DriveTrain implements PIDOutput {
 		}
 
 		SmartDashboard.putNumber("swerve rot", rot);
-		
-//		SmartDashboard.putNumber("swerve a", a);
-//		SmartDashboard.putNumber("swerve b", b);
-//		SmartDashboard.putNumber("swerve c", c);
-//		SmartDashboard.putNumber("swerve d", d);
-//		SmartDashboard.putNumber("swerve wa1", wa1);
-//		SmartDashboard.putNumber("swerve wa2", wa2);
-//		SmartDashboard.putNumber("swerve wa3", wa3);
-//		SmartDashboard.putNumber("swerve wa4", wa4);
+
+		// SmartDashboard.putNumber("swerve a", a);
+		// SmartDashboard.putNumber("swerve b", b);
+		// SmartDashboard.putNumber("swerve c", c);
+		// SmartDashboard.putNumber("swerve d", d);
+		// SmartDashboard.putNumber("swerve wa1", wa1);
+		// SmartDashboard.putNumber("swerve wa2", wa2);
+		// SmartDashboard.putNumber("swerve wa3", wa3);
+		// SmartDashboard.putNumber("swerve wa4", wa4);
 
 		DriveTrain.setTurnOrientation(angleToLoc(wa4), angleToLoc(wa2), angleToLoc(wa1), angleToLoc(wa3));
 		DriveTrain.setDrivePower(ws4, ws2, ws1, ws3);
 	}
-	
+
 	public static void showDriveEncodersOnDash() {
 		SmartDashboard.putNumber("Mod A Drive Enc", moduleA.getDriveEnc());
 		SmartDashboard.putNumber("Mod B Drive Enc", moduleB.getDriveEnc());
 		SmartDashboard.putNumber("Mod C Drive Enc", moduleC.getDriveEnc());
 		SmartDashboard.putNumber("Mod D Drive Enc", moduleD.getDriveEnc());
-		
+
+	}
+
+	public static void showTurnEncodersOnDash() {
+		SmartDashboard.putNumber("TURN A RAW", moduleA.getTurnAbsolutePosition());
+		SmartDashboard.putNumber("TURN B RAW", moduleB.getTurnAbsolutePosition());
+		SmartDashboard.putNumber("TURN C RAW", moduleC.getTurnAbsolutePosition());
+		SmartDashboard.putNumber("TURN D RAW", moduleD.getTurnAbsolutePosition());
+
+		SmartDashboard.putNumber("TURN A REL", moduleA.getTurnRelativePosition());
+		SmartDashboard.putNumber("TURN B REL", moduleB.getTurnRelativePosition());
+		SmartDashboard.putNumber("TURN C REL", moduleC.getTurnRelativePosition());
+		SmartDashboard.putNumber("TURN D REL", moduleD.getTurnRelativePosition());
+
+		SmartDashboard.putNumber("TURN A ERR", moduleA.getTurnError());
+		SmartDashboard.putNumber("TURN B ERR", moduleB.getTurnError());
+		SmartDashboard.putNumber("TURN C ERR", moduleC.getTurnError());
+		SmartDashboard.putNumber("TURN D ERR", moduleD.getTurnError());
 	}
 
 	public static void humanDrive(double fwd, double str, double rot) {
@@ -472,7 +487,7 @@ public class DriveTrain implements PIDOutput {
 				moduleC.getTurnAbsolutePosition(), moduleD.getTurnAbsolutePosition() };
 	}
 
-	public static void setDriveModulesPIDValues(double p, double i, double d) {
+	public static void setDrivePIDValues(double p, double i, double d) {
 		if (getInstance() == null)
 			return;
 
@@ -480,6 +495,16 @@ public class DriveTrain implements PIDOutput {
 		moduleB.setDrivePIDValues(p, i, d);
 		moduleC.setDrivePIDValues(p, i, d);
 		moduleD.setDrivePIDValues(p, i, d);
+	}
+	
+	public static void setTurnPIDValues(double p, double i, double d) {
+		if (getInstance() == null)
+			return;
+
+		moduleA.setTurnPIDValues(p, i, d);
+		moduleB.setTurnPIDValues(p, i, d);
+		moduleC.setTurnPIDValues(p, i, d);
+		moduleD.setTurnPIDValues(p, i, d);
 	}
 
 	private static volatile double pidFWD = 0, pidSTR = 0;

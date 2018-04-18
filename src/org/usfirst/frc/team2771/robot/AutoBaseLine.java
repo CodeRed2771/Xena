@@ -30,10 +30,10 @@ public class AutoBaseLine extends AutoBaseClass {
 				setTimerAndAdvanceStep(6000);
 				CubeClaw.setArmTravelPosition();
 				if (myRobotPosition == 'C') {
-					driveInches(95, 24, .35);
+					driveInches(95, 24, .5);
 				} else
 				{
-					driveInches(90, 0, .35);
+					driveInches(90, 0, .5);
 				}
 				break;
 			case 2:

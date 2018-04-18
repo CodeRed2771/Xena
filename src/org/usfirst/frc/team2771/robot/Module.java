@@ -209,6 +209,10 @@ public class Module {
 		drive.config_kD(0, d, 0);
 	}
 	
-	
+	public void setTurnPIDValues(double p, double i, double d){
+		turn.config_kP(0, p, 0);
+		turn.config_kI(0, i, 0);
+		turn.config_kD(0, d, 0);
+	}
 	
 }
