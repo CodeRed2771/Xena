@@ -119,8 +119,8 @@ public class CubeClaw {
 		
 		showArmEncoderValue();
 		
-		SmartDashboard.putNumber("Intake Current 1", round0(currentBreaker1.getCurrent()));
-		SmartDashboard.putNumber("Intake Current 2", round0(currentBreaker2.getCurrent()));
+//		SmartDashboard.putNumber("Intake Current 1", round0(currentBreaker1.getCurrent()));
+//		SmartDashboard.putNumber("Intake Current 2", round0(currentBreaker2.getCurrent()));
 
 		if (intakeStalled() && !holdingCube) {
 			System.out.println("Intake stalled - switching to hold mode");
@@ -294,6 +294,7 @@ public class CubeClaw {
 	public static void showArmEncoderValue() {
 		SmartDashboard.putNumber("Arm Abs Encoder: ", round2(getArmAbsolutePosition()));
 		SmartDashboard.putNumber("Arm Position", arm.getSensorCollection().getQuadraturePosition());
+		SmartDashboard.putNumber("Arm Setpoint", arm.getClosedLoopTarget(0));
 	}
 	/*
 	 * Resets the arm encoder value relative to what we've determined to be the
