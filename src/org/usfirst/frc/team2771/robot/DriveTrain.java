@@ -384,20 +384,20 @@ public class DriveTrain implements PIDOutput {
 	}
 
 	public static void showTurnEncodersOnDash() {
-		SmartDashboard.putNumber("TURN A RAW", round4(moduleA.getTurnAbsolutePosition()));
-		SmartDashboard.putNumber("TURN B RAW", round4(moduleB.getTurnAbsolutePosition()));
-		SmartDashboard.putNumber("TURN C RAW", round4(moduleC.getTurnAbsolutePosition()));
-		SmartDashboard.putNumber("TURN D RAW", round4(moduleD.getTurnAbsolutePosition()));
+		SmartDashboard.putNumber("TURN A RAW", round(moduleA.getTurnAbsolutePosition(), 3));
+		SmartDashboard.putNumber("TURN B RAW", round(moduleB.getTurnAbsolutePosition(), 3));
+		SmartDashboard.putNumber("TURN C RAW", round(moduleC.getTurnAbsolutePosition(), 3));
+		SmartDashboard.putNumber("TURN D RAW", round(moduleD.getTurnAbsolutePosition(), 3));
 
-		SmartDashboard.putNumber("TURN A POS", round4(moduleA.getTurnPosition()));
-		SmartDashboard.putNumber("TURN B POS", round4(moduleB.getTurnPosition()));
-		SmartDashboard.putNumber("TURN C POS", round4(moduleC.getTurnPosition()));
-		SmartDashboard.putNumber("TURN D POS", round4(moduleD.getTurnPosition()));
+		SmartDashboard.putNumber("TURN A POS", round(moduleA.getTurnPosition(), 2));
+		SmartDashboard.putNumber("TURN B POS", round(moduleB.getTurnPosition(), 2));
+		SmartDashboard.putNumber("TURN C POS", round(moduleC.getTurnPosition(), 2));
+		SmartDashboard.putNumber("TURN D POS", round(moduleD.getTurnPosition(), 2));
 
-		SmartDashboard.putNumber("TURN A ANGLE", round4(moduleA.getTurnAngle()));
-		SmartDashboard.putNumber("TURN B ANGLE", round4(moduleB.getTurnAngle()));
-		SmartDashboard.putNumber("TURN C ANGLE", round4(moduleC.getTurnAngle()));
-		SmartDashboard.putNumber("TURN D ANGLE", round4(moduleD.getTurnAngle()));
+		SmartDashboard.putNumber("TURN A ANGLE", round(moduleA.getTurnAngle(),0));
+		SmartDashboard.putNumber("TURN B ANGLE", round(moduleB.getTurnAngle(),0));
+		SmartDashboard.putNumber("TURN C ANGLE", round(moduleC.getTurnAngle(),0));
+		SmartDashboard.putNumber("TURN D ANGLE", round(moduleD.getTurnAngle(),0));
 
 		SmartDashboard.putNumber("TURN A ERR", moduleA.getTurnError());
 		SmartDashboard.putNumber("TURN B ERR", moduleB.getTurnError());
@@ -517,8 +517,8 @@ public class DriveTrain implements PIDOutput {
 
 	private static volatile double pidFWD = 0, pidSTR = 0;
 	
-	private static Double round4(Double val) {
-		return new BigDecimal(val.toString()).setScale(4, RoundingMode.HALF_UP).doubleValue();
+	private static Double round(Double val, int scale) {
+		return new BigDecimal(val.toString()).setScale(scale, RoundingMode.HALF_UP).doubleValue();
 	}
 
 }
