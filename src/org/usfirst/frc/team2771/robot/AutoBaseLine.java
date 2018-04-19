@@ -28,13 +28,12 @@ public class AutoBaseLine extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(6000);
-				DriveAuto.setDriveSpeed(DriveSpeed.LOW_SPEED);
 				CubeClaw.setArmTravelPosition();
 				if (myRobotPosition == 'C') {
-					driveInches(95, 24, .1);
+					driveInches(95, 24, .5);
 				} else
 				{
-					driveInches(86, 0, .1);
+					driveInches(90, 0, .5);
 				}
 				break;
 			case 2:

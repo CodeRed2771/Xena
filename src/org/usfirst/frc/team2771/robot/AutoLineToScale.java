@@ -9,6 +9,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * has been officially declared OBSOLETE. It is
  * scheduled for termination in the next 24 hours
  * by the manner of execution in which it chooses.
+ * 
+ * 
+ * 
+ * 
+ * OBSOLETE
+ * 
+ * UNUSED
+ * 
+ * 
  */
 
 public class AutoLineToScale extends AutoBaseClass {

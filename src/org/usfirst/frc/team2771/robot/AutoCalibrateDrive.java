@@ -17,24 +17,74 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 
 			switch (getCurrentStep()) {
 			case 0:
-				setTimerAndAdvanceStep(10000);
-				driveInches(100,0,1);
+				setTimerAndAdvanceStep(2800);
+//				CubeClaw.holdCube(); // makes sure the cylinders are engaged
+//				Lift.goSwitch();
+//				CubeClaw.setArmSwitchPosition();
+				
+				if (isSwitchLeft()) {
+					driveInches(100, 0, .50);
+				} else {
+					driveInches(100, 0, .50);
+				}
 				break;
 			case 1:
 				if (driveCompleted())
 					advanceStep();
 				break;
 			case 2:
-				setTimerAndAdvanceStep(10000);
-				driveInches(-100,0,1);
+				setTimerAndAdvanceStep(1200);
+				
+//				if (isSwitchLeft()) {
+//					this.turnDegrees(45, .5);
+//				} else {
+//					this.turnDegrees(-45, .5);
+//				}
 				break;
 			case 3:
-				if (driveCompleted())
+				if(driveCompleted())
 					advanceStep();
 				break;
 			case 4:
-				this.setStep(0);
+				setTimerAndAdvanceStep(1200);
+				if (isSwitchLeft()) {
+					driveInches(50, 0, .50);
+				} else {
+					driveInches(50, 0, .50);
+				}
+//				if (isSwitchLeft()) {
+//					this.turnDegrees(-48, .5);
+//				} else {
+//					this.turnDegrees(45, .5);
+//				}
 				break;
+			case 5:
+				if(driveCompleted())
+					advanceStep();
+				break;
+			case 6:
+				setTimerAndAdvanceStep(1200);				
+//				driveInches(30, 0, .5);
+				
+//			case 0:
+//				setTimerAndAdvanceStep(10000);
+//				driveInches(100,0,.5);
+//				break;
+//			case 1:
+//				if (driveCompleted())
+//					advanceStep();
+//				break;
+//			case 2:
+//				setTimerAndAdvanceStep(10000);
+//				driveInches(-100,0,.5);
+//				break;
+//			case 3:
+//				if (driveCompleted())
+//					advanceStep();
+//				break;
+//			case 4:
+//				this.setStep(0);
+//				break;
 			}
 		}
 	}

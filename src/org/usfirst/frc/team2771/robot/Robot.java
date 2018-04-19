@@ -83,13 +83,14 @@ public class Robot extends TimedRobot {
 
 		CubeClaw.resetArmEncoder();
 
-		DriveTrain.setDriveModulesPIDValues(Calibration.AUTO_DRIVE_P, Calibration.AUTO_DRIVE_I,
+		DriveTrain.setDrivePIDValues(Calibration.AUTO_DRIVE_P, Calibration.AUTO_DRIVE_I,
 				Calibration.AUTO_DRIVE_D);
 
 		RobotGyro.reset(); // this is also done in auto init in case it wasn't
 							// settled here yet
 
-		SmartDashboard.putBoolean("Show Turn Encoders", false);
+		SmartDashboard.putBoolean("Show Turn Encoders", true);
+		
 		// SmartDashboard.putNumber("Auto P:", Calibration.AUTO_DRIVE_P);
 		// SmartDashboard.putNumber("Auto I:", Calibration.AUTO_DRIVE_I);
 		// SmartDashboard.putNumber("Auto D:", Calibration.AUTO_DRIVE_D);
@@ -104,7 +105,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 
-		SmartDashboard.putNumber("Teleop Time", DriverStation.getInstance().getMatchTime());
+		SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 		
 		double driveYAxisAmount = gamepad.getSwerveYAxis();
 
@@ -119,7 +120,7 @@ public class Robot extends TimedRobot {
 		}
 
 		DriveTrain.fieldCentricDrive(driveYAxisAmount, -gamepad.getSwerveXAxis(),
-				powerOf2PreserveSign(gamepad.getSwerveRotAxis()));
+				powerOf3PreserveSign(gamepad.getSwerveRotAxis()));
 
 		if (gamepad.activateIntake()) { // 2 - right bumper
 			CubeClaw.setArmHorizontalPosition();
@@ -241,6 +242,14 @@ public class Robot extends TimedRobot {
 
 		Lift.tick();
 		CubeClaw.tick();
+
+		if (SmartDashboard.getBoolean("Show Turn Encoders", false)) {
+			DriveTrain.showTurnEncodersOnDash();
+		}
+		
+		DriveTrain.setTurnPIDValues(SmartDashboard.getNumber("TURN P", Calibration.TURN_P),
+				SmartDashboard.getNumber("TURN I", Calibration.TURN_I),
+				SmartDashboard.getNumber("TURN D", Calibration.TURN_D));
 
 	}
 
@@ -368,9 +377,9 @@ public class Robot extends TimedRobot {
 
 		if (mAutoProgram != null) {
 			mAutoProgram.tick();
-			SmartDashboard.putNumber("Elapsed Time TICK", System.currentTimeMillis());
-
 		}
+
+		SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 
 		DriveAuto.tick();
 		CubeClaw.tick();
@@ -428,11 +437,20 @@ public class Robot extends TimedRobot {
 		// SmartDashboard.getString("Robot Position", ""));
 
 		SmartDashboard.putString("Position Chooser Selected", positionChooser.getSelected());
+		
+		if (SmartDashboard.getBoolean("Show Turn Encoders", false)) {
+			DriveTrain.showTurnEncodersOnDash();
+		}
+
 
 	}
 
 	private double powerOf2PreserveSign(double v) {
 		return (v > 0) ? Math.pow(v, 2) : -Math.pow(v, 2);
+	}
+
+	private double powerOf3PreserveSign(double v) {
+		return Math.pow(v, 3);
 	}
 
 	private static Double round2(Double val) {

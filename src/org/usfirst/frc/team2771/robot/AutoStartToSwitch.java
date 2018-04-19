@@ -23,13 +23,13 @@ public class AutoStartToSwitch extends AutoBaseClass {
 
 			switch (getCurrentStep()) {
 			case 0: // DRIVE FORWARD
-				setTimerAndAdvanceStep(2500);
+				setTimerAndAdvanceStep(4000);
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
 				if (robotPosition() == 'R') {
-					this.driveInches(140, 10, .4);
+					this.driveInches(140, 10, .5);
 				} else {
-					this.driveInches(140, -10, .4);
+					this.driveInches(140, -10, .5);
 				}
 				break;
 			case 1:
@@ -65,14 +65,15 @@ public class AutoStartToSwitch extends AutoBaseClass {
 			case 7:
 				break;
 			case 8:
-				setTimerAndAdvanceStep(1000);
-				this.driveInches(-24, 0, 0.4);
+				setTimerAndAdvanceStep(2000);
+				this.driveInches(-24, 0, 0.5);
 				break;
 			case 9:
 				if(driveCompleted())
 					advanceStep();
 				break;
 			case 20:
+				Lift.goStartPosition();
 				this.setStep(21);
 			case 21:
 				stop(); // signals the end 

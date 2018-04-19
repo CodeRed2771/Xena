@@ -18,18 +18,22 @@ public class Calibration {
 	
 	// PRACTICE
 	
-//	private final static double DT_A_ABS_ZERO_INITIAL = .550; //Practice Robot Calibration
-//	private final static double DT_B_ABS_ZERO_INITIAL = .903; //Practice Robot Calibration
-//	private final static double DT_C_ABS_ZERO_INITIAL =.380; //Practice Robot Calibration
-//	private final static double DT_D_ABS_ZERO_INITIAL = .258; //Practice Robot Calibration`
-//	public static final double ARM_ABS_ZERO = 0.454;  // Absolute encoder value in horizontal position
+	private final static double DT_A_ABS_ZERO_INITIAL = .550; //Practice Robot Calibration
+	private final static double DT_B_ABS_ZERO_INITIAL = .903; //Practice Robot Calibration
+	private final static double DT_C_ABS_ZERO_INITIAL = .409; //Practice Robot Calibration
+	private final static double DT_D_ABS_ZERO_INITIAL = .258; //Practice Robot Calibration`
+	public static final double ARM_ABS_ZERO = 0.454;  // Absolute encoder value in horizontal position
+	
+	public final static double TURN_P = 10;
+	public final static double TURN_I = 0.01;
+	public final static double TURN_D = 400;
 	
 	// COMPETIION
-	private final static double DT_A_ABS_ZERO_INITIAL = .3897; // COMPEITION
-	private final static double DT_B_ABS_ZERO_INITIAL = .2290;
-	private final static double DT_C_ABS_ZERO_INITIAL = .461;
-	private final static double DT_D_ABS_ZERO_INITIAL = .821;
-	public static final double ARM_ABS_ZERO = 0.9999;
+//	private final static double DT_A_ABS_ZERO_INITIAL = .3897; // COMPEITION
+//	private final static double DT_B_ABS_ZERO_INITIAL = .2290;
+//	private final static double DT_C_ABS_ZERO_INITIAL = .461;
+//	private final static double DT_D_ABS_ZERO_INITIAL = .821;
+//	public static final double ARM_ABS_ZERO = 0.9999;
 
 	//Physical Module - A
 	public final static int DT_A_DRIVE_TALON_ID = 6;
