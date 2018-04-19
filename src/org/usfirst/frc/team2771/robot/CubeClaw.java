@@ -305,7 +305,8 @@ public class CubeClaw {
 	 * 4095, so we know were .15 away from the zero position. The 4095 converts
 	 * the position back to ticks.
 	 * 
-	 * Bottom line is that this is what applies the turn calibration values.
+	 * Bottom line is that this is what uses the calibrated zero values to set
+	 * the encoder relative values
 	 */
 	public static void resetArmEncoder() {
 		if (getInstance() == null)
@@ -313,46 +314,53 @@ public class CubeClaw {
 
 		double posDiff = 0;
 		double offSet = 0;
-		int newArmEncoderValue = 0;
 
-		arm.set(ControlMode.PercentOutput, 0); // turn off the motor while we're
-												// setting encoder
+		// 4/18/18 commented out b/c this could actually cause the arm 
+		// to start moving.
+		// arm.set(ControlMode.PercentOutput, 0);
 
 		// first find the current absolute position of the arm encoder
 		offSet = getArmAbsolutePosition();
-		System.out.println("arm current pos " + offSet);
+		System.out.println("ARM ENCODER POSITION " + offSet);
 
 		// now use the difference between the current position and the
 		// calibration zero position
 		// to tell the encoder what the current relative position is (relative
 		// to the zero pos)
-		posDiff = calculatePositionDifference(offSet, Calibration.ARM_ABS_ZERO);
-		System.out.println("posDiff " + posDiff);
-		if (posDiff > .7) {
-			// special case for encoder absolute position being past one rotation.
-			// if calib is .02 and abs pos = .95, it's not possible and we should just take the current position as the 
-			// calib position
-			posDiff = 0;
-		}
-		System.out.println("posDiff adjusted " + posDiff);
+		posDiff = - calculatePositionFromZero(offSet, Calibration.ARM_ABS_ZERO);
+		System.out.println("ARM ENCODER DIFFERENCE " + posDiff);
+//		if (posDiff > .7) {
+//			// special case for encoder absolute position being past one rotation.
+//			// if calib is .02 and abs pos = .95, it's not possible and we should just take the current position as the 
+//			// calib position
+//			posDiff = 0;
+//		}
+//		System.out.println("posDiff adjusted " + posDiff);
 		
-		newArmEncoderValue = (int) (posDiff * 4095d);
+		int newArmEncoderValue = (int) (posDiff * 4095d);
 		setArmEncPos(newArmEncoderValue);
-		System.out.println("Setting arm encoder to " + newArmEncoderValue);
+		System.out.println("RESETTING ARM ENCODER TO " + newArmEncoderValue);
 		
 		armHasBeenCalibrated = true;
 
 	}
 
-	private static double calculatePositionDifference(double currentPosition, double calibrationZeroPosition) {
-		return currentPosition - calibrationZeroPosition;
+	private static double calculatePositionFromZero(double currentPosition, double calibrationZeroPosition) {
+		double curPos;
+		if (calibrationZeroPosition - currentPosition > .7) {
+			return calibrationZeroPosition - (1 + currentPosition);
+		} else
+			return calibrationZeroPosition - currentPosition;
+		
 //		if (currentPosition - calibrationZeroPosition > 0) {
 //			return currentPosition - calibrationZeroPosition;
 //		} else {
 //			return (1 - calibrationZeroPosition) + currentPosition;
 //		}
-
 	}
+//	private static double calculatePositionDifference(double currentPosition, double calibrationZeroPosition) {
+//		return currentPosition - calibrationZeroPosition;
+//	}
 
 	private static double aDistantFutureTime() {
 		return System.currentTimeMillis() + 900000; // 15 minutes in the future

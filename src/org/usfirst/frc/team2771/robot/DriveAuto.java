@@ -14,6 +14,7 @@ public class DriveAuto {
 	// private static double motionStartTime = 0;
 	private static boolean hasStartedMoving = false;
 	private static double strafeAngle = 0;
+	private static int zeroVelocityCount = 0;
 
 	public static enum DriveSpeed {
 		VERY_LOW_SPEED, LOW_SPEED, MED_SPEED, HIGH_SPEED
@@ -161,42 +162,42 @@ public class DriveAuto {
 		// rotated to.
 
 		// if (strafeAngle == 0) { // currently this routine only works when
-		if (Math.abs(strafeAngle) < 60) { // not effective for high strafe angles
+
+		if (Math.abs(strafeAngle) < 60) { // not effective for high strafe
+											// angles
 			if (isDriveInchesRunning) {
-//				 this gets a -180 to 180 value i believe
-				double rawGyroPidGet = RobotGyro.getGyro().pidGet(); 
+				// this gets a -180 to 180 value i believe
+				double rawGyroPidGet = RobotGyro.getGyro().pidGet();
 
 				double adjust = (rawGyroPidGet - heading) * .5;
 
 				// THIS IS THE GYRO CORRECTION I WANT TO TRY
-				if (DriveTrain.getDriveVelocity() > 0) // driving forward or backward
-					DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle - adjust),
-							-DriveTrain.angleToLoc(strafeAngle + adjust), 
-							-DriveTrain.angleToLoc(strafeAngle + adjust),
-							-DriveTrain.angleToLoc(strafeAngle - adjust));
+				if (DriveTrain.getDriveVelocity() > 0) // driving forward or
+														// backward
+					DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(-strafeAngle + adjust),
+							DriveTrain.angleToLoc(-strafeAngle - adjust), DriveTrain.angleToLoc(-strafeAngle - adjust),
+							DriveTrain.angleToLoc(-strafeAngle + adjust));
 				else
-					DriveTrain.setTurnOrientation(-DriveTrain.angleToLoc(strafeAngle + adjust),
-							-DriveTrain.angleToLoc((strafeAngle - adjust)),
-							-DriveTrain.angleToLoc((strafeAngle - adjust)),
-							-DriveTrain.angleToLoc(strafeAngle + adjust));
+					DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(-strafeAngle - adjust),
+							DriveTrain.angleToLoc((-strafeAngle + adjust)),
+							DriveTrain.angleToLoc((-strafeAngle + adjust)),
+							DriveTrain.angleToLoc(-strafeAngle - adjust));
 
 				SmartDashboard.putNumber("Angle Adjustment", adjust);
 				SmartDashboard.putNumber("Adjusted Angle", strafeAngle - adjust);
 				// ORIGINAL
 				// Also include the strafeAngle == 0
-				// if (DriveTrain.getDriveError() > 0) // directional
-				// difference
-				// DriveTrain.setTurnOrientation(DriveTrain.angleToLoc((rawGyroPidGet
-				// - heading) * .5),
-				// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
-				// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5),
-				// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5));
+
+				// if (DriveTrain.getDriveError() > 0) // directional difference
+				// DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(adjust),
+				// DriveTrain.angleToLoc(-adjust),
+				// DriveTrain.angleToLoc(-adjust),
+				// DriveTrain.angleToLoc(adjust));
 				// else
-				// DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(-(rawGyroPidGet
-				// - heading) * .5),
-				// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
-				// DriveTrain.angleToLoc((rawGyroPidGet - heading) * .5),
-				// DriveTrain.angleToLoc(-(rawGyroPidGet - heading) * .5));
+				// DriveTrain.setTurnOrientation(DriveTrain.angleToLoc(-adjust),
+				// DriveTrain.angleToLoc(adjust),
+				// DriveTrain.angleToLoc(adjust),
+				// DriveTrain.angleToLoc(-adjust));
 			}
 		}
 
@@ -256,16 +257,19 @@ public class DriveAuto {
 
 		// new way of determining
 		if (hasStartedMoving) {
-			driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 3;
+			if (Math.abs(DriveTrain.getDriveVelocity()) <= 3) 
+				zeroVelocityCount++;
+			driveTrainStopped = zeroVelocityCount > 5;
 		} else { // see if we've started moving now
-			driveTrainStopped = false;
-			if (Math.abs(DriveTrain.getDriveVelocity()) > 3) {
+			if (Math.abs(DriveTrain.getDriveVelocity()) > 20) {
 				hasStartedMoving = true;
+				zeroVelocityCount = 0;
 			}
 		}
 
 		// return (startupDelayCompleted && driveTrainStopped);
 		return (driveTrainStopped);
+		// return (false);
 	}
 
 	public static boolean turnCompleted() {

@@ -35,9 +35,9 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				CubeClaw.setArmSwitchPosition();
 				
 				if (isSwitchLeft()) {
-					driveInches(110, -30, .5);
+					driveInches(110, -30, .6);
 				} else {
-					driveInches(106, 24, .5);
+					driveInches(106, 24, .6);
 				}
 				break;
 			case 3:
@@ -58,7 +58,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				break;
 			case 8:
 				setTimerAndAdvanceStep(2000);
-				this.driveInches(-50, 0, .5);
+				this.driveInches(-50, 0, .6);
 				break;
 			case 9:
 				if(driveCompleted())
@@ -102,9 +102,9 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				setTimerAndAdvanceStep(2000);
 				CubeClaw.holdCube();
 				if (isSwitchLeft()) {
-					this.driveInches(-50, 0, .5);
+					this.driveInches(-50, 0, .6);
 				} else {
-					this.driveInches(-60, 0, .5);	
+					this.driveInches(-60, 0, .6);	
 				}
 				Lift.goSwitch();
 				CubeClaw.setArmSwitchPosition();
@@ -128,9 +128,9 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			case 20:
 				setTimerAndAdvanceStep(2000);
 				if (isSwitchLeft()) {
-					this.driveInches(65, 0, .5);
+					this.driveInches(65, 0, .6);
 				} else
-					this.driveInches(66, 0, .5);
+					this.driveInches(66, 0, .6);
 				break;
 			case 21:
 				if(driveCompleted())

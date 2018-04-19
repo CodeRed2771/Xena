@@ -36,16 +36,16 @@ public class DriveTrain implements PIDOutput {
 
 		moduleA = new Module(Calibration.DT_A_DRIVE_TALON_ID, Calibration.DT_A_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
-				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_A_ABS_ZERO()); // Bot right
+				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_A_ABS_ZERO()); // Front right
 		moduleB = new Module(Calibration.DT_B_DRIVE_TALON_ID, Calibration.DT_B_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
-				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_B_ABS_ZERO()); // Top left
+				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_B_ABS_ZERO()); // Back left
 		moduleC = new Module(Calibration.DT_C_DRIVE_TALON_ID, Calibration.DT_C_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
-				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_C_ABS_ZERO()); // Top right
+				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_C_ABS_ZERO()); // Back right
 		moduleD = new Module(Calibration.DT_D_DRIVE_TALON_ID, Calibration.DT_D_TURN_TALON_ID, Calibration.AUTO_DRIVE_P,
 				Calibration.AUTO_DRIVE_I, Calibration.AUTO_DRIVE_D, Calibration.AUTO_DRIVE_IZONE, Calibration.TURN_P,
-				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_D_ABS_ZERO()); // Bot left
+				Calibration.TURN_I, Calibration.TURN_D, 200, Calibration.GET_DT_D_ABS_ZERO()); // Front left
 
 		// PID is for PID drive not for the modules
 		// DVV - I don't believe we're using a mode that uses this

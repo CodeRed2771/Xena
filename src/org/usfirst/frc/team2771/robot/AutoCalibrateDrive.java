@@ -23,9 +23,9 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 //				CubeClaw.setArmSwitchPosition();
 				
 				if (isSwitchLeft()) {
-					driveInches(70, -30, .50);
+					driveInches(100, 0, .50);
 				} else {
-					driveInches(70, 24, .50);
+					driveInches(100, 0, .50);
 				}
 				break;
 			case 1:
@@ -34,11 +34,12 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 				break;
 			case 2:
 				setTimerAndAdvanceStep(1200);
-				if (isSwitchLeft()) {
-					this.turnDegrees(48, .5);
-				} else {
-					this.turnDegrees(-45, .5);
-				}
+				
+//				if (isSwitchLeft()) {
+//					this.turnDegrees(45, .5);
+//				} else {
+//					this.turnDegrees(-45, .5);
+//				}
 				break;
 			case 3:
 				if(driveCompleted())
@@ -47,10 +48,15 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 			case 4:
 				setTimerAndAdvanceStep(1200);
 				if (isSwitchLeft()) {
-					this.turnDegrees(-48, .5);
+					driveInches(50, 0, .50);
 				} else {
-					this.turnDegrees(45, .5);
+					driveInches(50, 0, .50);
 				}
+//				if (isSwitchLeft()) {
+//					this.turnDegrees(-48, .5);
+//				} else {
+//					this.turnDegrees(45, .5);
+//				}
 				break;
 			case 5:
 				if(driveCompleted())
@@ -58,7 +64,7 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 				break;
 			case 6:
 				setTimerAndAdvanceStep(1200);				
-				driveInches(30, 0, .5);
+//				driveInches(30, 0, .5);
 				
 //			case 0:
 //				setTimerAndAdvanceStep(10000);
