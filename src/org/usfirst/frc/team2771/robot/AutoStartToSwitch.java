@@ -47,7 +47,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				}
 				break;
 			case 3:
-				if(driveCompleted())
+				if(turnCompleted())
 					advanceStep();
 				break;
 			case 4: // DRIVE TO SWITCH

@@ -74,7 +74,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				CubeClaw.intakeCube();
 				break;
 			case 11:
-				if(driveCompleted())
+				if(turnCompleted())
 					advanceStep();
 				break;
 			case 12:
@@ -122,7 +122,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				}
 				break;
 			case 19:
-				if(driveCompleted())
+				if(turnCompleted())
 					advanceStep();
 				break;
 			case 20:

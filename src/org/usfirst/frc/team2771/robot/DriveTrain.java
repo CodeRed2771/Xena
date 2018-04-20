@@ -92,6 +92,15 @@ public class DriveTrain implements PIDOutput {
 		return (moduleA.getDriveVelocity() + moduleB.getDriveVelocity() + moduleC.getDriveVelocity()
 				+ moduleD.getDriveVelocity()) / 4;
 	}
+	
+	public static boolean hasDriveCompleted(int allowedError) {
+		// just checking two of the modules to see if they are done moving
+		return moduleA.hasDriveCompleted(allowedError) && moduleB.hasDriveCompleted(allowedError);
+	}
+
+	public static boolean hasDriveCompleted() {
+		return hasDriveCompleted(0);
+	}
 
 	public static void setTurnPower(double modAPower, double modBPower, double modCPower, double modDPower) {
 		if (getInstance() == null)

@@ -10,6 +10,7 @@ public class Module {
 	private final double FULL_ROTATION = 4096d, TURN_P, TURN_I, TURN_D, DRIVE_P, DRIVE_I, DRIVE_D;
 	private final int TURN_IZONE, DRIVE_IZONE;
 	private double turnZeroPos = 0;
+	private double currentDriveSetpoint = 0;
 	
 	/**
 	 * Lets make a new module :)
@@ -172,7 +173,16 @@ public class Module {
 	}
 	
 	public void setDrivePIDToSetPoint(double setpoint) {
+		currentDriveSetpoint = setpoint;
 		drive.set(ControlMode.MotionMagic, setpoint);
+	}
+	
+	public boolean hasDriveCompleted(int allowedError) {
+		return Math.abs(currentDriveSetpoint - getDriveEnc()) <= allowedError;
+	}
+	
+	public boolean hasDriveCompleted() {
+		return hasDriveCompleted(0);
 	}
 	
 	public void setTurnPIDToSetPoint(double setpoint) {

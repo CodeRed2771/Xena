@@ -85,6 +85,13 @@ public abstract class AutoBaseClass {
 	public boolean driveCompleted() {
 		return DriveAuto.hasArrived();
 	}
+	
+	public boolean turnCompleted() {
+		return DriveAuto.turnCompleted();
+	}
+	public boolean turnCompleted(double allowedErrorDegrees) {
+		return DriveAuto.turnCompleted(allowedErrorDegrees);
+	}
 
 	public void turnDegrees(double degrees, double maxPower) {
 		DriveAuto.turnDegrees(degrees, maxPower);

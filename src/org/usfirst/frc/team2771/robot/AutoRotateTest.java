@@ -23,7 +23,7 @@ public class AutoRotateTest extends AutoBaseClass{
 				turnDegrees(165,.45);
 				break;
 			case 1:
-				if(driveCompleted())
+				if(turnCompleted())
 					advanceStep();
 				break;
 			case 2:
@@ -36,7 +36,7 @@ public class AutoRotateTest extends AutoBaseClass{
 				turnDegrees(-165, .45);
 				break;	
 			case 5:
-				if(driveCompleted())
+				if(turnCompleted())
 					advanceStep();
 				break;
 //			case 6:

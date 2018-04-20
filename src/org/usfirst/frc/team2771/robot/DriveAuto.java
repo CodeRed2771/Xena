@@ -116,7 +116,7 @@ public class DriveAuto {
 		SmartDashboard.putNumber("TURN DEGREES CALL", degrees);
 		SmartDashboard.putNumber("ROT SETPOINT", rotDrivePID.getSetpoint() + degrees);
 
-		rotDrivePID.setSetpoint(rotDrivePID.getSetpoint() + degrees);
+		rotDrivePID.setSetpoint(rotDrivePID.getSetpoint() + degrees); // 4/20 I think this should be heading
 		rotDrivePID.enable();
 		setRotationalPowerOutput(turnSpeedFactor);
 
@@ -245,35 +245,29 @@ public class DriveAuto {
 	}
 
 	public static boolean hasArrived() {
-		// check to see if we've been moving for a little while (> 600 ms) and
-		// if the
-		// velocity is nearing zero.....if so, then we have arrived at our
-		// endpoint.
-		boolean driveTrainStopped = false;
-
-		// boolean startupDelayCompleted = System.currentTimeMillis() >
-		// motionStartTime + 600;
-		// driveTrainStopped = Math.abs(DriveTrain.getDriveVelocity()) <= 3;
-
-		// new way of determining
-		if (hasStartedMoving) {
-			if (Math.abs(DriveTrain.getDriveVelocity()) <= 3) 
-				zeroVelocityCount++;
-			driveTrainStopped = zeroVelocityCount > 5;
-		} else { // see if we've started moving now
-			if (Math.abs(DriveTrain.getDriveVelocity()) > 20) {
-				hasStartedMoving = true;
-				zeroVelocityCount = 0;
-			}
-		}
-
-		// return (startupDelayCompleted && driveTrainStopped);
-		return (driveTrainStopped);
-		// return (false);
+		
+		return DriveTrain.hasDriveCompleted(5);
+		
+//		boolean driveTrainStopped = false;
+//		if (hasStartedMoving) {
+//			if (Math.abs(DriveTrain.getDriveVelocity()) <= 3) 
+//				zeroVelocityCount++;
+//			driveTrainStopped = zeroVelocityCount > 5;
+//		} else { // see if we've started moving now
+//			if (Math.abs(DriveTrain.getDriveVelocity()) > 20) {
+//				hasStartedMoving = true;
+//				zeroVelocityCount = 0;
+//			}
+//		}
+//		return (driveTrainStopped);
 	}
-
+	
+	public static boolean turnCompleted(double allowedError) {
+		return Math.abs(RobotGyro.getAngle() - heading) <= allowedError;
+	}
+	
 	public static boolean turnCompleted() {
-		return hasArrived();
+		return turnCompleted(1); // allow 1 degree of error by default
 	}
 
 	public static void setPIDstate(boolean isEnabled) {

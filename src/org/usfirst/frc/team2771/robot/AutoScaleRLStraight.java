@@ -66,7 +66,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				}
 				break;
 			case 5:
-				if (driveCompleted())
+				if (turnCompleted())
 					advanceStep();
 				break;
 			case 6: 
@@ -84,7 +84,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				}
 				break;
 			case 9:
-				if (driveCompleted())
+				if (turnCompleted())
 					advanceStep();
 				break;
 			case 10:
@@ -127,7 +127,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				Lift.goHighScale();
 				break;
 			case 19:
-				if(driveCompleted())
+				if(turnCompleted())
 					advanceStep();
 				break;
 			case 20:
