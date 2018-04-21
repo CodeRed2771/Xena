@@ -76,9 +76,9 @@ public class CubeClaw {
 		arm.configClosedloopRamp(.1, 0);
 
 		// added this in 3/7/18 to try to protect the arm
-		arm.configPeakCurrentLimit(24, 10);
+		arm.configPeakCurrentLimit(20, 10);
 		arm.configPeakCurrentDuration(200, 10);
-		arm.configContinuousCurrentLimit(17, 10);
+		arm.configContinuousCurrentLimit(6, 10);
 		arm.enableCurrentLimit(true);
 
 		arm.selectProfileSlot(0, 0);
@@ -294,7 +294,7 @@ public class CubeClaw {
 	public static void showArmEncoderValue() {
 		SmartDashboard.putNumber("Arm Abs Encoder: ", round2(getArmAbsolutePosition()));
 		SmartDashboard.putNumber("Arm Position", arm.getSensorCollection().getQuadraturePosition());
-		SmartDashboard.putNumber("Arm Setpoint", arm.getClosedLoopTarget(0));
+//		SmartDashboard.putNumber("Arm Setpoint", arm.getClosedLoopTarget(0));
 	}
 	/*
 	 * Resets the arm encoder value relative to what we've determined to be the

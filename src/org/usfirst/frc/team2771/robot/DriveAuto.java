@@ -204,6 +204,8 @@ public class DriveAuto {
 		SmartDashboard.putNumber("ROT PID ERROR", rotDrivePID.getError());
 		SmartDashboard.putNumber("Drive Train Velocity", DriveTrain.getDriveVelocity());
 		SmartDashboard.putBoolean("HasArrived", hasArrived());
+		SmartDashboard.putBoolean("TurnCompleted", turnCompleted());
+		
 
 		SmartDashboard.putNumber("Drive PID Error", DriveTrain.getDriveError());
 
@@ -219,10 +221,9 @@ public class DriveAuto {
 		// SmartDashboard.getNumber("ROT I", Calibration.AUTO_ROT_I),
 		// SmartDashboard.getNumber("ROT D", Calibration.AUTO_ROT_D));
 		//
-		// DriveTrain.setDrivePIDValues(SmartDashboard.getNumber("AUTO DRIVE P",
-		// Calibration.AUTO_DRIVE_P),
-		// SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I),
-		// SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
+//		 DriveTrain.setDrivePIDValues(SmartDashboard.getNumber("AUTO DRIVE P", Calibration.AUTO_DRIVE_P),
+//		 SmartDashboard.getNumber("AUTO DRIVE I", Calibration.AUTO_DRIVE_I),
+//		 SmartDashboard.getNumber("AUTO DRIVE D", Calibration.AUTO_DRIVE_D));
 		//
 		// DriveTrain.setTurnPIDValues(SmartDashboard.getNumber("TURN P",
 		// Calibration.TURN_P),
@@ -246,7 +247,7 @@ public class DriveAuto {
 
 	public static boolean hasArrived() {
 		
-		return DriveTrain.hasDriveCompleted(5);
+		return DriveTrain.hasDriveCompleted(10);
 		
 //		boolean driveTrainStopped = false;
 //		if (hasStartedMoving) {

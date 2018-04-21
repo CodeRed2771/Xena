@@ -36,7 +36,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				if (this.robotPosition() == 'L') {
 					if (isScaleLeft()) {
 						setTimerAndAdvanceStep(4000);
-						this.driveInches(236, 0, .1);
+						this.driveInches(236, 0, .7);
 						Lift.goHighScale();
 						CubeClaw.setArmScalePosition();
 					} else
@@ -44,7 +44,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				} else { // we're on the Right side
 					if (isScaleRight()) {
 						setTimerAndAdvanceStep(4000);
-						this.driveInches(236, 0, 1);
+						this.driveInches(236, 0, .7);
 						Lift.goHighScale();
 						CubeClaw.setArmScalePosition();
 					} else
