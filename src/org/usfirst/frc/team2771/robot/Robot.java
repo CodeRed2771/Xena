@@ -108,20 +108,41 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Match Time", DriverStation.getInstance().getMatchTime());
 		
 		double driveYAxisAmount = gamepad.getSwerveYAxis();
+		double driveXAxisAmount = -gamepad.getSwerveXAxis();
+		double driveRotAxisAmount = powerOf3PreserveSign(gamepad.getSwerveRotAxis());
 
 		if (Lift.driveCautionNeeded()) {
-			// limit the Y axis input to slow driving down
+			// limit the axis input to slow driving down
 			if (Math.abs(driveYAxisAmount) > .40) {
 				if (driveYAxisAmount < 0)
 					driveYAxisAmount = -.40;
 				else
 					driveYAxisAmount = .40;
 			}
+			if (Math.abs(driveXAxisAmount) > .40) {
+				if (driveXAxisAmount < 0)
+					driveXAxisAmount = -.40;
+				else
+					driveXAxisAmount = .40;
+			}
 		}
 
-		DriveTrain.fieldCentricDrive(driveYAxisAmount, -gamepad.getSwerveXAxis(),
-				powerOf3PreserveSign(gamepad.getSwerveRotAxis()));
+		// put some rotational power restrictions in place to make it 
+		// more controlled
+		if (Math.abs(driveRotAxisAmount) > .80) {
+			if (driveRotAxisAmount < 0)
+				driveRotAxisAmount = -.80;
+			else
+				driveRotAxisAmount = .80;
+		}
+		
+		// Issue the drive command using the parameters from
+		// above that have been tweaked as needed
+		
+		DriveTrain.fieldCentricDrive(driveYAxisAmount, driveXAxisAmount,
+				driveRotAxisAmount);
 
+		
 		if (gamepad.activateIntake()) { // 2 - right bumper
 			CubeClaw.setArmHorizontalPosition();
 			CubeClaw.intakeCube(); // this will transition to a "hold" when the
@@ -199,7 +220,8 @@ public class Robot extends TimedRobot {
 		}
 
 		if (gamepad.getArmKillButton()) { // 2 - X
-			CubeClaw.armMove(-.3);
+			CubeClaw.resetArmEncoder();
+//			CubeClaw.armMove(-.3);
 		}
 
 		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1) { // 2 -
