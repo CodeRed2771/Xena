@@ -1,4 +1,4 @@
-  package org.usfirst.frc.team2771.robot;
+package org.usfirst.frc.team2771.robot;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -87,11 +87,11 @@ public class CubeClaw {
 		arm.config_kI(0, 0, 0);
 		arm.config_kD(0, 0, 0);
 
-//		SmartDashboard.putNumber("MM Arm F", 5);
-//		SmartDashboard.putNumber("MM Arm P", 5);
-//
-//		SmartDashboard.putNumber("MM Arm Velocity", 300);
-//		SmartDashboard.putNumber("MM Arm Acceleration", 300);
+		// SmartDashboard.putNumber("MM Arm F", 5);
+		// SmartDashboard.putNumber("MM Arm P", 5);
+		//
+		// SmartDashboard.putNumber("MM Arm Velocity", 300);
+		// SmartDashboard.putNumber("MM Arm Acceleration", 300);
 
 		arm.configMotionCruiseVelocity(300, 0);
 		arm.configMotionAcceleration(300, 0);
@@ -110,17 +110,23 @@ public class CubeClaw {
 	 */
 	public static void tick() {
 
-//		arm.configMotionCruiseVelocity((int) SmartDashboard.getNumber("MM Arm Velocity", 0), 0);
-//		arm.configMotionAcceleration((int) SmartDashboard.getNumber("MM Arm Acceleration", 0), 0);
-//		arm.config_kF(0, (int) SmartDashboard.getNumber("MM Arm F", 0), 0);
-//		arm.config_kP(0, (int) SmartDashboard.getNumber("MM Arm P", 0), 0);
-//		SmartDashboard.putNumber("Arm Abs Encoder: ", getArmAbsolutePosition());
-//		SmartDashboard.putNumber("Arm Relative Encoder ", arm.getSensorCollection().getQuadraturePosition());
-		
+		// arm.configMotionCruiseVelocity((int) SmartDashboard.getNumber("MM Arm
+		// Velocity", 0), 0);
+		// arm.configMotionAcceleration((int) SmartDashboard.getNumber("MM Arm
+		// Acceleration", 0), 0);
+		// arm.config_kF(0, (int) SmartDashboard.getNumber("MM Arm F", 0), 0);
+		// arm.config_kP(0, (int) SmartDashboard.getNumber("MM Arm P", 0), 0);
+		// SmartDashboard.putNumber("Arm Abs Encoder: ",
+		// getArmAbsolutePosition());
+		// SmartDashboard.putNumber("Arm Relative Encoder ",
+		// arm.getSensorCollection().getQuadraturePosition());
+
 		showArmEncoderValue();
-		
-//		SmartDashboard.putNumber("Intake Current 1", round0(currentBreaker1.getCurrent()));
-//		SmartDashboard.putNumber("Intake Current 2", round0(currentBreaker2.getCurrent()));
+
+		// SmartDashboard.putNumber("Intake Current 1",
+		// round0(currentBreaker1.getCurrent()));
+		// SmartDashboard.putNumber("Intake Current 2",
+		// round0(currentBreaker2.getCurrent()));
 
 		if (intakeStalled() && !holdingCube) {
 			System.out.println("Intake stalled - switching to hold mode");
@@ -144,7 +150,7 @@ public class CubeClaw {
 				}
 			}
 		}
-		
+
 	}
 
 	// CONTROL METHODS ------------------------------------------------
@@ -152,7 +158,7 @@ public class CubeClaw {
 	public static void intakeCube() {
 		setArmHorizontalPosition();
 		holdingCube = false;
-//		closeClaw();
+		// closeClaw();
 		leftRollers.set(ControlMode.PercentOutput, -.8);
 		rightRollers.set(ControlMode.PercentOutput, -.8);
 		resetIntakeStallDetector();
@@ -192,7 +198,7 @@ public class CubeClaw {
 
 		ejectEndTime = System.currentTimeMillis() + 750;
 	}
-	
+
 	public static void ejectCubeFast() {
 		holdingCube = false;
 		resetIntakeStallDetector();
@@ -200,7 +206,7 @@ public class CubeClaw {
 		rightRollers.set(ControlMode.PercentOutput, .8);
 
 		ejectEndTime = System.currentTimeMillis() + 750;
-		
+
 	}
 
 	public static void ejectCubeSlow() {
@@ -208,7 +214,7 @@ public class CubeClaw {
 		resetIntakeStallDetector();
 		leftRollers.set(ControlMode.PercentOutput, .25);
 		rightRollers.set(ControlMode.PercentOutput, .25);
-		
+
 		ejectEndTime = System.currentTimeMillis() + 750;
 	}
 
@@ -272,7 +278,7 @@ public class CubeClaw {
 	public static boolean armHasBeenCalibrated() {
 		return armHasBeenCalibrated;
 	}
-	
+
 	public static boolean intakeStalled() {
 		return (currentBreaker1.tripped() || currentBreaker2.tripped());
 	}
@@ -291,11 +297,19 @@ public class CubeClaw {
 		arm.getSensorCollection().setQuadraturePosition(d, 500);
 	}
 
+	public static void zeroArmEncoder() {
+		// USE WITH CAUTION
+		// Sets current position to ZERO regardless of 
+		// where the arm really is.
+		setArmEncPos(0);
+	}
+
 	public static void showArmEncoderValue() {
 		SmartDashboard.putNumber("Arm Abs Encoder: ", round2(getArmAbsolutePosition()));
 		SmartDashboard.putNumber("Arm Position", arm.getSensorCollection().getQuadraturePosition());
-//		SmartDashboard.putNumber("Arm Setpoint", arm.getClosedLoopTarget(0));
+		// SmartDashboard.putNumber("Arm Setpoint", arm.getClosedLoopTarget(0));
 	}
+
 	/*
 	 * Resets the arm encoder value relative to what we've determined to be the
 	 * "zero" position. (the calibration values). This is so the rest of the
@@ -316,10 +330,6 @@ public class CubeClaw {
 		double posDiff = 0;
 		double offSet = 0;
 
-		// 4/18/18 commented out b/c this could actually cause the arm 
-		// to start moving.
-		// arm.set(ControlMode.PercentOutput, 0);
-
 		// first find the current absolute position of the arm encoder
 		offSet = getArmAbsolutePosition();
 		System.out.println("ARM ENCODER POSITION " + offSet);
@@ -328,40 +338,81 @@ public class CubeClaw {
 		// calibration zero position
 		// to tell the encoder what the current relative position is (relative
 		// to the zero pos)
-		posDiff = - calculatePositionFromZero(offSet, Calibration.ARM_ABS_ZERO);
+//		posDiff = -calculatePositionFromZero(offSet, Calibration.ARM_ABS_ZERO);
+		posDiff = calculatePositionFromZero(offSet, Calibration.ARM_ABS_ZERO);
 		System.out.println("ARM ENCODER DIFFERENCE " + posDiff);
-//		if (posDiff > .7) {
-//			// special case for encoder absolute position being past one rotation.
-//			// if calib is .02 and abs pos = .95, it's not possible and we should just take the current position as the 
-//			// calib position
-//			posDiff = 0;
-//		}
-//		System.out.println("posDiff adjusted " + posDiff);
-		
+		// if (posDiff > .7) {
+		// // special case for encoder absolute position being past one
+		// rotation.
+		// // if calib is .02 and abs pos = .95, it's not possible and we should
+		// just take the current position as the
+		// // calib position
+		// posDiff = 0;
+		// }
+		// System.out.println("posDiff adjusted " + posDiff);
+
 		int newArmEncoderValue = (int) (posDiff * 4095d);
 		setArmEncPos(newArmEncoderValue);
 		System.out.println("RESETTING ARM ENCODER TO " + newArmEncoderValue);
-		
+
 		armHasBeenCalibrated = true;
 
 	}
 
+
 	private static double calculatePositionFromZero(double currentPosition, double calibrationZeroPosition) {
+		// this needs to return the difference from the calibration position
+		// and handle the wraparound
+		// for Xena, the arm moving up means decreasing abs value
+		// so if the currentPosition < calibration position, then
+		// it should return a negative number
+
+		// =IF(AND($H$23>=1,$H$23-1>G25),$H$22-(1-G25),IF(G25-$H$23>0,-(1-G25),G25)-$H$22)
+		// where H22 is calibration value
+		// H23 is calibration value + allowable "past" position (have been using
+		// .1)
+		// G25 is actual current position
+		// the "past" position is how far positive, past zero it can go.
+		// Normally the
+		// arm values start at 0 and go negative, but sometimes it can go a
+		// little furhter
+		// down, past the calibrated zero point, so this defines what the
+		// maximum position
+		// would be. The formula handles that value causing an overall > 1 value
+		//
+
+		// the most the arm can go positive is .1 past zero
+		double maxPositivePosition = calibrationZeroPosition + .1;
+
+		if ((maxPositivePosition >= 1) && (maxPositivePosition - 1 > currentPosition)) {
+			return calibrationZeroPosition - (1 - currentPosition);
+		} else {
+			if (currentPosition - maxPositivePosition > 0) {
+				return (-(1 - currentPosition) - calibrationZeroPosition);
+			} else
+				return (currentPosition - calibrationZeroPosition);
+		}
+
+	}
+
+	private static double calculatePositionFromZero_OLD_VERSION(double currentPosition, double calibrationZeroPosition) {
+		// this needs to return the difference from the calibration position
+		// and handle the wraparound
+		// for Xena, the arm moving up means decreasing abs value
+		// so if the currentPosition < calibration position, then
+		// it should return a negative number
+		// NOTE that i don't believe this is working right.
+		
+		
+		// NOT USED NOW
+		
 		double curPos;
 		if (calibrationZeroPosition - currentPosition > .7) {
 			return calibrationZeroPosition - (1 + currentPosition);
 		} else
 			return calibrationZeroPosition - currentPosition;
-		
-//		if (currentPosition - calibrationZeroPosition > 0) {
-//			return currentPosition - calibrationZeroPosition;
-//		} else {
-//			return (1 - calibrationZeroPosition) + currentPosition;
-//		}
+
 	}
-//	private static double calculatePositionDifference(double currentPosition, double calibrationZeroPosition) {
-//		return currentPosition - calibrationZeroPosition;
-//	}
 
 	private static double aDistantFutureTime() {
 		return System.currentTimeMillis() + 900000; // 15 minutes in the future
@@ -407,6 +458,7 @@ public class CubeClaw {
 	private static Double round2(Double val) {
 		return new BigDecimal(val.toString()).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
+
 	private static Double round0(Double val) {
 		// added this back in on 1/15/18
 		return new BigDecimal(val.toString()).setScale(0, RoundingMode.HALF_UP).doubleValue();
