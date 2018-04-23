@@ -71,7 +71,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				break;
 			case 6: 
 				setTimerAndAdvanceStep(800);
-				CubeClaw.ejectCubeSlow();
+				CubeClaw.ejectCube();
 				break;
 			case 7:
 				break;
