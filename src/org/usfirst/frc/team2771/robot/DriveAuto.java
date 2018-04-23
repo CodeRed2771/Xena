@@ -268,7 +268,7 @@ public class DriveAuto {
 	}
 	
 	public static boolean turnCompleted() {
-		return turnCompleted(1); // allow 1 degree of error by default
+		return turnCompleted(2); // allow 2 degree of error by default
 	}
 
 	public static void setPIDstate(boolean isEnabled) {

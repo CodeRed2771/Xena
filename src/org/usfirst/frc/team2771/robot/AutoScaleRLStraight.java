@@ -36,7 +36,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				if (this.robotPosition() == 'L') {
 					if (isScaleLeft()) {
 						setTimerAndAdvanceStep(4000);
-						this.driveInches(236, 0, .7);
+						this.driveInches(248, 0, .7);
 						Lift.goHighScale();
 						CubeClaw.setArmScalePosition();
 					} else
@@ -44,7 +44,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				} else { // we're on the Right side
 					if (isScaleRight()) {
 						setTimerAndAdvanceStep(4000);
-						this.driveInches(236, 0, .7);
+						this.driveInches(248, 0, .7);
 						Lift.goHighScale();
 						CubeClaw.setArmScalePosition();
 					} else
@@ -58,10 +58,10 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 
 			case 4:
 				if (this.robotPosition() == 'L') {
-					setTimerAndAdvanceStep(2000);
+					setTimerAndAdvanceStep(1000);
 					this.turnDegrees(30, .5);
 				} else { // we're on the Right side
-					setTimerAndAdvanceStep(2000);
+					setTimerAndAdvanceStep(1000);
 					this.turnDegrees(-30, .5);
 				}
 				break;
@@ -111,7 +111,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				setTimerAndAdvanceStep(1500);
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
-				this.driveInches(-44, 0, .65);
+				this.driveInches(-46, 0, .65);
 				break;
 			case 17:
 				if(driveCompleted())
@@ -120,9 +120,9 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 			case 18:
 				this.setTimerAndAdvanceStep(2000);
 				if (this.robotPosition() == 'L') {
-					DriveAuto.turnDegrees(70, .5);
+					DriveAuto.turnDegrees(60, .5);
 				} else {
-					DriveAuto.turnDegrees(-70, .5);
+					DriveAuto.turnDegrees(-60, .5);
 				}
 				Lift.goHighScale();
 				break;
@@ -138,7 +138,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				break;
 			case 22:
 				setTimerAndAdvanceStep(500);
-				CubeClaw.ejectCubeSlow();
+				CubeClaw.ejectCube();
 				break;
 			case 23:
 				break;
@@ -155,6 +155,8 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 			// **************************************************************
 			// CROSS FIELD ROUTINES
 			// **************************************************************
+				
+				
 				
 			case 50: // DRIVE FORWARD TO WHERE WE CAN CROSS THE FIELD
 				setTimerAndAdvanceStep(4000);

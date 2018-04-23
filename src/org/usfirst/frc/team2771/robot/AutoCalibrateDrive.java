@@ -18,45 +18,21 @@ public class AutoCalibrateDrive extends AutoBaseClass {
 			switch (getCurrentStep()) {
 			case 0:
 				setTimerAndAdvanceStep(5000);
-//				CubeClaw.holdCube(); // makes sure the cylinders are engaged
-//				Lift.goSwitch();
-//				CubeClaw.setArmSwitchPosition();
+				driveInches(100, 0, .50);
 				
-				if (isSwitchLeft()) {
-					driveInches(100, 0, .50);
-				} else {
-					driveInches(100, 0, .50);
-				}
 				break;
 			case 1:
 				if (driveCompleted())
 					advanceStep();
 				break;
 			case 2:
-				setTimerAndAdvanceStep(10);
-				
-//				if (isSwitchLeft()) {
-//					this.turnDegrees(45, .5);
-//				} else {
-//					this.turnDegrees(-45, .5);
-//				}
+				setTimerAndAdvanceStep(2000);
 				break;
 			case 3:
-				if(driveCompleted())
-					advanceStep();
 				break;
 			case 4:
 				setTimerAndAdvanceStep(5000);
-				if (isSwitchLeft()) {
-					driveInches(50, 0, .50);
-				} else {
-					driveInches(50, 0, .50);
-				}
-//				if (isSwitchLeft()) {
-//					this.turnDegrees(-48, .5);
-//				} else {
-//					this.turnDegrees(45, .5);
-//				}
+				driveInches(-100, 0, .50);
 				break;
 			case 5:
 				if(driveCompleted())

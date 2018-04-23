@@ -129,11 +129,11 @@ public class Robot extends TimedRobot {
 
 		// put some rotational power restrictions in place to make it 
 		// more controlled
-		if (Math.abs(driveRotAxisAmount) > .80) {
+		if (Math.abs(driveRotAxisAmount) > .70) {
 			if (driveRotAxisAmount < 0)
-				driveRotAxisAmount = -.80;
+				driveRotAxisAmount = -.70;
 			else
-				driveRotAxisAmount = .80;
+				driveRotAxisAmount = .70;
 		}
 		
 		// Issue the drive command using the parameters from

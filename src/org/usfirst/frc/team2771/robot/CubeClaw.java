@@ -381,8 +381,8 @@ public class CubeClaw {
 		// would be. The formula handles that value causing an overall > 1 value
 		//
 
-		// the most the arm can go positive is .1 past zero
-		double maxPositivePosition = calibrationZeroPosition + .1;
+		// the most the arm can go positive is .2 past zero
+		double maxPositivePosition = calibrationZeroPosition + .2;
 
 		if ((maxPositivePosition >= 1) && (maxPositivePosition - 1 > currentPosition)) {
 			return calibrationZeroPosition - (1 - currentPosition);
