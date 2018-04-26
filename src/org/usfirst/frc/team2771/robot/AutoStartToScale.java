@@ -30,7 +30,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				break;
 			case 2: // DRIVE TO SCALE PT. 2
 				setTimerAndAdvanceStep(3000);
-				this.driveInches(172, 0, .5);
+				this.driveInches(182, 0, .4); // changed the distance. Needs to be tested.
 				Lift.goHighScale();
 				break;
 			case 3:
@@ -50,7 +50,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				if (robotPosition() == 'R') {
 					this.driveInches(48, -45, .5);
 				} else {
-					this.driveInches(48, 45, .4);
+					this.driveInches(48, 45, .5);
 				}
 				CubeClaw.setArmScalePosition();
 				break;
@@ -66,7 +66,7 @@ public class AutoStartToScale extends AutoBaseClass {
 				break;
 			case 10: // DRIVE BACK
 				setTimerAndAdvanceStep(2000);
-				this.driveInches(-48, 0, .4);
+				this.driveInches(-48, 0, .5);
 				break;
 			case 11:
 				if(driveCompleted())
