@@ -167,7 +167,7 @@ public class Robot extends TimedRobot {
 			CubeClaw.stopIntake();
 			Lift.goStartPosition();
 			CubeClaw.setArmHorizontalPosition();
-			inExchangePosition = false;
+			inExchangePosition = true;
 		}
 
 		if (gamepad.armLiftModifier() && gamepad.gotoLiftSwitch()) {
@@ -251,6 +251,7 @@ public class Robot extends TimedRobot {
 		}
 		if(gamepad.liftScaleModifier() && gamepad.gotoLiftFloor()) {
 			Lift.goToScaleLow();
+			CubeClaw.setArmSwitchPosition();
 		}
 		if(gamepad.liftScaleModifier() && gamepad.gotoLiftSwitch()) {
 			Lift.goToScaleMed();
