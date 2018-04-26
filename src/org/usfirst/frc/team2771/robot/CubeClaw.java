@@ -187,12 +187,13 @@ public class CubeClaw {
 		holdingCube = false;
 		openClaw();
 		resetIntakeStallDetector();
-		ejectCubeReallySlow();
+		ejectCubeSlow();
 	}
 
 	public static void ejectCube() {
 		holdingCube = false;
 		resetIntakeStallDetector();
+		CubeClaw.stopIntake();
 		leftRollers.set(ControlMode.PercentOutput, .4);
 		rightRollers.set(ControlMode.PercentOutput, .4);
 
@@ -202,6 +203,7 @@ public class CubeClaw {
 	public static void ejectCubeFast() {
 		holdingCube = false;
 		resetIntakeStallDetector();
+		CubeClaw.stopIntake();
 		leftRollers.set(ControlMode.PercentOutput, .8);
 		rightRollers.set(ControlMode.PercentOutput, .8);
 
@@ -212,6 +214,7 @@ public class CubeClaw {
 	public static void ejectCubeSlow() {
 		holdingCube = false;
 		resetIntakeStallDetector();
+		CubeClaw.stopIntake();
 		leftRollers.set(ControlMode.PercentOutput, .25);
 		rightRollers.set(ControlMode.PercentOutput, .25);
 
@@ -221,6 +224,7 @@ public class CubeClaw {
 	public static void ejectCubeReallySlow() {
 		holdingCube = false;
 		resetIntakeStallDetector();
+		CubeClaw.stopIntake();
 		leftRollers.set(ControlMode.PercentOutput, .15);
 		rightRollers.set(ControlMode.PercentOutput, .15);
 		ejectEndTime = System.currentTimeMillis() + 1000;
