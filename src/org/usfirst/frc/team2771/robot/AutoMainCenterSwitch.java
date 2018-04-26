@@ -67,7 +67,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			case 10:
 				setTimerAndAdvanceStep(1200);
 				if (isSwitchLeft()) {
-					this.turnDegrees(48, .5);
+					this.turnDegrees(51, .5);
 				} else {
 					this.turnDegrees(-45, .5);
 				}
@@ -117,7 +117,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 			case 18:
 				setTimerAndAdvanceStep(1200);
 				if (isSwitchLeft()) {
-					this.turnDegrees(-48, .5);
+					this.turnDegrees(-51, .5);
 				} else {
 					this.turnDegrees(45, .5);
 				}
@@ -131,7 +131,7 @@ public class AutoMainCenterSwitch extends AutoBaseClass {
 				if (isSwitchLeft()) {
 					this.driveInches(56, 0, .5);
 				} else
-					this.driveInches(50, 0, .5);
+					this.driveInches(56, 0, .5);
 				break;
 			case 21:
 				if(driveCompleted())
