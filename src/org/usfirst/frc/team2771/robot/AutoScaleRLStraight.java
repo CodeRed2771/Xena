@@ -5,9 +5,6 @@ import org.usfirst.frc.team2771.robot.DriveAuto.DriveSpeed;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-//LINE THE ROBOT UP STRAIGHT TURN ON AND THEN LINE THE ROBOT UP 90 DEGREES TO THE LEFT
-// WARNING - It takes the gyro like 30 seconds to calibrate. The robot should not be moved at all during that time.
-
 /*
  * This code starts on the right or left and goes to the scale.
  * If it is on the same side as the scale, it will drive and place.
