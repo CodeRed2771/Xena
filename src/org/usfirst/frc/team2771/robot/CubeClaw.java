@@ -253,27 +253,22 @@ public class CubeClaw {
 	// ARM POSITIONING ------------------------------------------------
 
 	public static void setArmHorizontalPosition() {
-		System.out.println("set arm horizontal");
 		arm.set(ControlMode.MotionMagic, 0);
 	}
 
 	public static void setArmSwitchPosition() {
-		System.out.println("set arm switch");
 		arm.set(ControlMode.MotionMagic, -745);
 	}
 
 	public static void setArmScalePosition() {
-		System.out.println("set arm scale");
 		arm.set(ControlMode.MotionMagic, -900);
 	}
 
 	public static void setArmTravelPosition() {
-		System.out.println("set arm travel");
 		arm.set(ControlMode.MotionMagic, -1819);
 	}
 
 	public static void setArmOverTheTopPosition() {
-		System.out.println("set arm over the top");
 		arm.set(ControlMode.MotionMagic, -3300);
 	}
 
