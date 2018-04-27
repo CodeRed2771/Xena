@@ -52,7 +52,7 @@ public class AutoStartToSwitch extends AutoBaseClass {
 				break;
 			case 4: // DRIVE TO SWITCH
 				setTimerAndAdvanceStep(2000);
-				this.driveInches(36, 0, .5);
+				this.driveInches(46, 0, .5);
 				break;
 			case 5:
 				if(driveCompleted())

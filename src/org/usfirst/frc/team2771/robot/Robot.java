@@ -155,10 +155,6 @@ public class Robot extends TimedRobot {
 			CubeClaw.dropCube();
 		}
 
-		if (gamepad.armLiftModifier()) {
-			System.out.println("arm modifier pressed");
-		}
-
 		if (gamepad.armLiftModifier() && gamepad.gotoLiftFloor()) {
 			Lift.goPortalPosition();
 			CubeClaw.setArmHorizontalPosition();
@@ -325,7 +321,7 @@ public class Robot extends TimedRobot {
 			if (robotPosition == 'R') {
 				if (getScalePosition(gameData) == 'R') {
 					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToScale R");
-					mAutoProgram = new AutoStartToScale(robotPosition);
+					mAutoProgram = new AutoScaleSameSideTwoCube(robotPosition);
 				} else if (getSwitchPosition(gameData) == 'R') {
 					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToSwitch R");
 					mAutoProgram = new AutoStartToSwitch(robotPosition);
@@ -336,7 +332,7 @@ public class Robot extends TimedRobot {
 			} else if (robotPosition == 'L') {
 				if (getScalePosition(gameData) == 'L') {
 					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToScale L");
-					mAutoProgram = new AutoStartToScale(robotPosition);
+					mAutoProgram = new AutoScaleSameSideTwoCube(robotPosition);
 				} else if (getSwitchPosition(gameData) == 'L') {
 					SmartDashboard.putString("Auto Sw or Sc Sub Running: ", "AutoStartToSwitch L");
 					mAutoProgram = new AutoStartToSwitch(robotPosition);
