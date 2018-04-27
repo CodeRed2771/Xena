@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team2771.robot;
 
 import org.usfirst.frc.team2771.robot.DriveAuto.DriveSpeed;
@@ -103,7 +104,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 			case 13:
 				break;
 			case 14:
-				setTimerAndAdvanceStep(1000);
+				setTimerAndAdvanceStep(750);
 				CubeClaw.closeClaw();
 			case 15:
 				break;
