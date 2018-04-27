@@ -264,6 +264,7 @@ public class Robot extends TimedRobot {
 
 		if (SmartDashboard.getBoolean("Show Turn Encoders", false)) {
 			DriveTrain.showTurnEncodersOnDash();
+			DriveTrain.showDriveEncodersOnDash(); 
 		}
 		
 		DriveTrain.setTurnPIDValues(SmartDashboard.getNumber("TURN P", Calibration.TURN_P),

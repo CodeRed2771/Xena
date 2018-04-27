@@ -34,19 +34,19 @@ public class AutoScaleSameSideTwoCube extends AutoBaseClass {
 				if (this.robotPosition() == 'L') {
 					if (isScaleLeft()) {
 						setTimerAndAdvanceStep(4000);
-						this.driveInches(248, 0, .7);
+						this.driveInches(250, 0, .7);
 						Lift.goHighScale();
 						CubeClaw.setArmScalePosition();
 					} else
-						this.setStep(50);  // Go to baseline
+						this.setStep(50);  // Go to crossfield auto code
 				} else { // we're on the Right side
 					if (isScaleRight()) {
 						setTimerAndAdvanceStep(4000);
-						this.driveInches(248, 0, .7);
+						this.driveInches(250, 0, .7);
 						Lift.goHighScale();
 						CubeClaw.setArmScalePosition();
 					} else
-						this.setStep(50); // Go to baseline
+						this.setStep(50); // Go to crossfield auto code
 				}
 				break;
 			case 3:
@@ -57,10 +57,10 @@ public class AutoScaleSameSideTwoCube extends AutoBaseClass {
 			case 4:
 				if (this.robotPosition() == 'L') {
 					setTimerAndAdvanceStep(1000);
-					this.turnDegrees(33, .5);
+					this.turnDegrees(39, .5);
 				} else { // we're on the Right side
 					setTimerAndAdvanceStep(1000);
-					this.turnDegrees(-33, .5);
+					this.turnDegrees(-39, .5);
 				}
 				break;
 			case 5:
@@ -76,9 +76,9 @@ public class AutoScaleSameSideTwoCube extends AutoBaseClass {
 			case 8:
 				this.setTimerAndAdvanceStep(2000);
 				if (this.robotPosition() == 'L') {
-					DriveAuto.turnDegrees(122, .5);
+					DriveAuto.turnDegrees(116, .5);
 				} else {
-					DriveAuto.turnDegrees(-122, .5);
+					DriveAuto.turnDegrees(-116, .5);
 				}
 				break;
 			case 9:
@@ -109,7 +109,7 @@ public class AutoScaleSameSideTwoCube extends AutoBaseClass {
 				setTimerAndAdvanceStep(1500);
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
-				this.driveInches(-46, 0, .65);
+				this.driveInches(-48, 0, .65);
 				break;
 			case 17:
 				if(driveCompleted())
