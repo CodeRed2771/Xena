@@ -34,7 +34,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				if (this.robotPosition() == 'L') {
 					if (isScaleLeft()) {
 						setTimerAndAdvanceStep(4000);
-						this.driveInches(248, 0, .7);
+						this.driveInches(250, 0, .7);
 						Lift.goHighScale();
 						CubeClaw.setArmScalePosition();
 					} else
@@ -42,7 +42,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				} else { // we're on the Right side
 					if (isScaleRight()) {
 						setTimerAndAdvanceStep(4000);
-						this.driveInches(248, 0, .7);
+						this.driveInches(250, 0, .7);
 						Lift.goHighScale();
 						CubeClaw.setArmScalePosition();
 					} else
@@ -57,10 +57,10 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 			case 4:
 				if (this.robotPosition() == 'L') {
 					setTimerAndAdvanceStep(1000);
-					this.turnDegrees(33, .5);
+					this.turnDegrees(36, .5);
 				} else { // we're on the Right side
 					setTimerAndAdvanceStep(1000);
-					this.turnDegrees(-33, .5);
+					this.turnDegrees(-36, .5);
 				}
 				break;
 			case 5:
@@ -76,9 +76,9 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 			case 8:
 				this.setTimerAndAdvanceStep(2000);
 				if (this.robotPosition() == 'L') {
-					DriveAuto.turnDegrees(122, .5);
+					DriveAuto.turnDegrees(119, .5);
 				} else {
-					DriveAuto.turnDegrees(-122, .5);
+					DriveAuto.turnDegrees(-119, .5);
 				}
 				break;
 			case 9:
@@ -96,7 +96,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				setTimerAndAdvanceStep(2000);
 				CubeClaw.intakeCube();
 				CubeClaw.openClaw();
-				this.driveInches(54, 0, .35); // drive slowly up to the cubes
+				this.driveInches(58, 0, .35); // drive slowly up to the cubes
 				break;
 			case 13:
 				break;
@@ -109,7 +109,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				setTimerAndAdvanceStep(1500);
 				CubeClaw.holdCube();
 				CubeClaw.setArmTravelPosition();
-				this.driveInches(-46, 0, .65);
+				this.driveInches(-48, 0, .65);
 				break;
 			case 17:
 				if(driveCompleted())
@@ -171,9 +171,9 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 				Lift.goToScaleMed();
 				CubeClaw.setArmSwitchPosition();
 				if (this.robotPosition() == 'L') {
-					this.driveInches(172, 90, .50);
+					this.driveInches(175, 90, .50);
 				} else { 
-					this.driveInches(172, -90, .50);
+					this.driveInches(175, -90, .50);
 				}
 			case 53:
 				if (driveCompleted()) {
@@ -183,7 +183,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 			case 54: // DRIVE UP to SCALE
 				setTimerAndAdvanceStep(2500);
 				Lift.goHighScale();
-				this.driveInches(36, 0, .60);
+				this.driveInches(42, 0, .60);
 
 				break;
 			case 55:
@@ -200,7 +200,7 @@ public class AutoScaleRLStraight extends AutoBaseClass {
 			case 58: // BACK AWAY
 				setTimerAndAdvanceStep(2000);
 				CubeClaw.setArmTravelPosition();
-				this.driveInches(-30, 0, .60);
+				this.driveInches(-36, 0, .60);
 				break;
 			case 59:
 				if (driveCompleted()) {
