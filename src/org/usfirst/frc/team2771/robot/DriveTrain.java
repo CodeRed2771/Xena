@@ -95,7 +95,7 @@ public class DriveTrain implements PIDOutput {
 	
 	public static boolean hasDriveCompleted(int allowedError) {
 		// just checking two of the modules to see if they are done moving
-		return moduleB.hasDriveCompleted(allowedError) && moduleC.hasDriveCompleted(allowedError);
+		return moduleB.hasDriveCompleted(allowedError) && moduleA.hasDriveCompleted(allowedError);
 	}
 
 	public static boolean hasDriveCompleted() {
