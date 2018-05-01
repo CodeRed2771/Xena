@@ -10,6 +10,39 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/* 2018 Xena - PowerUp
+
+ 	Controls
+		DRIVER
+			Left Stick moves robot in X Y plane
+			Right Stick rotates robot
+			A - puts arm in horizontal position
+			B - puts arm in travel (up) position
+			X - resets the arm encoder
+			Start - puts lift in high speed
+			Back  - puts lift in low gear
+			
+		MANIPULATOR
+			A - lift to bottom position, arm horizontal
+			B - lift to switch position, arm in switch pos
+			Y - lift to scale position, arm in scale pos
+			X - arm over the top
+			Start - arm in travel (up) position
+			Dpad Left (DL) - arm modifier
+				DL A - portal height, arm level
+				DL B - second cube height, arm level
+			Dpad Right (DR) - lift modifier
+				DR A - lift to low scale
+				DR B - lift to med scale
+				DR Y - lift to high scale
+			Right Bumper - Start Intake and lower arm
+			Left Bumper - Drop cube
+			Back - eject cube
+			Right Stick Y - manual arm
+			Left Stick Y - manual lift
+			Right Trigger - force open claw during intake
+			
+*/
 public class Robot extends TimedRobot {
 
 	KeyMap gamepad;
@@ -184,7 +217,7 @@ public class Robot extends TimedRobot {
 			inExchangePosition = false;
 		}
 
-		if (gamepad.goToTravelPosition()) {
+		if (gamepad.goToTravelPosition()) { // 2 - Start
 			CubeClaw.holdCube();
 			CubeClaw.setArmTravelPosition();
 		}
@@ -198,8 +231,7 @@ public class Robot extends TimedRobot {
 			CubeClaw.setArmTravelPosition();
 		}
 
-		if (gamepad.getArmAxis() > .1 || gamepad.getArmAxis() < -.1) {
-//			CubeClaw.armMove(gamepad.getArmAxis());
+		if (gamepad.getArmAxis() > .1 || gamepad.getArmAxis() < -.1) { // 2 - Right stick Y
 			CubeClaw.moveSetpoint(gamepad.getArmAxis());
 		}
 
@@ -215,9 +247,8 @@ public class Robot extends TimedRobot {
 			Lift.setHighGear();
 		}
 
-		if (gamepad.getArmKillButton()) { // 2 - X
+		if (gamepad.getArmKillButton()) { // 1 - X
 			CubeClaw.resetArmEncoder();
-//			CubeClaw.armMove(-.3);
 		}
 
 		if (gamepad.manualLift() > .1 || gamepad.manualLift() < -.1) { // 2 -
@@ -226,7 +257,7 @@ public class Robot extends TimedRobot {
 			Lift.moveSetpoint(-gamepad.manualLift());
 		}
 
-		if (gamepad.ejectCube()) {
+		if (gamepad.ejectCube()) {  // 2 - Back
 			if (inExchangePosition)
 				CubeClaw.ejectCubeFast();
 			else
@@ -238,13 +269,16 @@ public class Robot extends TimedRobot {
 		}
 
 		// check for opening intake wide for open field pickup
-		if (CubeClaw.isIntakeRunning()) {
+		if (CubeClaw.isIntakeRunning()) { // right trigger
 			if (gamepad.forceHoldClaw() > .2) {
 				CubeClaw.openClaw();
+				CubeClaw.intakeSlow();
 			} else {
 				CubeClaw.closeClaw();
+				CubeClaw.intakeNormal();
 			}
 		}
+		
 		if(gamepad.liftScaleModifier() && gamepad.gotoLiftFloor()) {
 			Lift.goToScaleLow();
 			CubeClaw.setArmSwitchPosition();
@@ -256,8 +290,7 @@ public class Robot extends TimedRobot {
 			Lift.goToScaleHigh();
 		}
 
-		// SmartDashboard.putNumber("Lift Power", gamepad.getLiftAxis());
-		SmartDashboard.putNumber("Gyro Heading", RobotGyro.getAngle());
+		SmartDashboard.putNumber("Gyro Heading", round0(RobotGyro.getAngle()));
 
 		Lift.tick();
 		CubeClaw.tick();

@@ -159,6 +159,10 @@ public class CubeClaw {
 		setArmHorizontalPosition();
 		holdingCube = false;
 		// closeClaw();
+		intakeNormal();	
+	}
+	
+	public static void intakeNormal() {
 		leftRollers.set(ControlMode.PercentOutput, -.8);
 		rightRollers.set(ControlMode.PercentOutput, -.8);
 		resetIntakeStallDetector();
@@ -166,7 +170,16 @@ public class CubeClaw {
 		intakeRunning = true;
 		startReverseTime = System.currentTimeMillis() + 500;
 	}
-
+	
+	public static void intakeSlow() { // used for open field pickup
+		leftRollers.set(ControlMode.PercentOutput, -.3);
+		rightRollers.set(ControlMode.PercentOutput, -.3);
+		resetIntakeStallDetector();
+		ejectEndTime = aDistantFutureTime();
+		intakeRunning = true;
+		startReverseTime = aDistantFutureTime(); // don't reverse in this mode
+	}
+	
 	public static void reverseIntake() {
 		leftRollers.set(ControlMode.PercentOutput, .5);
 	}
