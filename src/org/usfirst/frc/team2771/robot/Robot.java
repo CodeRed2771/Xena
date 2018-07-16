@@ -272,10 +272,10 @@ public class Robot extends TimedRobot {
 		if (CubeClaw.isIntakeRunning()) { // right trigger
 			if (gamepad.forceHoldClaw() > .2) {
 				CubeClaw.openClaw();
-				CubeClaw.intakeSlow();
+				// CubeClaw.intakeSlow(); // this didn't work because of the reason shown a few lines down. Concept is good though.
 			} else {
 				CubeClaw.closeClaw();
-				CubeClaw.intakeNormal();
+				// CubeClaw.intakeNormal(); this didn't work because calling it repeatedly makes the reverse code not work
 			}
 		}
 		
